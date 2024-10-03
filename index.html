@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Probability of premature death over time</title>
+
+    <!-- D3.js Library -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+
+    <!-- noUiSlider Library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.7.0/nouislider.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.7.0/nouislider.min.js"></script>
+
+    <style>
+        body, h3, label, .slider-labels, .axis-title {
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+        }
+        .arrow { cursor: pointer; }
+        .viewport { border: 1px solid #ccc; }
+        ul { list-style-type: none; padding-left: 20px; }
+        ul.collapsed { display: none; }
+        .controls-container {
+            font-size: 14px;
+            margin-top: 20px;
+            padding-left: 20px;
+        }
+        .sex-checkboxes, .region-tree { margin-bottom: 20px; padding-left: 20px;}
+        .chart-container { display: flex; align-items: flex-start; margin-top: 20px; padding-left: 20px;}
+        .chart-content { display: flex; flex-direction: column; align-items: center; }
+        .line { fill: none; stroke-width: 3; }
+        .legend { display: grid; grid-template-columns: repeat(3, 250px); gap: 8px; font-size: 14px; margin-left: 20px; align-items: stretch; text-align:left; }
+        .legend-item {display: flex; align-items: center; margin-bottom: 5px; }
+        .legend-line { width: 25px; height: 10px; }
+        .axis-title { font-size: 14px; fill: #333; }
+        .figure-title { font-size: 18px; font-weight: bold; text-align: center; margin-bottom: 10px; }
+        .figure-note { font-size: 10px; text-align: left; margin-bottom: 20px; margin-top: 20px; }
+        .slider-container { margin-top: 20px; width: 600px; padding-left: 20px;}
+        .slider-labels { display: none; justify-content: space-between; margin-bottom: 5px; }
+        .clear-button { margin-bottom: 10px; }
+        #yearRangeSlider { font-size: 12px; height: 10px;  width: 100%; }
+    </style>
+</head>
+<body>
+    <!-- Chart and Legend Container -->
+    <div class="chart-container">
+        <!-- Chart and Title -->
+        <div class="chart-content">
+            <!-- Figure Title -->
+            <div class="figure-title">Probability of premature death (PPD)</div>
+            <!-- Line Chart for q70 -->
+            <svg id="line-chart" width="600" height="400"></svg>
+            <div id="legend" class="legend"></div>
+
+            <div class="figure-note">Note: PPD is the probability of dying before age 70. Data source: <a href="https://population.un.org/wpp/" target="_blank">UN WPP</a> (after 1950) and <a href="https://www.mortality.org/" target="_blank">HMD</a> (before 1950)</div>
+
+        </div>
+
+        <!-- Legend Container to the right of the chart -->
+    </div>
+
+
+
+    <!-- Controls for selecting sex and regions -->
+    <div class="controls-container">
+        <!-- Clear Selection Button -->
+        <button class="clear-button" id="clearButton">Clear selection</button>
+    <!-- Range slider for selecting year range -->
+    <div class="slider-container">
+        <div class="slider-labels">
+            <span id="yearStart">1970</span>
+            <span id="yearEnd">2019</span>
+        </div>
+        <div id="yearRangeSlider"></div>
+    </div>
+        <!-- Section 1: Sex Selection -->
+        <div class="sex-checkboxes">
+            <h3>1. Select sex</h3>
+            <label><input type="checkbox" id="both" value="both" checked /> Both</label>
+            <label><input type="checkbox" id="female" value="female" /> Female</label>
+            <label><input type="checkbox" id="male" value="male" /> Male</label>
+        </div>
+
+        <!-- Section 2: Region and Country Tree Selection -->
+        <div class="region-tree">
+            <h3>2. Select region or country</h3>
+            <div id="view"></div>
+        </div>
+    </div>
+
+    <script>
+        let currentData;  // Global data variable
+        let selectedYearRange = [1970, 2019];  // Global year range
+        let yearSlider;
+        let start = 1
+        document.addEventListener('click', function(event) {
+            start = 0;
+        });
+
+        // Function to handle the "Sex" checkbox selection and rerender the tree and chart
+        function handleSexCheckboxes() {
+            renderTree(currentData);  // Rerender the tree with updated data
+            updateLineChart(currentData);  // Update the line chart with filtered data
+            
+        }
+
+        // Add event listeners to the sex checkboxes
+        function setupEventListeners() {
+            document.getElementById('male').addEventListener('change', handleSexCheckboxes);
+            document.getElementById('female').addEventListener('change', handleSexCheckboxes);
+            document.getElementById('both').addEventListener('change', handleSexCheckboxes);
+
+            // Clear all selections function
+            document.getElementById('clearButton').addEventListener('click', function () {
+                // Clear sex selection checkboxes
+                document.getElementById('male').checked = false;
+                document.getElementById('female').checked = false;
+                document.getElementById('both').checked = false;
+
+                // Clear tree selection checkboxes
+                d3.selectAll('#view input[type="checkbox"]').property('checked', false);
+
+                
+
+                // Reset the year slider
+                yearSlider.noUiSlider.set([1970, 2019]);
+                selectedYearRange = [1970, 2019];
+                document.getElementById('yearStart').textContent = selectedYearRange[0];
+                document.getElementById('yearEnd').textContent = selectedYearRange[1];
+
+                // Update chart and tree
+                updateLineChart(currentData);
+            });
+        }
+
+        // Initialize the noUiSlider for selecting year range
+        function initializeSlider() {
+            yearSlider = document.getElementById('yearRangeSlider');
+            noUiSlider.create(yearSlider, {
+                start: [1970, 2019],
+                connect: true,
+                range: {
+                    'min': 1850,
+                    'max': 2050
+                },
+                step: 1,
+                tooltips: true,
+                format: {
+                    to: value => Math.round(value),
+                    from: value => Number(value)
+                }
+            });
+
+            // Event listener for the year range slider
+            yearSlider.noUiSlider.on('update', function (values, handle) {
+                selectedYearRange = values.map(value => parseInt(value));  // Convert values to integers
+                document.getElementById('yearStart').textContent = selectedYearRange[0];
+                document.getElementById('yearEnd').textContent = selectedYearRange[1];
+                updateLineChart(currentData);
+            });
+        }
+
+        // Helper function to get the currently selected sexes
+        function getSelectedSexes() {
+            return ['male', 'female', 'both'].filter(sex => document.getElementById(sex).checked);
+        }
+
+        // Function to flag data based on selected sex categories
+        function flagDataBySex(data) {
+            const selectedSexes = getSelectedSexes();
+            return data.map(d => ({
+                ...d,
+                active: selectedSexes.includes(d.sex.toLowerCase())
+            }));
+        }
+
+        // Function to get the selected countries or regions from the tree
+        function getSelectedCountriesOrRegions(data) {
+            let selected = d3.select('#view').selectAll('input:checked').data().map(d => d?.id).filter(Boolean);
+/*
+            // Include regions where region = country
+            selected = selected.map(entry => {
+                const isRegion = data.find(d => d.region === entry && d.country === entry);
+                return isRegion ? isRegion.region : entry;
+            });
+*/
+            return selected;
+        }
+
+        // Function to filter the data based on the selected countries/regions, sexes, and year range
+        function filterDataForChart(data) {
+            const selectedItems = getSelectedCountriesOrRegions(data);
+            const selectedSexes = getSelectedSexes();
+
+            const filteredData = data.filter(d => 
+                (selectedItems.includes(d.country) || selectedItems.includes(d.region)) &&
+                selectedSexes.includes(d.sex.toLowerCase()) &&
+                +d.year >= selectedYearRange[0] && +d.year <= selectedYearRange[1]);
+
+            return filteredData;
+        }
+
+        // Function to ensure q70 and year are present and valid
+        function getValidData(filteredData) {
+            return filteredData.filter(d => {
+                const validQ70 = d.q70 !== undefined && !isNaN(d.q70);
+                const validYear = d.year !== undefined && !isNaN(d.year);
+                return validQ70 && validYear;
+            });
+        }
+
+        // Function to create a color scale for countries or regions
+        function createColorScale(countries) {
+            return d3.scaleOrdinal(d3.schemeCategory10).domain(countries);
+        }
+
+        // Function to create a dash style based on sex
+        function getDashStyle(sex) {
+            switch (sex) {
+                case 'male':
+                    return '10,5';   // Long dash
+                case 'female':
+                    return '5,2';  // Short dash
+                case 'both':
+                    return ''; 
+                default:
+                    return '';  // Solid line
+            }
+        }
+
+        // Function to render the chart as a line chart for q70 across year
+        function updateLineChart(data) {
+            const filteredData = filterDataForChart(data);
+
+            if (filteredData.length === 0) {
+                console.log("No data to plot.");
+                d3.select('#line-chart').selectAll('*').remove();
+                d3.select('#legend').selectAll('*').remove();
+                return;
+            }
+
+            const validData = getValidData(filteredData);
+            if (validData.length === 0) {
+                console.log("No valid q70 or year data to plot.");
+                return;
+            }
+
+            // Clear any existing chart and legend
+            d3.select('#line-chart').selectAll('*').remove();
+            d3.select('#legend').selectAll('*').remove();
+
+            // Set up the SVG canvas dimensions
+            const svg = d3.select('#line-chart'),
+                  margin = { top: 20, right: 30, bottom: 50, left: 50 },
+                  width = +svg.attr('width') - margin.left - margin.right,
+                  height = +svg.attr('height') - margin.top - margin.bottom,
+                  g = svg.append('g').attr('transform', `translate(${margin.left},${margin.top})`);
+
+            // Set up the scales
+            const xScale = d3.scaleLinear()
+                .domain([selectedYearRange[0], selectedYearRange[1]])
+                .range([0, width]);
+
+            const yScale = d3.scaleLinear()
+                .domain([0, d3.max(validData, d => +d.q70)])
+                .nice()
+                .range([height, 0]);
+
+            // Create the x-axis
+            g.append('g')
+                .attr('transform', `translate(0,${height})`)
+                .call(d3.axisBottom(xScale).ticks(8).tickFormat(d3.format("d") ) ).style('font-size', '14px');
+
+            // Create the y-axis with the title "PPD, %"
+            g.append('g')
+                .call(d3.axisLeft(yScale)).style('font-size', '14px')
+                .append('text')
+                .attr('class', 'axis-title')
+                .attr('y', -40)
+                .attr('x', -height / 2)
+                .attr('transform', 'rotate(-90)')
+                .attr('text-anchor', 'middle')
+                .text('PPD, %');
+
+            // Define the line generator for the chart
+            const line = d3.line()
+                .x(d => xScale(d.year))
+                .y(d => yScale(d.q70));
+
+            // Group data by country/region and sex, and plot a line for each combination
+            const groupedData = d3.groups(validData, d => d.country, d => d.sex);
+            const countries = Array.from(new Set(validData.map(d => d.country)));
+            const colorScale = createColorScale(countries);
+
+            groupedData.forEach(([country, sexGroups]) => {
+                const color = colorScale(country);
+                sexGroups.forEach(([sex, values]) => {
+                    g.append('path')
+                        .datum(values)
+                        .attr('class', 'line')
+                        .attr('d', line)
+                        .attr('stroke', color)
+                        .attr('stroke-dasharray', getDashStyle(sex));
+
+                    const legend = d3.select('#legend');
+                    const legendItem = legend.append('div').attr('class', 'legend-item');
+                    const svgLegend = legendItem.append('svg')
+                        .attr('class', 'legend-line')
+                        .attr('width', 40)
+                        .attr('height', 10);
+
+                    svgLegend.append('line')
+                        .attr('x1', 0)
+                        .attr('x2', 40)
+                        .attr('y1', 5)
+                        .attr('y2', 5)
+                        .attr('stroke', color)
+                        .attr('stroke-width', 4)
+                        .attr('stroke-dasharray', getDashStyle(sex));
+                    
+                        switch (sex) {
+                case 'both':
+                    return legendItem.append('span').text(`${country}`); 
+                default:
+                    return legendItem.append('span').text(`${country} (${sex})`);
+            }
+
+                    
+                });
+            });
+
+            // Add a vertical line at the year 2023
+            if (selectedYearRange[1]>2022) {
+const projectionYear = 2023;
+g.append('line')
+    .attr('x1', xScale(projectionYear))
+    .attr('x2', xScale(projectionYear))
+    .attr('y1', 0)
+    .attr('y2', height)
+    .attr('stroke', 'black')
+    .attr('stroke-width', 2)
+    .attr('stroke-dasharray', '4,4');
+
+// Add the "Projections" label with an arrow pointing to the right
+g.append('text')
+    .attr('x', xScale(projectionYear) + 5)  // Position the text slightly to the right of the line
+    .attr('y', 325)  // Position above the top of the chart
+    .attr('fill', 'black')
+    .attr('font-size', '12px')
+    .text('Projections →');
+// Add a shaded background for the projection area (2023 to 2050)
+const projectionStart = 2023;
+const projectionEnd = 2050;
+           
+g.append('rect')
+    .attr('x', xScale(projectionStart))
+    .attr('y', 0)
+    .attr('width', xScale(projectionEnd) - xScale(projectionStart))
+    .attr('height', height)
+    .attr('fill', 'lightgray')
+    .attr('opacity', 0.3);  // Adjust the opacity for the desired shading effect
+
+        }
+    }
+        // Function to aggregate data by region and country
+        function aggregateRegionsAndCountries(data) {
+            const uniqueEntries = [];
+            const seen = new Set();
+
+            data.forEach(d => {
+                if (d.country) {
+                    const key = d.country;
+                    if (!seen.has(key)) {
+                        seen.add(key);
+                        uniqueEntries.push({
+                            region: d.region,
+                            country: d.country,
+                            active: data.some(entry => entry.country === d.country && entry.active)
+                        });
+                    }
+                }
+            });
+
+            return uniqueEntries;
+        }
+
+        // Function to flag and aggregate data, render tree
+        function renderTree(data) {
+            const flaggedData = flagDataBySex(data);
+            const aggregatedData = aggregateRegionsAndCountries(flaggedData);
+
+            const rootNode = { id: 'rootNode', parent: null };
+
+            const stratifiedData = aggregatedData
+              .map(d => ({
+                  id: d.country,
+                  parent: d.region === d.country ? 'rootNode' : d.region,
+                  active: d.active
+              }));
+
+            stratifiedData.push(rootNode);
+
+function renderNode(selection, rcd) {
+    const isActive = rcd?.data?.active;
+
+    // Only add checkboxes for leaf nodes (those without children)
+    if ((rcd.parent!=='rootNode' && rcd.id!==' World' && rcd.id!==' Frontier (lowest PPD each year)') || (rcd.parent!=='rootNode' && start!==1 )) {  // Check if the node has children; if not, it's a leaf node (i.e., country)
+        selection.append('input').property('checked', false)
+            .attr('type', 'checkbox')
+            .property('checked', isActive)
+            .on('change', function () {
+                d3.select('#selected').text(checkboxValues(d3.select('#view')));
+                updateLineChart(currentData);
+            });
+
+            
+    }
+
+    if ((rcd.id===' World' || rcd.id===' Frontier (lowest PPD each year)') && start===1) { 
+        selection.append('input').property('checked', true)
+            .attr('type', 'checkbox')
+            .property('checked', isActive)
+            .on('change', function () {
+                d3.select('#selected').text(checkboxValues(d3.select('#view')));
+                updateLineChart(currentData);
+            });
+
+            
+    }
+    
+    // Append the label (for both parents and leaf nodes)
+    selection.append('span')
+        .attr('class', 'tree-label')
+        .style('color', isActive ? 'black' : 'black')
+        .text(rcd.id);
+}
+
+
+
+            function checkboxValues(selection) {
+                return selection.select('.body')
+                   .selectAll('input:checked').data().map(d => d?.id).filter(Boolean);
+            }
+
+            function nextLevel(selection, node) {
+                const label = selection.append('span');
+                const arrow = label.append('span').classed('arrow', true);
+                label.call(renderNode, node.data);
+
+                if (!node.hasOwnProperty('children')) return;
+
+                const items = selection.append('ul')
+                    .classed('collapsed', false)
+                    .selectAll('li')
+                    .data(node.children, d => d.id);
+                items.exit().remove();
+                items.enter()
+                  .append('li').merge(items)
+                    .each(function (d) {
+                      d3.select(this).call(nextLevel, d);
+                    });
+
+                label.select('.arrow')
+                    .text('▼ ')
+                    .on('click', function () {
+                        const childList = selection.select('ul');
+                        const expanded = childList.classed('collapsed');
+                        d3.select(this).text(expanded ? '▶ ' : '▼ ');
+                        childList.classed('collapsed', !expanded);
+                    });
+            }
+
+            function tree(selection) {
+                selection
+                    .style('overflow-y', 'scroll')
+                    .style('height', '400px')
+                    .style('width', '500px')
+                  .append('div')
+                    .classed('body', true)
+            }
+
+            function updateTree(selection, items) {
+                try {
+                    const root = d3.stratify()
+                      .id(d => d.id)
+                      .parentId(d => d.parent)(items);
+                    const rootChildren = root.children;
+
+                    rootChildren.forEach(node => {
+                        const rootNode = d3.select('.body').append('div').attr('class', 'root');
+                        rootNode.call(nextLevel, node);
+                    });
+                } catch (error) {
+                    console.error("Error in stratification:", error);
+                }
+            }
+
+            d3.select('#view div').remove();
+            d3.select('#view').append('div')
+                .call(tree)
+                .call(updateTree, stratifiedData);
+
+                
+        }
+
+        // Load CSV data and render the tree and chart
+        d3.csv('https://raw.githubusercontent.com/O-Karlsson/CIH-3/refs/heads/main/ppdddata.csv').then(data => {
+            // Example of sorting a dataset by region, country, sex, and year
+const sortedData = data.sort((a, b) => {
+    // Sort by region first
+    if (a.region !== b.region) {
+        return a.region.localeCompare(b.region);
+    }
+    // Then sort by country
+    if (a.country !== b.country) {
+        return a.country.localeCompare(b.country);
+    }
+    // Then sort by sex (assuming you want 'male', 'female', 'both')
+    if (a.sex !== b.sex) {
+        return a.sex.localeCompare(b.sex);
+    }
+    // Finally, sort by year (numerical comparison)
+    return a.year - b.year;  // Ascending order for year
+});
+currentData = data;  // Initialize currentData after the CSV load
+            renderTree(currentData);
+            updateLineChart(currentData);
+            setupEventListeners();  // Set up event listeners after data is loaded
+            initializeSlider();  // Initialize slider after data is loaded
+        });
+
+    </script>
+</body>
+</html>
