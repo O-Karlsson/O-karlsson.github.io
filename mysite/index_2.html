@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Omar Karlsson</title>
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            padding-left: 250px;
+            display: flex;
+            line-height: 1.6;   /* Adjust line-height for better readability */
+
+        }
+        /* Side navigation */
+        .sidenav {
+            height: 100%;
+            width: 250px;
+            position: fixed;
+            left: 0;
+            top: 0;
+            background-color: #333;
+            padding-top: 30px;
+            line-height: 1.6;   /* Adjust line-height for better readability */
+
+        }
+        .sidenav a {
+            padding: 15px 20px;
+            text-decoration: none;
+            font-size: 18px;
+            color: white;
+            display: block;
+        }
+        .sidenav a:hover {
+            background-color: #575757;
+        }
+        /* Main content */
+        .main {
+            margin-left: 250px; /* Same width as the side navigation */
+    padding: 20px;
+    max-width: 800px; /* Set the max-width for better readability */
+    margin-left: auto;
+    margin-right: auto; /* Center the main content */
+    line-height: 1.6;   /* Adjust line-height for better readability */
+        }
+        section {
+            display: none;
+        }
+        section.active {
+            display: block;
+        }
+        /* Embedded YouTube video */
+        iframe {
+            width: 100%;
+            height: 400px;
+        }
+        li {
+        margin-bottom: 50px; /* Adjust this value to increase/decrease spacing */
+         }
+    </style>
+    <script>
+        // JavaScript to handle navigation
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(sectionId).classList.add('active');
+        }
+
+        // On page load, show the Resume section by default
+        window.onload = function() {
+            showSection('resume');
+        };
+    </script>
+</head>
+<body>
+
+    <!-- Side navigation -->
+    <div class="sidenav">
+        <a href="#" onclick="showSection('resume')">Resume</a>
+        <a href="#" onclick="showSection('scientific-articles')">Scientific Journal Articles</a>
+        <a href="#" onclick="showSection('other-publications')">Other Publications</a>
+        <a href="#" onclick="showSection('interactive-figures')">Interactive Figures</a>
+        <a href="#" onclick="showSection('project-x')">The Lancet Comission on Investing in Health - Global health 2050</a>
+        <a href="#" onclick="showSection('project-y')">UNICEF - When it Matters Most</a>
+        <a href="#" onclick="showSection('lectures')">My Lectures (YouTube)</a>
+    </div>
+
+    <!-- Main content -->
+    <div class="main">
+        <!-- Resume Section -->
+        <section id="resume" class="active">
+            <h2>Resume</h2>
+            <p></p>
+            <p><strong>Name:</strong> Omar Karlsson</p>
+            <p><strong>Position:</strong> Visiting Research Fellow at Duke Univeristy Population Research Institute and Duke Global Health Institute</p>
+            <p><strong>Experience:</strong> Ten years of quantitative research experience using econometrics, demographic methods, and GIS on pooled surveys and demographic data. Over 30 peer-reviewed articles in medical, public health, and demography journals since 2019.
+            <p><strong>Skills:</strong> Expert user of Stata. Experienced user of Python, JavaScript, and Excel. Excellent written and verbal communication skills. I emphasize readability and accessibility, with the goal of having my research be assessable and applicable across disciplines and by decision-makers. I have participated in many successful interdisciplinary collaborations, locally and abroad.</p>
+            <p><strong>Research interests:</strong>I study life expectancy, child health, living standards, health behaviors, and social determinants. The life-course perspective and human development framework motivate my research: wellbeing is advanced by enhancing the capabilities of individuals by promoting opportunities and limiting adversity. </p>
+            <p><strong>Contact:</strong> karlssono@outlook.com</p>
+        </section>
+
+        <!-- Scientific Journal Articles Section -->
+        <section id="scientific-articles">
+            <h2>Scientific Journal Articles</h2>
+            <ul>
+        <li><span><strong>Karlsson, O</strong></span>, Rajpal, S, Johri, M, Kim, R &amp; Subramanian, SV 2024, '<span>Prevalence and Trends of Not Receiving a Dose of DPT-Containing Vaccine Among Children 12-35 Months: An Analysis of 81 Low- And Middle-Income Countries</span>', <span><em>Journal of Epidemiology and Global Health</em></span>. <a onclick="window.open(this.href, '_blank','noopener,noreferrer'); return false;" href="https://doi.org/10.1007/s44197-024-00294-6" class="link"><span>https://doi.org/10.1007/s44197-024-00294-6</span></a></li>
+        <li><span><strong>Karlsson, O</strong></span>, Benski, C, Kapoor, M, Kim, R &amp; Subramanian, SV 2024, '<span>Association between neonatal mortality and births not weighed among 400 thousand institutional deliveries in 32 low- and middle-income countries</span>', <span><em>Journal of Public Health</em></span>. <a onclick="window.open(this.href, '_blank','noopener,noreferrer'); return false;" href="https://doi.org/10.1093/pubmed/fdae249" class="link"><span>https://doi.org/10.1093/pubmed/fdae249</span></a></li>
+        <li>De Neve, J-W<span>, <strong>Karlsson, O</strong></span>, Rai, RK, Kumar, S &amp; Vollmer, S 2024, '<span>Relationship between adolescent anemia and school attendance observed during a nationally representative survey in India</span>', <span><em>Communications medicine</em></span>, vol. 4, no. 1. <a onclick="window.open(this.href, '_blank','noopener,noreferrer'); return false;" href="https://doi.org/10.1038/s43856-024-00533-8" class="link"><span>https://doi.org/10.1038/s43856-024-00533-8</span></a></li>
+        <li><span><strong>Karlsson, O</strong></span>, Kim, R &amp; Subramanian, SV 2024, '<span>Prevalence of Children Aged 6 to 23 Months Who Did Not Consume Animal Milk, Formula, or Solid or Semisolid Food During the Last 24 Hours Across Low- and Middle-Income Countries</span>', <span><em>JAMA Network Open</em></span>, vol. 7, no. 2, E2355465. <a onclick="window.open(this.href, '_blank','noopener,noreferrer'); return false;" href="https://doi.org/10.1001/jamanetworkopen.2023.55465" class="link"><span>https://doi.org/10.1001/jamanetworkopen.2023.55465</span></a></li>
+        <li><span><strong>Karlsson, O</strong></span> &amp; De Neve, JW 2024, '<span>Washing machine ownership and girls' school attendance: a cross-sectional analysis of adolescents in 19 middle-income countries</span>', <span><em>Journal of Economic Inequality</em></span>. <a onclick="window.open(this.href, '_blank','noopener,noreferrer'); return false;" href="https://doi.org/10.1007/s10888-023-09612-7" class="link"><span>https://doi.org/10.1007/s10888-023-09612-7</span></a></li>
+        <li><span><strong>Karlsson, O</strong></span> &amp; Subramanian, SV 2023, '<span>Refrigerator ownership and child health and nutrition in low- and middle-income countries</span>', <span><em>Global Food Security</em></span>, vol. 37, 100698. <a onclick="window.open(this.href, '_blank','noopener,noreferrer'); return false;" href="https://doi.org/10.1016/j.gfs.2023.100698" class="link"><span>https://doi.org/10.1016/j.gfs.2023.100698</span></a></li>
+        <li><span><strong>Karlsson, O</strong></span>, Kim, R, Moloney, GM, Hasman, A &amp; Subramanian, SV 2023, '<span>Patterns in child stunting by age: A cross-sectional study of 94 low- and middle-income countries</span>', <span><em>Maternal and Child Nutrition</em></span>, vol. 19, no. 4. <a onclick="window.open(this.href, '_blank','noopener,noreferrer'); return false;" href="https://doi.org/10.1111/mcn.13537" class="link"><span>https://doi.org/10.1111/mcn.13537</span></a></li>
+        <li><span><strong>Karlsson, O</strong></span><span> &amp; Dribe, M</span> 2022, '<span>Maternal height and child health and schooling in sub-Saharan Africa: Decomposition and heterogeneity</span>', <span><em>Social Science &amp; Medicine </em></span>, vol. 315, 115480. <a onclick="window.open(this.href, '_blank','noopener,noreferrer'); return false;" href="https://doi.org/10.1016/j.socscimed.2022.115480" class="link"><span>https://doi.org/10.1016/j.socscimed.2022.115480</span></a></li>
+        <li>Egbewale, BE<span>, <strong>Karlsson, O</strong></span> &amp; Sudfeld, CR 2022, '<span>Childhood Diarrhea Prevalence and Uptake of Oral Rehydration Solution and Zinc Treatment in Nigeria</span>', <span><em>Children</em></span>, vol. 9, no. 11. <a onclick="window.open(this.href, '_blank','noopener,noreferrer'); return false;" href="https://doi.org/10.3390/children9111722" class="link"><span>https://doi.org/10.3390/children9111722</span></a></li>
+        <li><span><strong>Karlsson, O</strong></span>, Kim, R, Hasman, A &amp; Subramanian, SV 2022, '<span>Age Distribution of All-Cause Mortality Among Children Younger Than 5 Years in Low- and Middle-Income Countries</span>', <span><em>JAMA Network Open</em></span>, vol. 5, no. 5, e2212692. <a onclick="window.open(this.href, '_blank','noopener,noreferrer'); return false;" href="https://doi.org/10.1001/jamanetworkopen.2022.12692" class="link"><span>https://doi.org/10.1001/jamanetworkopen.2022.12692</span></a></li>
+        <li><span>Dribe, M</span><span> &amp; <strong>Karlsson, O</strong></span> 2022, '<span>Inequality in early life: Social class differences in childhood mortality in southern Sweden, 1815–1967</span>', <span><em>Economic History Review</em></span>, vol. 75, no. 2, pp. 475– 502. <a onclick="window.open(this.href, '_blank','noopener,noreferrer'); return false;" href="https://doi.org/10.1111/ehr.13089" class="link"><span>https://doi.org/10.1111/ehr.13089</span></a></li>
+        <li><span><strong>Karlsson, O</strong></span>, Kim, R, Guerrero, S, Hasman, A &amp; Subramanian, SV 2022, '<span>Child wasting before and after age two years: A cross-sectional study of 94 countries</span>', <span><em>EClinicalMedicine</em></span>, vol. 46, 101353. <a onclick="window.open(this.href, '_blank','noopener,noreferrer'); return false;" href="https://doi.org/10.1016/j.eclinm.2022.101353" class="link"><span>https://doi.org/10.1016/j.eclinm.2022.101353</span></a></li>
+        <li><span><strong>Karlsson, O</strong></span>, Domingue, BW, Kim, R &amp; Subramanian, SV 2022, '<span>Estimating heritability of height without zygosity information for twins under five years in low- and middle-income countries: An application of normal finite mixture distribution models</span>', <span><em>SSM - Population Health</em></span>, vol. 17, 101043. <a onclick="window.open(this.href, '_blank','noopener,noreferrer'); return false;" href="https://doi.org/10.1016/j.ssmph.2022.101043" class="link"><span>https://doi.org/10.1016/j.ssmph.2022.101043</span></a></li>
+        <li><span><strong>Karlsson, O</strong></span>, Kim, R, Bogin, B &amp; Subramanian, SV 2022, '<span>Maternal height-standardized prevalence of stunting in 67 low- and- middle-income countries</span>', <span><em>Journal of Epidemiology</em></span>, vol. 32, no. 7, pp. 337. <a onclick="window.open(this.href, '_blank','noopener,noreferrer'); return false;" href="https://doi.org/10.2188/jea.JE20200537" class="link"><span>https://doi.org/10.2188/jea.JE20200537</span></a></li>
+        <li><span><strong>Karlsson, O</strong></span> 2022, '<span>Scarring and selection effects on children surviving elevated rates of postneonatal mortality in sub-Saharan Africa</span>', <span><em>SSM - Population Health</em></span>, vol. 19, 101160. <a onclick="window.open(this.href, '_blank','noopener,noreferrer'); return false;" href="https://doi.org/10.1016/j.ssmph.2022.101160" class="link"><span>https://doi.org/10.1016/j.ssmph.2022.101160</span></a></li>
+        <li><span><strong>Karlsson, O</strong></span>, Kim, R, Hasman, A &amp; Subramanian, SV 2021, '<span>Consumption of Vitamin-A-Rich Foods and Vitamin A Supplementation for Children under Two Years Old in 51 Low- and Middle-Income Countries</span>', <span><em>Nutrients</em></span>, vol. 14, no. 1. <a onclick="window.open(this.href, '_blank','noopener,noreferrer'); return false;" href="https://doi.org/10.3390/nu14010188" class="link"><span>https://doi.org/10.3390/nu14010188</span></a></li>
+        <li><span><strong>Karlsson, O</strong></span>, Kim, R, Sarwal, R, James, KS &amp; Subramanian, SV 2021, '<span>Trends in underweight, stunting, and wasting prevalence and inequality among children under three in Indian states, 1993-2016</span>', <span><em>Scientific Reports</em></span>, vol. 11, 14137. <a onclick="window.open(this.href, '_blank','noopener,noreferrer'); return false;" href="https://doi.org/10.1038/s41598-021-93493-1" class="link"><span>https://doi.org/10.1038/s41598-021-93493-1</span></a></li>
+        <li>Li, Z<span>, <strong>Karlsson, O</strong></span>, Kim, R &amp; Subramanian, SV 2021, '<span>Distribution of under-5 deaths in the neonatal, postneonatal, and childhood periods: a multicountry analysis in 64 low- and middle-income countries</span>', <span><em>International Journal for Equity in Health</em></span>, vol. 20, no. 1, 109. <a onclick="window.open(this.href, '_blank','noopener,noreferrer'); return false;" href="https://doi.org/10.1186/s12939-021-01449-8" class="link"><span>https://doi.org/10.1186/s12939-021-01449-8</span></a></li>
+        <li>Thoma, B, Sudharsanan, N<span>, <strong>Karlsson, O</strong></span>, Joe, W, Subramanian, SV &amp; De Neve, J-W 2021, '<span>Children's education and parental old-age health: Evidence from a population-based, nationally representative study in India</span>', <span><em>Population Studies</em></span>, vol. 75, no. 1, pp. 51-66. <a onclick="window.open(this.href, '_blank','noopener,noreferrer'); return false;" href="https://doi.org/10.1080/00324728.2020.1775873" class="link"><span>https://doi.org/10.1080/00324728.2020.1775873</span></a></li>
+        <li><span><strong>Karlsson, O</strong></span><span>, Dribe, M</span> &amp; Subramanian, SV 2020, '<span>Changing speed of reduction in under-5 mortality rates over the 20th century</span>', <span><em>Journal of Epidemiology and Community Health</em></span>, vol. 75, no. 1. <a onclick="window.open(this.href, '_blank','noopener,noreferrer'); return false;" href="https://doi.org/10.1136/jech-2019-213045" class="link"><span>https://doi.org/10.1136/jech-2019-213045</span></a></li>
+        <li>Teufel, F, Geldsetzer, P, Manne-Goehler, J<span>, <strong>Karlsson, O</strong></span>, Koncz, V, Deckert, A, Theilmann, M, Marcus, M-E, Ebert, C, Seiglie, JA, Agoudavi, K, Andall-Brereton, G, Gathecha, G, Gurung, MS, Guwatudde, D, Houehanou, C, Hwalla, N, Kagaruki, GB, Karki, KB, Labadarios, D, Martins, JS, Msaidie, M, Norov, B, Sibai, AM, Sturua, L, Tsabedze, L, Wesseh, CS, Davies, J, Atun, R, Vollmer, S, Subramanian, SV, Bärnighausen, T, Jaacks, LM &amp; De Neve, J-W 2020, '<span>Analysis of Attained Height and Diabetes Among 554,122 Adults Across 25 Low- and Middle-Income Countries</span>', <span><em>Diabetes Care</em></span>, vol. 43, no. 10, pp. 2403-2410. <a onclick="window.open(this.href, '_blank','noopener,noreferrer'); return false;" href="https://doi.org/10.2337/dc20-0019" class="link"><span>https://doi.org/10.2337/dc20-0019</span></a></li>
+        <li>Subramanian, SV<span>, <strong>Karlsson, O</strong></span>, Zhang, W &amp; Kim, R 2020, '<span>Geo-mapping of COVID-19 Risk Correlates Across Districts and Parliamentary Constituencies in India</span>', <span><em>Harvard Data Science Review</em></span>, no. Special Issue 1. <a onclick="window.open(this.href, '_blank','noopener,noreferrer'); return false;" href="https://doi.org/10.1162/99608f92.68bb12e4" class="link"><span>https://doi.org/10.1162/99608f92.68bb12e4</span></a></li>
+        <li>Kitara, DL<span> &amp; <strong>Karlsson, O</strong></span> 2020, '<span>The effects of economic stress and urbanization on driving behaviours of boda-boda drivers and accidents in gulu, northern uganda: A qualitative view of drivers</span>', <span><em>Pan African Medical Journal</em></span>, vol. 36, 47, pp. 1-11. <a onclick="window.open(this.href, '_blank','noopener,noreferrer'); return false;" href="https://doi.org/10.11604/pamj.2020.36.47.21382" class="link"><span>https://doi.org/10.11604/pamj.2020.36.47.21382</span></a></li>
+        <li>De Neve, J-W<span>, <strong>Karlsson, O</strong></span>, Canavan, CR, Chukwu , A, Adu-Afarwuah, S, Bukenya, J, Darling, AM, Harling, G, Moshabela, M, Killewo, J, Fink, G, Fawzi, WW &amp; Berhane, Y 2020, '<span>Are out-of-school adolescents at higher risk of adverse health outcomes? Evidence from 9 diverse settings in sub-Saharan Africa</span>', <span><em>Tropical Medicine &amp; International Health</em></span>, vol. 25, no. 1, pp. 70-80. <a onclick="window.open(this.href, '_blank','noopener,noreferrer'); return false;" href="https://doi.org/10.1111/tmi.13328" class="link"><span>https://doi.org/10.1111/tmi.13328</span></a></li>
+        <li><span><strong>Karlsson, O</strong></span>, Kim, R, Joe, W &amp; Subramanian, SV 2020, '<span>The relationship of household assets and amenities with child health outcomes: an exploratory cross-sectional study in India 2015–2016</span>', <span><em>SSM - Population Health</em></span>, vol. 10, 100513. <a onclick="window.open(this.href, '_blank','noopener,noreferrer'); return false;" href="https://doi.org/10.1016/j.ssmph.2019.100513" class="link"><span>https://doi.org/10.1016/j.ssmph.2019.100513</span></a></li>
+        <li><span><strong>Karlsson, O</strong></span> 2019, '<span>Religion and child health in West and Central Africa</span>', <span><em>Population and Development Review</em></span>, vol. 45, no. 4, pp. 707-738. <a onclick="window.open(this.href, '_blank','noopener,noreferrer'); return false;" href="https://doi.org/10.1111/padr.12296" class="link"><span>https://doi.org/10.1111/padr.12296</span></a></li>
+        <li><span><strong>Karlsson, O</strong></span>, Kim, R, Joe, W &amp; Subramanian, SV 2019, '<span>Socioeconomic and gender inequalities in neonatal, postneonatal and child mortality in India: A repeated cross-sectional study, 2005-2016</span>', <span><em>Journal of Epidemiology and Community Health</em></span>, vol. 73, no. 7, pp. 660-667. <a onclick="window.open(this.href, '_blank','noopener,noreferrer'); return false;" href="https://doi.org/10.1136/jech-2018-211569" class="link"><span>https://doi.org/10.1136/jech-2018-211569</span></a></li>
+        <li>De Neve, J-W<span>, <strong>Karlsson, O</strong></span>, Coetzee, L, Schröder, H, Subramanian, SV, Bärnighausen, T &amp; Vollmer, S 2018, '<span>Antiretroviral therapy coverage associated with increased co-residence between older and working-age adults in Africa</span>', <span><em>AIDS</em></span>, vol. 32, no. 14, pp. 2051-2057. <a onclick="window.open(this.href, '_blank','noopener,noreferrer'); return false;" href="https://doi.org/10.1097/QAD.0000000000001917" class="link"><span>https://doi.org/10.1097/QAD.0000000000001917</span></a></li>
+        <li><span><strong>Karlsson, O</strong></span>, De Neve, J-W &amp; Subramanian, SV 2018, '<span>Weakening association of parental education: analysis of child health outcomes in 43 low- and middle-income countries</span>', <span><em>International Journal of Epidemiology</em></span>, vol. 48, no. 1, pp. 83-97. <a onclick="window.open(this.href, '_blank','noopener,noreferrer'); return false;" href="https://doi.org/10.1093/ije/dyy158" class="link"><span>https://doi.org/10.1093/ije/dyy158</span></a></li>
+            </ul>
+        </section>
+                <!-- Other Publications Section -->
+                <section id="other-publications">
+                    <h2>Other publications</h2>
+                    <p>Thesis, media, blogs, working papers</p>
+                    <ul>
+                        <li><span><strong>Karlsson, O</strong></span> 2018, '<span><a href="https://O-Karlsson.github.io/mysite/Growth_and_Survival.pdf" target="_blank">Growth and Survival: Child Health Disparities and Early Life Adversity in Sub-Saharan Africa</a></span>', <span><em>Doctoral thesis from Lund University, School of Economics and Management, Department of Economic History</em></span></a></li>
+                        <li></li>
+                    </ul>
+                </section>
+
+
+        <!-- Interactive Figures Section -->
+        <section id="interactive-figures">
+            <h2>Interactive Figures</h2>
+            <p>Explore some examples of interactive figures I've created:</p>
+            <div>
+                <!-- Placeholder for interactive figures -->
+                <p><span><a href="https://O-Karlsson.github.io/" target="_blank">Probability of premature death over time</a></span></p>
+                <p></p>
+            </div>
+        </section>
+        https://globalhealth2050.org/
+        <!-- Project X Section -->
+        <section id="project-x">
+            <h2>Global health 2050: the path to halving premature death by mid-century</h2>
+            <p><span><a href="https://globalhealth2050.org/" target="_blank">Global Health 2050</a></span></p>
+            <p></p>
+        </section>
+
+        <!-- Project Y Section -->
+        <section id="project-y">
+            <h2>When it Matters Most: Improving nutrition and survival for the youngest and
+                most vulnerable children</h2>
+            <p>For this project, my collaborators and I provided 4 scientific studies on the age distribution of important child health outcomes.</p>
+            <p>These studies resulted in four journal publications.</p>
+        </section>
+
+        <!-- My Lectures Section -->
+        <section id="lectures">
+            <h2>My Lectures (YouTube)</h2>
+            <p>Here are some of my lectures embedded from YouTube:</p>
+            <iframe src="https://www.youtube.com/embed/[YourLectureVideoID]" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </section>
+    </div>
+
+</body>
+</html>
