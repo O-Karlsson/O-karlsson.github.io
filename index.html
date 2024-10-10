@@ -505,7 +505,7 @@ function renderNode(selection, rcd) {
         }
 
         // Load CSV data and render the tree and chart
-        d3.csv('https://raw.githubusercontent.com/O-Karlsson/CIH-3/refs/heads/main/ppdddata.csv').then(data => {
+        d3.csv('ppdddata.csv').then(data => {
             // Example of sorting a dataset by region, country, sex, and year
 const sortedData = data.sort((a, b) => {
     // Sort by region first
