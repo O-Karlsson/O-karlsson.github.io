@@ -27,7 +27,7 @@ function toggleSection(headings) {
             if (content.style.maxHeight && content.style.maxHeight !== '0px') {
                 content.style.maxHeight = '0px'; // Collapse
             } else {
-                const maxHeight = content.getAttribute('data-height') || '5000px'; // Use fixed max height or default to 500px
+                const maxHeight = content.getAttribute('data-height') || '50000px'; // Use fixed max height or default to 500px
                 content.style.maxHeight = maxHeight; // Expand to max height
             }
 
