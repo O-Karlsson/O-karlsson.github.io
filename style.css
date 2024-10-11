@@ -1,0 +1,184 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1.5;
+    font-size: 18px;
+    padding-bottom: 100px; /* Adjust the value to the amount of padding you want */
+
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.belowname {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 0px;
+}
+
+li {
+    margin-bottom: 25px; /* Adjust this value to increase or decrease space between list items */
+}
+
+p {
+    margin-top: 15px; /* Adjust this value to increase or decrease space between list items */
+    margin-bottom: 15px; /* Adjust this value to increase or decrease space between list items */
+}
+
+
+
+.profile-image {
+    max-width: 150px;
+    border-radius: 50%;
+    margin-right: 20px;
+}
+
+h1 {
+    font-size: 1.4em;
+    margin:  0;
+}
+
+h1.sect {
+    font-size: 1.4em;
+    text-align: left;
+    margin:  0px 0 0px 50px;
+
+}
+
+hr.top {
+    border: none;
+    border-top: 2px solid #000; /* Make the line 5px thick and black */
+    margin: 30px 0px 5px 40px;
+}
+
+hr.bottom {
+    border: none;
+    border-top: 2px solid #000; /* Make the line 5px thick and black */
+    margin: 0px 0px 5px 40px;
+}
+
+h4 {
+    font-size: 1.1em;
+    text-align: center;
+    margin:  50px 0 10px 0;
+}
+
+.container {
+    max-width: 800px;
+
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+h2 {
+    font-size: 1.2em;
+    cursor: pointer;
+    background-color: #f0f0f0;
+    padding: 10px;
+    margin: 0px 0;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+h3.subheading {
+    font-size: 1em;
+    cursor: pointer;
+    background-color: #d4c4c4;
+    padding: 10px;
+    margin: 5px 40px 5px 30px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+
+
+h2:hover, h3:hover {
+    background-color: #e0e0e0;
+}
+
+        /* Initially hide content */
+        .content {
+            max-height: 0; /* Start with 0 height */
+            overflow: hidden; /* Hide the overflow */
+            transition: max-height 0.2s linear; /* Adjust this value to control the speed */
+        }
+
+        /* Style for expanded content */
+        .content.expanded {
+            padding: 10px;
+
+        }
+
+        /* Basic styling for expandable heading */
+        .expandable, .subheading {
+            cursor: pointer;
+            background-color: #f0f0f0;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            transition: background-color 0.5s ease-out;
+        }
+
+        .expandable:hover {
+            background-color: #e0e0e0;
+        }
+
+.active + .content {
+    display: block;
+}
+
+#backToMenu {
+    display: none;
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#backToMenu:hover {
+    background-color: #0056b3;
+}
+
+@media (max-width: 600px) {
+    .container {
+        padding: 10px;
+
+    }
+
+    h2 {
+        font-size: 1.2em;
+    }
+
+    h3 {
+        font-size: 1em;
+    }
+
+    .header {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    h1 {
+        margin-top: 10px;
+        text-align: center;
+    }
+
+
+
+    .profile-image {
+        margin: 0 0 10px;
+    }
+}
