@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Dashboard of the Lancet Commission on Investing in Health</title>
+    <link rel="icon" href="apple.png" type="image/pngn">
+    <link rel="stylesheet" href="dash_dev_style.css">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.7.0/nouislider.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.7.0/nouislider.min.js"></script>
+
+</head>
+<body>
+
+<div class="header">
+    <img src="GH2050-Logo.jpg" alt="CIHlogo" class="profile-image">
+
+</div>
+
+<h1>Lancet Commission on Investing in Health</h1>
+<h1>Data Dashboard</h1>
+
+<div class="container">
+    <hr class="top"><h1 class="sect">Select locations and sex</h1></hr>
+    <hr class="bottom"></hr>
+    
+<!-- Clear selection button -->
+<div class="section" height="20000px"><button id="clearSelection">Clear Selection</button></div>
+<div class="figure-note"><sup>1</sup> Earliest year available for PPD and LE is shown in parantheses if other than 1950.<br><sup>2</sup> Not available in WHO GHE (cause specific deaths).</div>
+<!-- Select sex -->
+    <div class="section checkboxes">      
+        <div>
+            <label><input type="checkbox" name="sex" value="both" checked> Both</label>
+            <label><input type="checkbox" name="sex" value="female"> Female</label>
+            <label><input type="checkbox" name="sex" value="male"> Male</label>
+        </div>
+
+<!-- Select country/region -->
+    <div class= "section" id="treeContainer"></div>
+</div>
+
+<hr class="top"><h1 class="sect">Measures</h1></hr>
+<hr class="bottom"></hr>
+
+
+
+<!-- 
+line-chart-container-1
+data-outcome
+data-file
+line-chart // change to line-chart-1
+legend // change to legend-1
+slider-container change to slider-container-1
+yearRangeSlider change to yearRangeSlider-1
+-->
+
+    <h2 class="expandable">• Probability of premature death (PPD)</h2>
+    <div class="content" data-height="3000" style="max-height: 0; overflow: hidden;">
+    <div class="line-chart-container-1" style="width: 100%; height: auto;" data-outcome='q70'  data-file="ppddata.csv" yaxislabel="PPD, %" >
+
+        <svg id="line-chart-1"></svg>
+        <div id="legend-1" class="legend" ></div>
+        <div class="figure-note">Note: PPD is the probability of dying before age 70. Data source: <a href="https://population.un.org/wpp/" target="_blank">UN WPP</a> (after 1950) and <a href="https://www.mortality.org/" target="_blank">HMD</a> (before 1950 , when available).</div>
+
+        <div class="slider-container-1">
+            <div id="yearRangeSlider-1"></div>
+        </div>
+    </div>
+</div>
+
+
+<h2 class="expandable">• Life Expectancy (LE)</h2>
+<div class="content" data-height="3000" style="max-height: 0; overflow: hidden;">
+<div class="line-chart-container-2" style="width: 100%; height: auto;" data-outcome='e0'  data-file="ppddata.csv" yaxislabel="LE, years" >
+
+    <svg id="line-chart-2"></svg>
+    <div id="legend-2" class="legend" ></div>
+    <div class="figure-note">Data source: <a href="https://population.un.org/wpp/" target="_blank">UN WPP</a> (after 1950) and <a href="https://www.mortality.org/" target="_blank">HMD</a> (before 1950 , when available).</div>
+
+    <div class="slider-container-2">
+        <div id="yearRangeSlider-2"></div>
+    
+    </div>
+</div>
+</div>
+
+<h2 class="expandable">• Crude mortality rate (CMR) per 1000 population</h2>
+<div class="content" data-height="3000" style="max-height: 0; overflow: hidden;">
+<div class="line-chart-container-3" style="width: 100%; height: auto;" data-outcome='rcdr'  data-file="ppddata.csv" yaxislabel="CMR per 1000 population" >
+
+    <svg id="line-chart-3"></svg>
+    <div id="legend-3" class="legend" ></div>
+    <div class="figure-note">Note: Working age is defined as 15-64 years. Data source: <a href="https://population.un.org/wpp/" target="_blank">UN WPP</a>.</div>
+
+    <div class="slider-container-3">
+        <div id="yearRangeSlider-3"></div>
+    
+    </div>
+</div>
+</div>
+
+
+<h2 class="expandable">• Crude mortality rate (CMR) per 1000 working-age population</h2>
+<div class="content" data-height="3000" style="max-height: 0; overflow: hidden;">
+<div class="line-chart-container-4" style="width: 100%; height: auto;" data-outcome='rcdrs'  data-file="ppddata.csv" yaxislabel="CMR per 1000 working-age" >
+
+    <svg id="line-chart-4"></svg>
+    <div id="legend-4" class="legend" ></div>
+    <div class="figure-note">Note: Working age is defined as 15-64 years. Data source: <a href="https://population.un.org/wpp/" target="_blank">UN WPP</a>.</div>
+
+    <div class="slider-container-4">
+        <div id="yearRangeSlider-4"></div>
+    
+    </div>
+</div>
+</div>
+
+
+<!-- 
+
+    <h2 class="expandable">• Metric Q</h2>
+    <div class="content">
+        <h3 class="subheading">Metric Q1</h3>
+        <div class="content" style = "height: 1200px;" data-height="1200px">
+       </div>
+        <h3 class="subheading">Metric Q2</h3>
+        <div class="content">
+            <p>Coming soon.</p>
+        </div>
+    </div>
+-->
+
+
+</div>
+<button id="backToMenu">Back to Menu</button>
+
+<script src="ppdfig_dev_script.js"></script>
+<script src="selections_dev_script.js"></script>
+<script src="dash_dev_script.js"></script>
+
+</body>
+</html>
