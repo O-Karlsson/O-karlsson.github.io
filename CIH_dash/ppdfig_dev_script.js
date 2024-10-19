@@ -26,7 +26,7 @@ function loadAndPlotData(dataFile, dataOutcome, chartID, legendID, sliderID, yLa
         filteredData[chartID] = data.filter(d => !isNaN(d.dataOutcome) && d.dataOutcome !== null );
         currentData[chartID] = filteredData[chartID];
         const { minYear, maxYear } = findAvailableYearRange(currentData[chartID], selectedCountries, selectedSex);
-        initializeSlider(minYear, maxYear, sliderID, chartID);
+        initializeSlider(minYear, maxYear, sliderID, chartID, legendID, yLabel);
         updateLineChart(chartID, legendID, sliderID, yLabel);  // Plot the data
     });
 }
@@ -64,7 +64,7 @@ function filterDataForChart(data, selectedCountries, selectedSex, sliderID) {
 }
 
 // Initialize the noUiSlider for selecting year range
-function initializeSlider(miny, maxy, sliderID, chartID, legendID) {
+function initializeSlider(miny, maxy, sliderID, chartID, legendID, yLabel) {
     yearSlider = document.getElementById(sliderID);
     if (!yearSlider.noUiSlider)  {
         // Create slider if it doesn't exist
@@ -178,7 +178,7 @@ function updateLineChart(chartID, legendID, sliderID, yLabel) {
     d3.select(`#${legendID}`).selectAll('*').remove();
 
     // Set up SVG dimensions and margins
-    const margin = { top: 40, right: 30, bottom: 50, left: 50 }
+    const margin = { top: 40, right: 10, bottom: 50, left: 35 }
     const width = Math.min(window.innerWidth * 0.98, 800);  // Max width of 800px or 90% of the window width
     const height = width * 0.7;  // Adjust height based on the width (aspect ratio)
     
@@ -238,7 +238,7 @@ svg.append('g')
         .style('stroke', 'black')  // Set the color of the axis line
         .style('stroke-width', '2px');  // Set the thickness;  // Set the thickness;  // X-axis (years)
 
-;  // Y-axis (dataOutcome)
+  // Y-axis (dataOutcome)
     svg.append('text')
         .attr('class', 'y-axis-label')  // Class to style the label
         .attr('y', -20)  // Adjust position from left
@@ -370,7 +370,7 @@ tooltipBox.style('display', 'none');  // Hide the tooltip box
                 .datum(data)
                 .attr('fill', 'none')
                 .attr('stroke', color)
-                .attr('stroke-width', 5)
+                .attr('stroke-width', 4)
                 .attr('d', line)
                 .attr('stroke-dasharray', getDashStyle(sex));
     
@@ -424,7 +424,6 @@ outcomes.forEach(({chartID, legendID, sliderID, containerClass }) => {
 
     // Listen for when the tree is constructed and chart needs updating
     document.addEventListener('treeConstructed', function() {
-        
         updateLineChart(chartID, legendID, sliderID, yLabel);  // Call update when tree is done constructing
     });
     
@@ -432,8 +431,9 @@ outcomes.forEach(({chartID, legendID, sliderID, containerClass }) => {
     // Update chart when country or sex selection changes
     document.addEventListener('change', function() {
         const { minYear, maxYear } = findAvailableYearRange(currentData[chartID], selectedCountries, selectedSex);
-        initializeSlider(minYear, maxYear, sliderID, chartID);  // Update slider range based on new selection
         updateLineChart(chartID, legendID, sliderID, yLabel);
+        initializeSlider(minYear, maxYear, sliderID, chartID, legendID, yLabel);  // Update slider range based on new selection
+
     });
     });
 
