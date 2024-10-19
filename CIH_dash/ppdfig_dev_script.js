@@ -178,7 +178,7 @@ function updateLineChart(chartID, legendID, sliderID, yLabel) {
     d3.select(`#${legendID}`).selectAll('*').remove();
 
     // Set up SVG dimensions and margins
-    const margin = { top: 40, right: 15, bottom: 50, left: 35 }
+    const margin = { top: 40, right: 18, bottom: 50, left: 35 }
     const width = Math.min(window.innerWidth * 0.98, 800);  // Max width of 800px or 90% of the window width
     const height = width * 0.7;  // Adjust height based on the width (aspect ratio)
     
