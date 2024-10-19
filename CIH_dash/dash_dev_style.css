@@ -1,10 +1,10 @@
 #select-location {background-color: #96D3F1; color: #000000;}
 
 
-[id*="legend"] {display: flex; flex-wrap: wrap; justify-content: center;}
+[id*="legend"] {display: flex; flex-wrap: wrap; justify-content: center; margin-left:15px;}
 .legend-item {display: flex; align-items: center; padding-right: 40px; font-size: 1.2em;}
 .legend-line { width: 25px; height: 10px; margin-right: 5px; }
-.figure-note { font-size: 14px; text-align: left; margin-bottom: 20px; margin-top: 20px; width: 100%;}
+.figure-note { font-size: 14px; text-align: left; margin-bottom: 20px; margin-top: 20px; margin-left: 10px; width: 100%;}
 
 .slider-container { margin: 80px 20px 20px 20px; padding-left: 10px;}
 [id*="yearRangeSlider"] {justify-content: space-between; margin: 60px 20px 10px 20px; font-size: 18px;}
@@ -16,7 +16,7 @@
 
 body {font-family: Arial, sans-serif; margin: 20px; display: flex; flex-direction: column; align-items: center; line-height: 1.5; font-size: 16px; padding-bottom: 100px;}
 
-.header {display: flex; align-items: center; margin: 20px 0;}
+.header {display: flex; align-items: center; margin: 0px 0;}
 
 .belowname {display: flex; align-items: center; text-align: center; margin: 0px;}
 
@@ -28,7 +28,7 @@ p {margin-top: 15px; margin-bottom: 15px;}
 
 h1 {font-size: 1em; margin:  0;}
 h1.sect {font-size: 1.4em; text-align: left; margin:  0px 0 0px 50px;}
-h2 {font-size: 1.0em; cursor: pointer; background-color: #f0f0f0; padding: 10px; margin: 0px 0; border-radius: 5px; transition: background-color 0.2s;}
+h2 {font-size: 1.0em; cursor: pointer; background-color: #f0f0f0; padding: 10px; margin: 0px; border-radius: 5px; transition: background-color 0.2s;}
 h3.subheading {font-size: 1em; cursor: pointer; background-color: #d4c4c4; padding: 10px; margin: 5px 40px 5px 30px; border-radius: 5px; transition: background-color 0.2s;}
 h2:hover, h3:hover  {background-color: #e0e0e0;}
 h4 {font-size: 1.1em; text-align: center; margin:  50px 0 10px 0;}
@@ -53,9 +53,9 @@ hr.bottom {border: none; border-top: 2px solid #000; margin: 0px 0px 5px 40px;}
 
 .section {margin-bottom: 20px;}
 
-.checkboxes label {margin-right: 10px;}
+.checkboxes label {margin-left: 20px; margin-right: 10px;}
 
-button {margin-top: 20px; padding: 10px 10px;background-color: #007bff;color: white;border: none;cursor: pointer;font-size: 16px;}
+button {margin-top: 20px; margin-left: 20px; padding: 10px 10px;background-color: #007bff;color: white;border: none;cursor: pointer;font-size: 16px;}
 button:hover {background-color: #0056b3;}
 
 ul {list-style-type: none;}
@@ -72,9 +72,11 @@ ul {list-style-type: none;}
     #legend {display: flex; flex-wrap: wrap; justify-content: left;}
     .legend-item {width: 100%; margin-bottom: 10px; font-size: 0.9em; }
     .figure-note { font-size: 0.7em; text-align: left; margin-bottom: 20px; margin-top: 20px; width: 100%;}
-
-    .container {padding: 5px;}
-
+    .line-chart-container {margin: 0px auto; padding:0px;}
+    body {font-family: Arial, sans-serif; margin-left: 0px; margin-right: 0px; display: flex; flex-direction: column; align-items: center; line-height: 1.5; font-size: 16px; padding-bottom: 100px;}
+    .container  {max-width: 800px; width: 100%; padding: 0px; box-sizing: border-box; margin-left: 0px; margin-right: 0px; }
+    
+    
     h1 {margin-top: 10px; text-align: center;}
 
 
@@ -83,7 +85,6 @@ ul {list-style-type: none;}
     [id*="yearRangeSlider"] {font-size: 0.8em;}
     
     .axis {font-size: 1em;}
-
 
 
 }

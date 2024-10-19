@@ -66,7 +66,6 @@ d3.csv('countries.csv').then(function(data) {
 
                 console.log("Selected countries array:", selectedCountries);  // Log selected countries
                 // Call function to update the chart
-                updateLineChart();  // Plot the data
 
             });
 
@@ -99,10 +98,7 @@ document.querySelectorAll('input[name="sex"]').forEach(checkbox => {
         // Get all checked checkboxes for sex
         selectedSex = Array.from(document.querySelectorAll('input[name="sex"]:checked'))
                            .map(checkbox => checkbox.value);
-
         console.log("Selected sex array:", selectedSex);  // Log selected sex array for debugging
-        // Call function to update the chart
-        updateLineChart();  // Plot the data
 
     });
 });
@@ -138,7 +134,6 @@ document.getElementById('clearSelection').addEventListener('click', function() {
             });
         }
 
-        updateLineChart(chartID, legendID, sliderID, yLabel);  // Plot the data
     });
 
     console.log("Cleared all charts and reset sliders.");
