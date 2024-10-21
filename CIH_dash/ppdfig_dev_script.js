@@ -102,6 +102,56 @@ function initializeSlider(miny, maxy, sliderID, chartID, legendID, yLabel) {
     }
 }
 
+function downloadAsPNG(chartID, legendID) {
+    const svgElement = document.getElementById(chartID);
+    const legendElement = document.getElementById(legendID);
+
+    const padding = 20;  // Add padding around the chart and legend
+    const svgWidth = 800;  // Set fixed width for SVG
+    const svgHeight = 600; // Set fixed height for SVG
+
+    const legendHeight = legendElement ? legendElement.offsetHeight + padding : 0;
+    const canvasWidth = svgWidth + padding * 2;  // Include padding in the canvas width
+    const canvasHeight = svgHeight + legendHeight + padding * 2;  // Include padding and legend height in the canvas height
+
+    // Create a canvas large enough to hold the chart and the legend
+    const canvas = document.createElement('canvas');
+    canvas.width = canvasWidth;
+    canvas.height = canvasHeight;
+
+    const context = canvas.getContext('2d');
+
+    // Draw a white background on the entire canvas
+    context.fillStyle = 'white';
+    context.fillRect(0, 0, canvasWidth, canvasHeight);
+
+    // Serialize the SVG to string
+    const svgData = new XMLSerializer().serializeToString(svgElement);
+    const img = new Image();
+    const url = URL.createObjectURL(new Blob([svgData], { type: 'image/svg+xml' }));
+
+    img.onload = function () {
+        // Draw the SVG on the canvas, centered with padding
+        context.drawImage(img, padding, padding, svgWidth, svgHeight);  // Use the fixed width and height
+
+        if (legendElement) {
+            // Draw the legend with consistent spacing below the chart
+            html2canvas(legendElement, { backgroundColor: '#ffffff' }).then(function (legendCanvas) {
+                context.drawImage(legendCanvas, padding, svgHeight + padding * 1.5);
+
+                // Create a link element to download the image
+                const link = document.createElement('a');
+                link.href = canvas.toDataURL('image/png');
+                link.download = `${chartID}.png`;
+                link.click();
+            });
+        }
+        URL.revokeObjectURL(url);
+    };
+    img.src = url;
+}
+
+
 
 function createColorScale(countries) {
     return d3.scaleOrdinal(d3.schemeCategory10).domain(countries);
@@ -178,7 +228,7 @@ function updateLineChart(chartID, legendID, sliderID, yLabel) {
     d3.select(`#${legendID}`).selectAll('*').remove();
 
     // Set up SVG dimensions and margins
-    const margin = { top: 40, right: 18, bottom: 50, left: 35 }
+    const margin = { top: 40, right: 20, bottom: 50, left: 35 }
     const width = Math.min(window.innerWidth * 0.98, 800);  // Max width of 800px or 90% of the window width
     const height = width * 0.7;  // Adjust height based on the width (aspect ratio)
     
@@ -200,29 +250,46 @@ const yScale = d3.scaleLinear()
     ])
     .range([height, 0]);
 
+    // Function to create ticks and halfway points
+function createHalfwayTicks(scale, numTicks) {
+    const ticks = scale.ticks(numTicks);
+    const halfTicks = [];
 
-    svg.append('g')
+    for (let i = 0; i < ticks.length - 1; i++) {
+        const midPoint = (ticks[i] + ticks[i + 1]) / 2;
+        halfTicks.push(midPoint);  // Calculate halfway point between adjacent ticks
+    }
+
+    return { ticks, halfTicks };
+}
+
+const { ticks: xTicks, halfTicks: xHalfTicks } = createHalfwayTicks(xScale, 7);  // Adjust tick count if needed
+const { ticks: yTicks, halfTicks: yHalfTicks } = createHalfwayTicks(yScale, 7);
+
+
+// Add X grid lines (on ticks and halfway points)
+svg.append('g')
     .attr('class', 'grid')
     .attr('transform', `translate(0,${height})`)
     .call(d3.axisBottom(xScale)
-        .ticks(14)
-        .tickSize(-height)  // Extend grid lines to match chart height
-        .tickFormat(''))  // Hide tick labels for the grid lines
-        .selectAll('line')
-        .style('stroke', '#ddd');  // Optional: style the grid lines
+        .tickValues([...xTicks, ...xHalfTicks])  // Combine ticks and halfway points
+        .tickSize(-height)
+        .tickFormat(''))  // Hide tick labels for grid lines
+    .selectAll('line')
+    .style('stroke', '#ddd')
 
-// Add Y-axis grid lines at tick marks
+// Add Y grid lines (on ticks and halfway points)
 svg.append('g')
     .attr('class', 'grid')
     .call(d3.axisLeft(yScale)
-        .ticks(14)
-        .tickSize(-width)  // Extend grid lines to match chart width
-        .tickFormat(''))  // Hide tick labels for the grid lines
-        .selectAll('line')
-        .style('stroke', '#ddd');  // Optional: style the grid lines
+        .tickValues([...yTicks, ...yHalfTicks])  // Combine ticks and halfway points
+        .tickSize(-width)
+        .tickFormat(''))  // Hide tick labels for grid lines
+    .selectAll('line')
+    .style('stroke', '#ddd')
     
         // Create axes
-    svg.append('g').attr('class', 'axis')
+    svg.append('g').attr('class', 'axis').style('font-size', '18px') 
         .attr('transform', `translate(0,${height})`)
         .call(d3.axisBottom(xScale).ticks(7).tickFormat(d3.format("d")))
         .selectAll('text') // Select all tick labels
@@ -230,7 +297,7 @@ svg.append('g')
         
 
 
-    svg.append('g').attr('class', 'axis')
+    svg.append('g').attr('class', 'axis').style('font-size', '18px') // Adjust font size
         .call(d3.axisLeft(yScale).ticks(7))
         
 
@@ -244,8 +311,8 @@ svg.append('g')
         .attr('y', -20)  // Adjust position from left
         .attr('x', -margin.left+25)  // Center the label along the y-axis
         .style('text-anchor', 'start')
-        .style('font-size', '18px')  // Adjust font size
-        .style('font-weight', 'bold')  // Make the label bold
+        .style('font-size', '18px' )  // Adjust font size
+        .style('font-weight', 'bold').style('font-family', 'Arial, sans-serif')  // Make the label bold
         .text(yLabel);  // Dynamically set the y-axis label based on dataOutcome
 
     // Define line generator
@@ -274,7 +341,7 @@ svg.append('g')
                         .attr('x', xScale(projectionYear) + 5)  // Position the text slightly to the right of the line
                         .attr('y', 20)  // Position above the top of the chart
                         .attr('fill', 'black')
-                        .attr('font-size', '18px')
+                        .attr('font-size', '18px').style('font-family', 'Arial, sans-serif')
                         .text('Projections →');
                     // Add a shaded background for the projection area (2023 to 2050)
                     const projectionStart = 2023;

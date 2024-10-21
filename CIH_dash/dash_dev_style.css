@@ -1,8 +1,8 @@
 #select-location {background-color: #96D3F1; color: #000000;}
 
 
-[id*="legend"] {display: flex; flex-wrap: wrap; justify-content: center; margin-left:15px;}
-.legend-item {display: flex; align-items: center; padding-right: 40px; font-size: 1.2em;}
+.legend {display: flex; flex-wrap: wrap; justify-content: center; margin-left:15px;}
+.legend-item {display: 100%; align-items: center; margin-right: 30px; font-size: 1.3em; margin-bottom: 15px;}
 .legend-line { width: 25px; height: 10px; margin-right: 5px; }
 .figure-note { font-size: 14px; text-align: left; margin-bottom: 20px; margin-top: 20px; margin-left: 10px; width: 100%;}
 
@@ -69,8 +69,8 @@ ul {list-style-type: none;}
 
 
 @media (max-width: 600px) {
-    #legend {display: flex; flex-wrap: wrap; justify-content: left;}
-    .legend-item {width: 100%; margin-bottom: 10px; font-size: 0.9em; }
+    .legend-line { width: 25px; height: 10px; margin-right: 5px; }
+
     .figure-note { font-size: 0.7em; text-align: left; margin-bottom: 20px; margin-top: 20px; width: 100%;}
     .line-chart-container {margin: 0px auto; padding:0px;}
     body {font-family: Arial, sans-serif; margin-left: 0px; margin-right: 0px; display: flex; flex-direction: column; align-items: center; line-height: 1.5; font-size: 16px; padding-bottom: 100px;}
@@ -84,7 +84,6 @@ ul {list-style-type: none;}
 
     [id*="yearRangeSlider"] {font-size: 0.8em;}
     
-    .axis {font-size: 1em;}
 
 
 }
