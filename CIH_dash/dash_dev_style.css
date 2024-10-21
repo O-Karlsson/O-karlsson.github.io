@@ -2,7 +2,7 @@
 
 
 .legend {display: flex; flex-wrap: wrap; justify-content: center; margin-left:15px;}
-.legend-item {display: 100%; align-items: center; margin-right: 30px; font-size: 18px; margin-bottom: 15px;}
+.legend-item {display: 100%; align-items: center; margin-right: 30px; font-size: 1.4em; margin-bottom: 15px;}
 .legend-line { width: 25px; height: 10px; margin-right: 5px; }
 .figure-note { font-size: 14px; text-align: left; margin-bottom: 20px; margin-top: 20px; margin-left: 10px; width: 100%;}
 
@@ -70,7 +70,7 @@ ul {list-style-type: none;}
 
 @media (max-width: 600px) {
     .legend-line { width: 25px; height: 10px; margin-right: 5px; }
-    .legend-item {font-size: 18px}
+    .legend-item {font-size: 1.2em}
 
     .figure-note { font-size: 0.7em; text-align: left; margin-bottom: 20px; margin-top: 20px; width: 100%;}
     .line-chart-container {margin: 0px auto; padding:0px;}
