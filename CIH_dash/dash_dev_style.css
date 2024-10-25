@@ -2,7 +2,7 @@
 
 
 .legend {display: flex; flex-wrap: wrap; justify-content: center; margin-left:15px;}
-.legend-item {display: 100%; align-items: center; margin-right: 30px; font-size: 1.4em; margin-bottom: 15px;}
+.legend-item {display: 100%; align-items: center; margin-right: 30px; font-size: 1.3em; margin-bottom: 15px;}
 .legend-line { width: 25px; height: 10px; margin-right: 5px; }
 .figure-note { font-size: 14px; text-align: left; margin-bottom: 20px; margin-top: 20px; margin-left: 10px; width: 100%;}
 
