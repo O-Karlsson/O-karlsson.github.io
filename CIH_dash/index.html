@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="frame-ancestors 'self'  https://globalhealth2050.org  https://globalhealth2050.org/datadash/;">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Data Dashboard of the Lancet Commission on Investing in Health</title>
     <link rel="icon" href="GH2050-circle.png" type="image/pngn">
@@ -10,7 +9,8 @@
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.7.0/nouislider.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.7.0/nouislider.min.js"></script>
-    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
@@ -20,8 +20,7 @@
 
 </div>
 
-<h1>Lancet Commission on Investing in Health</h1>
-<h1>Data Dashboard</h1>
+<h1>Lancet Commission on Investing in Health<br>Data Dashboard</h1>
 
 <div class="container">
     <hr class="top"><h1 class="sect">Select locations and sex</h1></hr>
@@ -59,19 +58,16 @@ yearRangeSlider change to yearRangeSlider-1
 
     <h2 class="expandable">• Probability of premature death (PPD)</h2>
     <div class="content" data-height="3000" style="max-height: 0; overflow: hidden;">
-    <div class="line-chart-container line-chart-container-1" style="width: 100%; height: auto;" data-outcome='q70'  data-file="ppddata.csv" yaxislabel="PPD, %" >
-
+    <div class="line-chart-container line-chart-container-1" style="width: 100%; height: auto;" data-outcome='q70'  data-file="ppddata.csv" yaxislabel="PPD, %" x-variable="year" xaxislabel="Year">
         <svg id="line-chart-1"></svg>
         <div id="legend-1" class="legend" ></div>
         <div class="figure-note">Note: PPD is the probability of dying before age 70. Data source: <a href="https://population.un.org/wpp/" target="_blank">UN WPP</a> (after 1950) and <a href="https://www.mortality.org/" target="_blank">HMD</a> (before 1950 , when available).</div>
         <button onclick="downloadAsPNG('line-chart-1', 'legend-1')">Download Figure</button>
-        
         <div class="slider-container-1">
             <div id="yearRangeSlider-1"></div>
         </div>
     </div>
 </div>
-
 
 <h2 class="expandable">• Life Expectancy (LE)</h2>
 <div class="content" data-height="3000" style="max-height: 0; overflow: hidden;">
@@ -121,6 +117,23 @@ yearRangeSlider change to yearRangeSlider-1
     </div>
 </div>
 </div>
+
+
+<h2 class="expandable">• Probability of death by age x in 2023</h2>
+<div class="content" data-height="3000" style="max-height: 0; overflow: hidden;">
+<div class="line-chart-container line-chart-container-5" style="width: 100%; height: auto;" data-outcome='qa'  data-file="qadata.csv" yaxislabel="Probability of death by age x, %" x-variable="age" xaxislabel="Age = x">
+
+    <svg id="line-chart-5"></svg>
+    <div id="legend-5" class="legend" ></div>
+    <div class="figure-note">Note: The line show the probability of dying before the age indicated on the x-axis in 2023. Data source: <a href="https://population.un.org/wpp/" target="_blank">UN WPP</a>.</div>
+    <button onclick="downloadAsPNG('line-chart-5', 'legend-5')">Download Figure</button>
+    
+    <div class="slider-container-5">
+        <div id="yearRangeSlider-5"></div>
+    </div>
+</div>
+</div>
+
 
 
 <!-- 
