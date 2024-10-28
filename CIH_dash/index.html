@@ -44,8 +44,6 @@
 <hr class="top"><h1 class="sect">Measures</h1></hr>
 <hr class="bottom"></hr>
 
-
-
 <!-- 
 line-chart-container-1
 data-outcome
@@ -68,26 +66,23 @@ yearRangeSlider change to yearRangeSlider-1
         </div>
     </div>
 </div>
-<!--
+
 <h2 class="expandable">• Life Expectancy (LE)</h2>
 <div class="content" data-height="3000" style="max-height: 0; overflow: hidden;">
-<div class="line-chart-container line-chart-container-2" style="width: 100%; height: auto;" data-outcome='e0'  data-file="ppddata.csv" yaxislabel="LE, years" >
-
+<div class="line-chart-container line-chart-container-2" style="width: 100%; height: auto;" data-outcome='e0'  data-file="ppddata.csv" yaxislabel="LE, years" x-variable="year" xaxislabel="Year">
     <svg id="line-chart-2"></svg>
     <div id="legend-2" class="legend" ></div>
     <div class="figure-note">Data source: <a href="https://population.un.org/wpp/" target="_blank">UN WPP</a> (after 1950) and <a href="https://www.mortality.org/" target="_blank">HMD</a> (before 1950 , when available).</div>
     <button onclick="downloadAsPNG('line-chart-2', 'legend-2')">Download Figure</button>
-
     <div class="slider-container-2">
-        <div id="yearRangeSlider-2"></div>
-    
+    <div id="yearRangeSlider-2"></div>
     </div>
 </div>
 </div>
 
 <h2 class="expandable">• Crude mortality rate (CMR) per 1000 population</h2>
 <div class="content" data-height="3000" style="max-height: 0; overflow: hidden;">
-<div class="line-chart-container line-chart-container-3" style="width: 100%; height: auto;" data-outcome='rcdr'  data-file="ppddata.csv" yaxislabel="CMR per 1000 population" >
+<div class="line-chart-container line-chart-container-3" style="width: 100%; height: auto;" data-outcome='rcdr'  data-file="ppddata.csv" yaxislabel="CMR per 1000 population" x-variable="year" xaxislabel="Year">
 
     <svg id="line-chart-3"></svg>
     <div id="legend-3" class="legend" ></div>
@@ -104,7 +99,7 @@ yearRangeSlider change to yearRangeSlider-1
 
 <h2 class="expandable">• Crude mortality rate (CMR) per 1000 working-age population</h2>
 <div class="content" data-height="3000" style="max-height: 0; overflow: hidden;">
-<div class="line-chart-container line-chart-container-4" style="width: 100%; height: auto;" data-outcome='rcdrs'  data-file="ppddata.csv" yaxislabel="CMR per 1000 working-age" >
+<div class="line-chart-container line-chart-container-4" style="width: 100%; height: auto;" data-outcome='rcdrs'  data-file="ppddata.csv" yaxislabel="CMR per 1000 working-age" x-variable="year" xaxislabel="Year">
 
     <svg id="line-chart-4"></svg>
     <div id="legend-4" class="legend" ></div>
@@ -117,7 +112,7 @@ yearRangeSlider change to yearRangeSlider-1
     </div>
 </div>
 </div>
--->
+
 
 <h2 class="expandable">• Probability of death by age x in 2023</h2>
 <div class="content" data-height="3000" style="max-height: 0; overflow: hidden;">
