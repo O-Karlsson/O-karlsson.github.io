@@ -6,8 +6,8 @@ let filteredData= {};
 function getResponsiveFontSize() {
     const width = window.innerWidth;
     if (width < 400) return '16px';
-    if (width < 600) return '20px';
-    return '22px'; // Default size for larger screens
+    if (width < 600) return '19px';
+    return '21px'; // Default size for larger screens
 }
 
 // Apply font size to SVG text elements
@@ -263,7 +263,7 @@ function updateLineChart(chartID, legendID, sliderID, yLabel, xLabel, xVar) {
     d3.select(`#${legendID}`).selectAll('*').remove();
 
     // Set up SVG dimensions and margins
-    const margin = { top: 40, right: 25, bottom: 80, left: 40 }
+    const margin = { top: 40, right: 25, bottom: 80, left: 44 }
     const width = Math.min(window.innerWidth * 0.98, 800);  // Max width of 800px or 90% of the window width
     const height = width * 0.7;  // Adjust height based on the width (aspect ratio)
     
@@ -286,33 +286,31 @@ const yScale = d3.scaleLinear()
     .range([height, 0]);
 
     // Function to create ticks and halfway points
-    function createHalfwayTicks(scale, xVar) {
-        let strt, tcks;
+    function createHalfwayTicks(scale, xVar, isXScale) {
+        let tcks;
     
-        if (xVar === 'age' && scale === 'xScale') {
-            strt = 10;             // Start at 10 for 'age' data on x-axis
-            tcks = d3.range(10, 101, 10);  // Define tick values from 10 to 100 in steps of 10
-        } else if (xVar === 'year' || xVar === 'yScale') {
-            strt = 0;
-            tcks = 7;              // Use a default tick count of 7 for other cases
+        // Set tick intervals based on xVar and axis type
+        if (isXScale && xVar === 'age') {
+            tcks = d3.range(5, 101, 20);  // Ticks from 10 to 100 for 'age' on x-axis
+        } else {
+            tcks = scale.ticks(7);         // Ensure 7 main ticks for y-axis or other cases
         }
     
-        const ticks = Array.isArray(tcks) ? tcks : scale.ticks(tcks);  // Use predefined ticks if provided, else generate
         const halfTicks = [];
-    
-        for (let i = 0; i < ticks.length - 1; i++) {
-            const midPoint = (ticks[i] + ticks[i + 1]) / 2;
-            halfTicks.push(midPoint);  // Calculate halfway point between adjacent ticks
+        for (let i = 0; i < tcks.length - 1; i++) {
+            const midPoint = (tcks[i] + tcks[i + 1]) / 2;
+            halfTicks.push(midPoint);       // Calculate halfway point between adjacent ticks
         }
     
-        return { ticks, halfTicks };
+        return { ticks: tcks, halfTicks };
     }
     
-    // Set up x and y ticks based on the axis variable
-    const { ticks: xTicks, halfTicks: xHalfTicks } = createHalfwayTicks(xScale, 'age');  // For age data
-    const { ticks: yTicks, halfTicks: yHalfTicks } = createHalfwayTicks(yScale, 'year'); // For year data on y-axis
-
     
+    
+    // Set up x and y ticks based on the axis variable
+    const { ticks: xTicks, halfTicks: xHalfTicks } = createHalfwayTicks(xScale, xVar, true);   // X-axis for 'age'
+    const { ticks: yTicks, halfTicks: yHalfTicks } = createHalfwayTicks(yScale, xVar, false); // Y-axis for 'year'
+       
 
 // Add X grid lines (on ticks and halfway points)
 svg.append('g')
@@ -533,9 +531,9 @@ const xvr = '';
 // Dynamically loop through each outcome and plot
 const outcomes = [
     { chartID: 'line-chart-1', legendID: 'legend-1', sliderID: 'yearRangeSlider-1', containerClass: '.line-chart-container-1'},
-    { chartID: 'line-chart-2', legendID: 'legend-2', sliderID: 'yearRangeSlider-2', containerClass: '.line-chart-container-2'},
+    /*{ chartID: 'line-chart-2', legendID: 'legend-2', sliderID: 'yearRangeSlider-2', containerClass: '.line-chart-container-2'},
     { chartID: 'line-chart-3', legendID: 'legend-3', sliderID: 'yearRangeSlider-3', containerClass: '.line-chart-container-3'},
-    { chartID: 'line-chart-4', legendID: 'legend-4', sliderID: 'yearRangeSlider-4', containerClass: '.line-chart-container-4'}, 
+    { chartID: 'line-chart-4', legendID: 'legend-4', sliderID: 'yearRangeSlider-4', containerClass: '.line-chart-container-4'}*/, 
     { chartID: 'line-chart-5', legendID: 'legend-5', sliderID: 'yearRangeSlider-5', containerClass: '.line-chart-container-5'}
 
 ];
