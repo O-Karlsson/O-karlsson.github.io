@@ -4,8 +4,9 @@ let filteredData= {};
 
 function getResponsiveFontSize() {
     const width = window.innerWidth;
-    if (width < 400) return '16px';
-    if (width < 600) return '20px';
+    if (width < 400) return '14px';
+    if (width < 600) return '16px';
+    if (width < 800) return '20px';
     return '22px'; // Default size for larger screens
 }
 
@@ -77,7 +78,7 @@ function initializeSlider(miny, maxy, sliderID, chartID, legendID, yLabel, xLabe
     if (!yearSlider.noUiSlider)  {
         // Create slider if it doesn't exist
         if (xVar=='age') {
-            strt = 0;
+            strt = 1;
             end = 100;    
             }
             else if (xVar=='year') {
@@ -268,18 +269,16 @@ function updateLineChart(chartID, legendID, sliderID, yLabel, xLabel, xVar) {
         .domain(d3.extent(filteredData, d => +d.xVar))  // X-axis based on year
         .range([0, width]);
 
-const yScale = d3.scaleLinear()
-    .domain([
-        d3.min(filteredData, d => d.dataOutcome) * 0.95, // Add a small margin below the min value
-        d3.max(filteredData, d => d.dataOutcome) * 1.05  // Add a small margin above the max value
-    ])
-    .range([height, 0]);
+    const yScale = d3.scaleLinear()
+        .domain([
+            d3.min(filteredData, d => d.dataOutcome) * 0.95, // Add a small margin below the min value
+            d3.max(filteredData, d => d.dataOutcome) * 1.05  // Add a small margin above the max value
+        ])
+        .range([height, 0]);
 
     // Function to create ticks and halfway points
     function createHalfwayTicks(scale, isXscale) {
-        let tcks;
-
- 
+        let tcks; 
     
         if (xVar === 'age' && isXscale === true) {
             minValue = d3.min(filteredData, d => d.xVar);
@@ -291,7 +290,7 @@ const yScale = d3.scaleLinear()
             tcks = d3.range(xstart, xend + interval, interval);
             // Define tick values from 10 to 100 in steps of 10
         } else if (xVar === 'year' || isXscale === false) {
-            tcks = 7;              // Use a default tick count of 7 for other cases
+            tcks = 6;              // Use a default tick count of 7 for other cases
         }
     
         const ticks = Array.isArray(tcks) ? tcks : scale.ticks(tcks);  // Use predefined ticks if provided, else generate
