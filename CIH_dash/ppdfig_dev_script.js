@@ -1,4 +1,3 @@
-
 let currentData = {};  // Initialize currentData as an object to store data for each chart
 let selectedYearRange= {};
 let filteredData= {};
@@ -6,18 +5,9 @@ let filteredData= {};
 function getResponsiveFontSize() {
     const width = window.innerWidth;
     if (width < 400) return '16px';
-    if (width < 600) return '19px';
-    return '21px'; // Default size for larger screens
+    if (width < 600) return '20px';
+    return '22px'; // Default size for larger screens
 }
-
-// Apply font size to SVG text elements
-function applyLegendFontSize(legendText) {
-    const fontSize = getResponsiveFontSize();
-    legendText.style('font-size', fontSize).style('font-family', 'Arial, sans-serif');
-}
-
-
-
 
 function roundToTwoSignificantFigures(num) {
     if (num === 0) return 0; // Handle zero separately
@@ -263,7 +253,7 @@ function updateLineChart(chartID, legendID, sliderID, yLabel, xLabel, xVar) {
     d3.select(`#${legendID}`).selectAll('*').remove();
 
     // Set up SVG dimensions and margins
-    const margin = { top: 40, right: 25, bottom: 80, left: 44 }
+    const margin = { top: 40, right: 25, bottom: 80, left: 43 }
     const width = Math.min(window.innerWidth * 0.98, 800);  // Max width of 800px or 90% of the window width
     const height = width * 0.7;  // Adjust height based on the width (aspect ratio)
     
@@ -286,31 +276,40 @@ const yScale = d3.scaleLinear()
     .range([height, 0]);
 
     // Function to create ticks and halfway points
-    function createHalfwayTicks(scale, xVar, isXScale) {
+    function createHalfwayTicks(scale, isXscale) {
         let tcks;
+
+ 
     
-        // Set tick intervals based on xVar and axis type
-        if (isXScale && xVar === 'age') {
-            tcks = d3.range(5, 101, 20);  // Ticks from 10 to 100 for 'age' on x-axis
-        } else {
-            tcks = scale.ticks(7);         // Ensure 7 main ticks for y-axis or other cases
+        if (xVar === 'age' && isXscale === true) {
+            minValue = d3.min(filteredData, d => d.xVar);
+            maxValue = d3.max(filteredData, d => d.xVar);
+            const range = maxValue - minValue;
+            const interval = Math.ceil(range / 10);  // Calculate interval for approx. targetTicks
+            const xstart = Math.ceil(minValue / interval) * interval;
+            const xend = Math.floor(maxValue / interval) * interval;
+            tcks = d3.range(xstart, xend + interval, interval);
+            // Define tick values from 10 to 100 in steps of 10
+        } else if (xVar === 'year' || isXscale === false) {
+            tcks = 7;              // Use a default tick count of 7 for other cases
         }
     
+        const ticks = Array.isArray(tcks) ? tcks : scale.ticks(tcks);  // Use predefined ticks if provided, else generate
         const halfTicks = [];
-        for (let i = 0; i < tcks.length - 1; i++) {
-            const midPoint = (tcks[i] + tcks[i + 1]) / 2;
-            halfTicks.push(midPoint);       // Calculate halfway point between adjacent ticks
+    
+        for (let i = 0; i < ticks.length - 1; i++) {
+            const midPoint = (ticks[i] + ticks[i + 1]) / 2;
+            halfTicks.push(midPoint);  // Calculate halfway point between adjacent ticks
         }
     
-        return { ticks: tcks, halfTicks };
+        return { ticks, halfTicks };
     }
     
-    
-    
     // Set up x and y ticks based on the axis variable
-    const { ticks: xTicks, halfTicks: xHalfTicks } = createHalfwayTicks(xScale, xVar, true);   // X-axis for 'age'
-    const { ticks: yTicks, halfTicks: yHalfTicks } = createHalfwayTicks(yScale, xVar, false); // Y-axis for 'year'
-       
+    const { ticks: xTicks, halfTicks: xHalfTicks } = createHalfwayTicks(xScale, true);  // For age data
+    const { ticks: yTicks, halfTicks: yHalfTicks } = createHalfwayTicks(yScale, false); // For year data on y-axis
+
+    
 
 // Add X grid lines (on ticks and halfway points)
 svg.append('g')
@@ -323,6 +322,15 @@ svg.append('g')
     .selectAll('line')
     .style('stroke', '#ddd')
 
+            // Create axes
+svg.append('g').attr('class', 'axis-ticks') 
+.attr('transform', `translate(0,${height})`)
+.call(d3.axisBottom(xScale).tickValues(xTicks).tickFormat(d3.format("d"))) // Directly apply xTicks
+.selectAll('text') // Select all tick labels
+.attr('dy', '1.3em').style('font-size', getResponsiveFontSize()).style('font-family', 'Arial, sans-serif'); 
+
+        
+
 // Add Y grid lines (on ticks and halfway points)
 svg.append('g')
     .attr('class', 'grid')
@@ -333,12 +341,10 @@ svg.append('g')
     .selectAll('line')
     .style('stroke', '#ddd')
     
-        // Create axes
-    svg.append('g').attr('class', 'axis-ticks') 
-        .attr('transform', `translate(0,${height})`)
-        .call(d3.axisBottom(xScale).tickFormat(d3.format("d")))
-        .selectAll('text') // Select all tick labels
-        .attr('dy', '1.3em').style('font-size', getResponsiveFontSize()).style('font-family', 'Arial, sans-serif'); 
+    svg.append('g').attr('class', 'axis-ticks') // Adjust font size
+        .call(d3.axisLeft(yScale).tickValues(yTicks)).style('font-size', getResponsiveFontSize()).style('font-family', 'Arial, sans-serif')
+        
+
         
         svg.append('text')
         .attr('class', 'axis-label')  // Class to style the label
@@ -347,9 +353,6 @@ svg.append('g')
         .style('text-anchor', 'start').style('font-size', getResponsiveFontSize()).style('font-weight', 'bold').style('font-family', 'Arial, sans-serif')
         .text(xLabel);  // Dynamically set the y-axis label based on dataOutcome
 
-    svg.append('g').attr('class', 'axis-ticks') // Adjust font size
-        .call(d3.axisLeft(yScale)).style('font-size', getResponsiveFontSize()).style('font-family', 'Arial, sans-serif')
-        
 
         svg.select('.domain')  // Select only the axis line (not the tick marks)
         .style('stroke', 'black')  // Set the color of the axis line
@@ -531,27 +534,21 @@ const xvr = '';
 // Dynamically loop through each outcome and plot
 const outcomes = [
     { chartID: 'line-chart-1', legendID: 'legend-1', sliderID: 'yearRangeSlider-1', containerClass: '.line-chart-container-1'},
-    /*{ chartID: 'line-chart-2', legendID: 'legend-2', sliderID: 'yearRangeSlider-2', containerClass: '.line-chart-container-2'},
+    { chartID: 'line-chart-2', legendID: 'legend-2', sliderID: 'yearRangeSlider-2', containerClass: '.line-chart-container-2'},
     { chartID: 'line-chart-3', legendID: 'legend-3', sliderID: 'yearRangeSlider-3', containerClass: '.line-chart-container-3'},
-    { chartID: 'line-chart-4', legendID: 'legend-4', sliderID: 'yearRangeSlider-4', containerClass: '.line-chart-container-4'}*/, 
+    { chartID: 'line-chart-4', legendID: 'legend-4', sliderID: 'yearRangeSlider-4', containerClass: '.line-chart-container-4'}, 
     { chartID: 'line-chart-5', legendID: 'legend-5', sliderID: 'yearRangeSlider-5', containerClass: '.line-chart-container-5'}
 
 ];
 
 outcomes.forEach(({chartID, legendID, sliderID, containerClass }) => {
 
-    // Listen for when the tree is constructed and chart needs updating
-    document.addEventListener('treeConstructed', function() {
-        updateLineChart(chartID, legendID, sliderID, yLabel, xLabel, xVar);  // Call update when tree is done constructing
-    });
-    
-    
+
     // Update chart when country or sex selection changes
-    document.addEventListener('change', function() {
+    document.addEventListener('change' || 'treeConstructed', function() {
         const { minxVar, maxxVar } = findAvailableYearRange(currentData[chartID], selectedCountries, selectedSex);
         updateLineChart(chartID, legendID, sliderID, yLabel, xLabel, xVar);
         initializeSlider(minxVar, maxxVar, sliderID, chartID, legendID, yLabel, xLabel, xVar);  // Update slider range based on new selection
-
     });
     });
 
