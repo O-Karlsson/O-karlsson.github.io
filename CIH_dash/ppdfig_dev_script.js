@@ -39,6 +39,7 @@ function loadAndPlotData(dataFile, dataOutcome, xVar, chartID, legendID, sliderI
     });
 }
 
+
 // Function to identify the minimum and maximum available year for selected countries and sex
 function findAvailableYearRange(data, selectedCountries, selectedSex) {
     const countrySex = data.filter(d => 
@@ -50,12 +51,10 @@ function findAvailableYearRange(data, selectedCountries, selectedSex) {
     const minxVar = d3.min(countrySex, d => +d.xVar);
     const maxxVar = d3.max(countrySex, d => +d.xVar);
 
-    // Log the min and max years for debugging
-    console.log("Min x:", minxVar, "Max xVar:", maxxVar);
-
     // Return the minimum and maximum year
-    return { minxVar, maxxVar};
+    return {minxVar, maxxVar};
 }
+
 
 // Function to filter data by country and sex
 function filterDataForChart(data, selectedCountries, selectedSex, sliderID) {
@@ -177,77 +176,56 @@ function downloadAsPNG(chartID, legendID) {
     img.src = url;
 }
 
-
-
 function createColorScale(countries) {
     return d3.scaleOrdinal(d3.schemeCategory10).domain(countries);
 }
 
-        // Function to create a dash style based on sex
-        function getDashStyle(sex) {
-            switch (sex) {
-                case 'male':
-                    return '10,5';   // Long dash
-                case 'female':
-                    return '5,2';  // Short dash
-                case 'both':
-                    return ''; 
-                default:
-                    return '';  // Solid line
-            }
-        }
+// Function to create a dash style based on sex
+function getDashStyle(sex) {
+    switch (sex) {
+        case 'male':
+            return '10,5';   // Long dash
+        case 'female':
+            return '5,2';  // Short dash
+        case 'both':
+            return ''; 
+        default:
+            return '';  // Solid line
+    }
+}
 
 
-        function getLegLab(sex) {
-            switch (sex) {
-                case 'male':
-                    return ' (male)';   
-                case 'female':
-                    return ' (female)';  
-                case 'both':
-                    return ''; 
-                default:
-                    return ''; 
-            }
-        }
+function getLegLab(sex) {
+    switch (sex) {
+        case 'male':
+            return ' (male)';   
+        case 'female':
+            return ' (female)';  
+        case 'both':
+            return ''; 
+        default:
+            return ''; 
+    }
+}
 
-        // Create a tooltip div that is hidden by default
+// Create a tooltip div that is hidden by default
 const tooltip = d3.select('body').append('div')
-.attr('class', 'tooltip')
-.style('position', 'absolute')
-.style('background-color', 'white')
-.style('padding', '5px')
-.style('border', '1px solid #ccc')
-.style('border-radius', '5px')
-.style('display', 'none')
-.style('pointer-events', 'none');
-
-
-
+    .attr('class', 'tooltip')
+    .style('position', 'absolute')
+    .style('background-color', 'white')
+    .style('padding', '5px')
+    .style('border', '1px solid #ccc')
+    .style('border-radius', '5px')
+    .style('display', 'none')
+    .style('pointer-events', 'none');
 
 // Function to update the line chart based on the current data
 function updateLineChart(chartID, legendID, sliderID, yLabel, xLabel, xVar) {
 
-
-
     // Filter data based on selected countries and sexes
     const filteredData = filterDataForChart(currentData[chartID], selectedCountries, selectedSex, sliderID);
+    
 
-    // If no data is found after filtering, log a message and clear the chart
-    if (!Array.isArray(filteredData) || filteredData.length === 0) {
-        console.log("No data to plot for the selected countries and sexes.");
-        d3.select(`#${chartID}`).selectAll('*').remove();  // Clear the chart
-        d3.select(`#${legendID}`).selectAll('*').remove();
-
-
-        d3.select(`#${chartID}`).append('text')
-            .attr('x', 200)  // Adjust x-position
-            .attr('y', 100)  // Adjust y-position
-            .text('Make a selection')
-            .attr('class', 'no-data-message');  // Optional class for styling
-
-        return;
-    }
 
     // Clear previous chart
     d3.select(`#${chartID}`).selectAll('*').remove();
@@ -258,6 +236,21 @@ function updateLineChart(chartID, legendID, sliderID, yLabel, xLabel, xVar) {
     const width = Math.min(window.innerWidth * 0.98, 800);  // Max width of 800px or 90% of the window width
     const height = width * 0.7;  // Adjust height based on the width (aspect ratio)
     
+        // If no data is found after filtering, clear the chart
+        if (!Array.isArray(filteredData) || filteredData.length === 0) {
+            d3.select(`#${chartID}`).selectAll('*').remove();  // Clear the chart
+            d3.select(`#${legendID}`).selectAll('*').remove();
+    
+            d3.select(`#${chartID}`).append('text')
+                .attr('x', width/2)  // Adjust x-position
+                .attr('y', height/2)  // Adjust y-position
+                .text('Make a selection')
+                .attr('class', 'belowname');  // Optional class for styling
+    
+            return;
+        }
+
+
     const svg = d3.select(`#${chartID}`)
         .attr('viewBox', `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`)
         .attr('preserveAspectRatio', 'xMinYMin meet')
