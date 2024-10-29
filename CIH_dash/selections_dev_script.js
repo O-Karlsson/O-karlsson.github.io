@@ -64,7 +64,6 @@ d3.csv('countries.csv').then(function(data) {
                     selectedCountries = selectedCountries.filter(item => item !== value);
                 }
 
-                console.log("Selected countries array:", selectedCountries);  // Log selected countries
                 // Call function to update the chart
 
             });
@@ -98,7 +97,6 @@ document.querySelectorAll('input[name="sex"]').forEach(checkbox => {
         // Get all checked checkboxes for sex
         selectedSex = Array.from(document.querySelectorAll('input[name="sex"]:checked'))
                            .map(checkbox => checkbox.value);
-        console.log("Selected sex array:", selectedSex);  // Log selected sex array for debugging
 
     });
 });
@@ -112,29 +110,55 @@ document.getElementById('clearSelection').addEventListener('click', function() {
         checkbox.checked = false;
     });
     selectedSex = []; // Clear selectedSex array
-    console.log("Cleared sex selections:", selectedSex);
 
     // Clear country checkboxes
     selectedCountries = []; // Clear selectedCountries array
     document.querySelectorAll('#treeContainer input[type="checkbox"]').forEach(checkbox => {
         checkbox.checked = false;
     });
-    console.log("Cleared country selections:", selectedCountries);
 
-    // Reset the sliders for each outcome
-    outcomes.forEach(({ sliderID, chartID, legendID }) => {
+    // Reset the sliders for each outcome.
+    const xVarMap = {}; // To store x-variable associated with each sliderID
+    outcomes.forEach(({sliderID, containerClass}) => {
         const yearSlider = document.getElementById(sliderID);
+        const CxVar = d3.select(containerClass).attr('x-variable');
+        xVarMap[sliderID] = CxVar; // Map sliderID to its x-variable
+        if (yearSlider.noUiSlider!==0) {
 
-        if (yearSlider.noUiSlider) {
-            yearSlider.noUiSlider.updateOptions({
-                range: {
-                    'min': 1970,
-                    'max': 2050
+            if (CxVar==='age') {
+                console.log(`Setting slider for age on ${sliderID}`);
+                console.log(xVarMap[`${sliderID}`]); // Logs the x-variable associated with 'yearRangeSlider-1'
+                initializeSlider(1, 100, sliderID);  // Ensures min < max
+/*
+                yearSlider.noUiSlider.updateOptions({
+                    range: {
+                        'min': 1,
+                        'max': 100
+                        
+                    }
+                }); */
                 }
-            });
+                else if (CxVar==='year') {
+                    console.log(`Setting slider for year on ${sliderID}`);
+                    console.log(xVarMap[`${sliderID}`]); // Logs the x-variable associated with 'yearRangeSlider-1'
+                    initializeSlider(1970, 2050, sliderID);  // Ensures min < max
+
+    /*
+                    yearSlider.noUiSlider.updateOptions({
+                        range: {
+                            'min': 1970,
+                            'max': 2050
+                        }
+                    }); */
+
+                    }
+
+
+
         }
 
     });
+    console.log(xVarMap['yearRangeSlider-1']); // Logs the x-variable associated with 'yearRangeSlider-1'
 
-    console.log("Cleared all charts and reset sliders.");
 });
+
