@@ -1,5 +1,5 @@
 // Initialize global arrays to store selected countries and selected sex
-let selectedCountries = ['World'];
+let selectedCountries = ['World','United States','Türkiye','United Kingdom'];
 let selectedSex = ['both'];  // Default to an empty array
 
 // Load the CSV data using D3 and create the tree structure for country selection
@@ -44,7 +44,7 @@ d3.csv('countries.csv').then(function(data) {
             .append("label")
             .attr("class", "node-checkbox")
             .html(d => {
-                const isChecked = d.name === 'World';
+                const isChecked = d.name === 'World'|| d.name ==='United States' || d.name ==='Türkiye'||  d.name ==='United Kingdom';
                 const minyear = d.minyear ? ` (${d.minyear})<sup>1</sup>` : '';  // Add minyear if it exists
                 const supr = d.supr === '1' ? '<sup>2</sup>' : '';  // Add superscript if supr is 1
                 return `<input type="checkbox" value="${d.name}" ${isChecked ? 'checked' : ''}> ${d.name}${minyear}${supr}`;
