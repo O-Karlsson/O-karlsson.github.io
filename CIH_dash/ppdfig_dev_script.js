@@ -77,9 +77,10 @@ function initializeSlider(miny, maxy, sliderID, chartID, legendID, yLabel, xLabe
     if (!yearSlider.noUiSlider)  {
         // Create slider if it doesn't exist
         if (xVar=='age') {
-            strt = 1;
-            end = 100;    
+            strt = 70;
+            end = 95;    
             }
+            
             else if (xVar=='year') {
                 strt = 1970;
                 end = 2050;    
@@ -529,7 +530,9 @@ const outcomes = [
     { chartID: 'line-chart-2', legendID: 'legend-2', sliderID: 'yearRangeSlider-2', containerClass: '.line-chart-container-2'},
     { chartID: 'line-chart-3', legendID: 'legend-3', sliderID: 'yearRangeSlider-3', containerClass: '.line-chart-container-3'},
     { chartID: 'line-chart-4', legendID: 'legend-4', sliderID: 'yearRangeSlider-4', containerClass: '.line-chart-container-4'}, 
-    { chartID: 'line-chart-5', legendID: 'legend-5', sliderID: 'yearRangeSlider-5', containerClass: '.line-chart-container-5'}
+    { chartID: 'line-chart-5', legendID: 'legend-5', sliderID: 'yearRangeSlider-5', containerClass: '.line-chart-container-5'},
+    { chartID: 'line-chart-6', legendID: 'legend-6', sliderID: 'yearRangeSlider-6', containerClass: '.line-chart-container-6'},
+    { chartID: 'line-chart-7', legendID: 'legend-7', sliderID: 'yearRangeSlider-7', containerClass: '.line-chart-container-7'}
 
 ];
 

@@ -114,7 +114,7 @@ yearRangeSlider change to yearRangeSlider-1
 </div>
 
 
-<h2 class="expandable">• Probability of death by age x in 2023</h2>
+<h2 class="expandable">• Probability of death between birth and age x in 2023</h2>
 <div class="content" data-height="3000" style="max-height: 0; overflow: hidden;">
 <div class="line-chart-container line-chart-container-5" style="width: 100%; height: auto;" data-outcome='qa'  data-file="qadata.csv" yaxislabel="Probability of death by age x, %" x-variable="age" xaxislabel="Age = x">
 
@@ -129,6 +129,39 @@ yearRangeSlider change to yearRangeSlider-1
 </div>
 </div>
 
+
+
+
+<h2 class="expandable">• Probability of death between age 70 and age x in 2023</h2>
+<div class="content" data-height="3000" style="max-height: 0; overflow: hidden;">
+<div class="line-chart-container line-chart-container-6" style="width: 100%; height: auto;" data-outcome='p70'  data-file="qadata.csv" yaxislabel="Probability of death by age x, %" x-variable="age" xaxislabel="Age = x">
+
+    <svg id="line-chart-6"></svg>
+    <div id="legend-6" class="legend" ></div>
+    <div class="figure-note">Note: The line show the probability of dying between age 70 and the age indicated on the x-axis in 2023. Data source: <a href="https://population.un.org/wpp/" target="_blank">UN WPP</a>.</div>
+    <button onclick="downloadAsPNG('line-chart-6', 'legend-6')">Download Figure</button>
+    
+    <div class="slider-container-6">
+        <div id="yearRangeSlider-6"></div>
+    </div>
+</div>
+</div>
+
+
+<h2 class="expandable">• Age specific probability of death in 2023</h2>
+<div class="content" data-height="3000" style="max-height: 0; overflow: hidden;">
+<div class="line-chart-container line-chart-container-7" style="width: 100%; height: auto;" data-outcome='nqx'  data-file="qadata.csv" yaxislabel="Probability of death, %" x-variable="age" xaxislabel="Age">
+
+    <svg id="line-chart-7"></svg>
+    <div id="legend-7" class="legend" ></div>
+    <div class="figure-note">Note: The line show the probability of dying at the age indicated on the x-axis in 2023. Single-age intervals are used. Data source: <a href="https://population.un.org/wpp/" target="_blank">UN WPP</a>.</div>
+    <button onclick="downloadAsPNG('line-chart-7', 'legend-7')">Download Figure</button>
+    
+    <div class="slider-container-7">
+        <div id="yearRangeSlider-7"></div>
+    </div>
+</div>
+</div>
 
 
 <!-- 
