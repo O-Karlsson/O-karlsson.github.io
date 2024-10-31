@@ -65,12 +65,12 @@ hr.thin {
 Duke University Population Research Institute, USA  
 Duke Global Health Institute, USA  
 *2022 – Present*  
-- Managed data and conducted analyses to examine health trends and other indicators using various data sources, such as life tables and detailed cause-of-death data, for the third Lancet Commission on Investing in Health.
-- Set up and hosted an <a href= "https://omarkarlsson.com/CIH_dash/" target="_blank" rel="noopener noreferrer">interactive dashboard</a> (using JavaScript D3) displaying visualizations of key metrics, trends, and projections. This allows commissioners to explore different data layers and generate visualizations as needed. 
-- Managed ad-hoc data needs from commissioners requesting targeted data summaries or visualizations to aid in concept development. These requests could be highly specific, requiring a quick understanding of their needs.
+- Managed data and conducted analyses on health trends and other indicators using various data sources, such as life tables and detailed cause-of-death data, for the third Lancet Commission on Investing in Health.
+- Set up and hosted an <a href= "https://omarkarlsson.com/CIH_dash/" target="_blank" rel="noopener noreferrer">interactive dashboard</a> (using JavaScript D3) displaying visualizations of key metrics, trends, and projections. This allows commissioners to explore data layers and generate displays as needed. 
+- Managed ad-hoc data needs from commissioners requesting targeted data summaries or visualizations to aid in concept development or presentation of results to funders and stakeholders. These requests could be highly specific, requiring a quick understanding of their needs.
 - Participated in meetings with commissioners.
-- Led the writing and analyses for two background papers supporting the commission’s work.
-- Participated in writing and proofreading the <a href="https://doi.org/10.1007/s44197-024-00294-6" target="_blank">main report</a> which was published in the Lancet.
+- Led the writing and analyses for two background papers supporting the commission’s work and co-authored four other studies.
+- Participated in the making the <a href="https://doi.org/10.1007/s44197-024-00294-6" target="_blank">main report</a> which was published in the Lancet.
 - Presented results at academic conferences, seminars, and workshops.
 
 
@@ -84,12 +84,12 @@ Centre for Economic Demography, School of Economics and Management, Lund Univers
 <hr class="thin">
 
 **Takemi Research Fellow in International Health**  
-Harvard T.H. Chan School of Public Health, USA  
+Harvard TH Chan School of Public Health, USA  
 *2019 – 2022*  
 - Fellowship focusing on international health research.
-- Constructed and analysed large datasets from household surveys using parallel computing. This also involved cleaning, structuring, and managing data to ensure accuracy and consistency.
-- Wrote manuscripts and published the findings in academic journals.
-- Presented results at academic conferences and at seminars within Harvard.
+- Constructed and analyzed large datasets from household surveys using parallel computing. This also involved cleaning, structuring, and managing data to ensure accuracy and consistency.
+- Wrote manuscripts and published findings in academic journals.
+- Presented results at academic conferences and seminars within Harvard.
 
 
 <hr class="thin">
@@ -97,10 +97,10 @@ Harvard T.H. Chan School of Public Health, USA
 **External Consultant**  
 UNICEF Programme Division, Nutrition Section, USA  
 *2020 – 2021*  
-- Met with the UNICEF teams to understand their specific goals and information needs.
-- Conducted customized data analyses to provide insights relevant to the UNICEF team's objectives.
+- Met with the UNICEF team to understand their specific goals and information needs.
+- Conducted customized data analyzes to provide insights relevant to the UNICEF team's objectives.
 - Translated quantitative findings into actionable recommendations to support decision-making.
-- Led the writing of journal articles, reports, presentations, and visualizations that made complex data accessible to a non-technical audience.
+- Led the writing of journal articles, reports, and presentations that made complex data accessible to a non-technical audience.
 - Conducted a workshop to help the broader UNICEF staff understand the data analysis, interpretation, and application in their health initiatives.
 
 
@@ -110,8 +110,8 @@ UNICEF Programme Division, Nutrition Section, USA
 **Researcher**  
 Centre for Economic Demography, School of Economics and Management, Lund University, Sweden  
 *2018 – 2019*  
-- Contributed to research in historical demography studying socioeconomic disparties in child mortality in 19th century Sweden.
-- Prepared data from a unique historical demographic database, containing full information of all vital events and occupations within a region in southern Sweden. 
+- Contributed to research in historical demography, studying socioeconomic disparities in child mortality in 19th century Sweden.
+- Prepared data from a unique historical economic and demographic database, containing full information of all vital events and occupations within a region in southern Sweden. 
 - Conducted survival analyses.
 - Contributed to writing of a journal article.
 
@@ -123,7 +123,7 @@ Centre for Economic Demography, School of Economics and Management, Lund Univers
 **PhD in Economic History**  
 School of Economics and Management, Lund University, Sweden  
 *2014 – 2018*  
-- Dissertation: <span><a href="Growth_and_Survival.pdf" target="_blank">*Growth and Survival: Child Health Disparities and Early Life Adversity in Sub-Saharan Africa*</a></span>  
+- Dissertation: <span><a href="Growth_and_Survival.pdf" target="_blank">Growth and Survival: Child Health Disparities and Early Life Adversity in Sub-Saharan Africa</a></span>  
 - Supervisor: <a href="https://portal.research.lu.se/en/persons/martin-dribe" target="_blank">Martin Dribe</a>. Assistant Supervisor: <a href="https://portal.research.lu.se/en/persons/therese-nilsson" target="_blank">Therese Nilsson</a>.
 <hr class="thin">
 
@@ -142,7 +142,7 @@ Harvard TH Chan School of Public Health, USA
 <hr class="thin">
 
 **Intern**  
-Estonian Institute for Population Studies, Tallinn University, Estonia  
+Estonian Institute for Population Studies, Tallinn University 
 *2013*  
 
 <hr class="thin">
@@ -163,12 +163,12 @@ American University in Bulgaria
 
 | Year  | Grant Name                                              | Institution                                      | Details                                               |
 |-------|---------------------------------------------------------|--------------------------------------------------|-------------------------------------------------------|
-| 2020  | Swedish Science Council’s International Postdoc          | Swedish Science Council                          | Three-year postdoctoral scholarship                    |
-| 2020  | Handelsbanken Wallander Scholarship                      | Handelsbanken                                    | Two-year postdoctoral scholarship                      |
-| 2016  | Handelsbanken Hedelius Scholarship                       | Handelsbanken                                    | 12-month stay at Harvard T.H. Chan School of Public Health |
-| 2015  | Knut and Alice Wallenberg Foundations                    | Knut and Alice Wallenberg Foundations            | Grant for 7th African Population Conference            |
+| 2020  | International Postdoc                                    | Swedish Science Council                          | Three-year postdoctoral Scholarship                    |
+| 2020  | Wallander Scholarship                                    | Jan Wallander's Foundation                                     | Three-year postdoctoral scholarship                      |
+| 2016  | Hedelius Scholarship                       | Tom Hedelius' Foundation                                    | One year stay at Harvard TH Chan School of Public Health |
+| 2015  | Travel grant                                             | Knut and Alice Wallenberg Foundations            | Grant for 7th African Population Conference            |
 | 2013  | Erasmus Placement                                        | Erasmus                                          | Three-month internship at Tallinn University           |
-| 2011  | Nordplus Exchange                                        | Nordplus                                         | 10-month exchange studies at Vilnius University         |
+| 2011  | Nordplus Exchange                                        | Nordplus                                         | Ten-month exchange studies at Vilnius University         |
 | 2010  | Erasmus Exchange                                         | Erasmus                                          | Five-month exchange studies at the American University in Bulgaria |
 
 ---
