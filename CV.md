@@ -65,14 +65,21 @@ hr.thin {
 Duke University Population Research Institute, USA  
 Duke Global Health Institute, USA  
 *2022 – Present*  
-- Conduct quantitative research on population health and global health disparities.
+- Managed data and conducted analyses to examine health trends and other indicators using various data sources, such as life tables and detailed cause-of-death data, for the third Lancet Commission on Investing in Health.
+- Set up and hosted an <a href= "https://omarkarlsson.com/CIH_dash/" target="_blank" rel="noopener noreferrer">interactive dashboard</a> (using JavaScript D3) displaying visualizations of key metrics, trends, and projections. This allows commissioners to explore different data layers and generate visualizations as needed. 
+- Managed ad-hoc data needs from commissioners requesting targeted data summaries or visualizations to aid in concept development. These requests could be highly specific, requiring a quick understanding of their needs.
+- Participated in meetings with commissioners.
+- Led the writing and analyses for two background papers supporting the commission’s work.
+- Participated in writing and proofreading the <a href="https://doi.org/10.1007/s44197-024-00294-6" target="_blank">main report</a> which was published in the Lancet.
+- Presented results at academic conferences, seminars, and workshops.
+
 
 <hr class="thin">
 
 **Postdoctoral Fellow**  
 Centre for Economic Demography, School of Economics and Management, Lund University, Sweden  
 *2022 – Present*  
-- Research on economic demography with a focus on health economics and inequality.
+- Conducted research on economic demography with a focus on human development.
 
 <hr class="thin">
 
@@ -80,20 +87,33 @@ Centre for Economic Demography, School of Economics and Management, Lund Univers
 Harvard T.H. Chan School of Public Health, USA  
 *2019 – 2022*  
 - Fellowship focusing on international health research.
+- Constructed and analysed large datasets from household surveys using parallel computing. This also involved cleaning, structuring, and managing data to ensure accuracy and consistency.
+- Wrote manuscripts and published the findings in academic journals.
+- Presented results at academic conferences and at seminars within Harvard.
+
 
 <hr class="thin">
 
 **External Consultant**  
 UNICEF Programme Division, Nutrition Section, USA  
 *2020 – 2021*  
-- Conducted research and consulting for the UNICEF Nutrition Program.
+- Met with the UNICEF teams to understand their specific goals and information needs.
+- Conducted customized data analyses to provide insights relevant to the UNICEF team's objectives.
+- Translated quantitative findings into actionable recommendations to support decision-making.
+- Led the writing of journal articles, reports, presentations, and visualizations that made complex data accessible to a non-technical audience.
+- Conducted a workshop to help the broader UNICEF staff understand the data analysis, interpretation, and application in their health initiatives.
+
+
 
 <hr class="thin">
 
 **Researcher**  
 Centre for Economic Demography, School of Economics and Management, Lund University, Sweden  
 *2018 – 2019*  
-- Contributed to research in historical demography.
+- Contributed to research in historical demography studying socioeconomic disparties in child mortality in 19th century Sweden.
+- Prepared data from a unique historical demographic database, containing full information of all vital events and occupations within a region in southern Sweden. 
+- Conducted survival analyses.
+- Contributed to writing of a journal article.
 
 <hr class="thick">
 
