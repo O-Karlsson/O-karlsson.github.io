@@ -133,43 +133,13 @@ School of Economics and Management, Lund University, Sweden
 
 <hr class="thick">
 
-#### Other Academic Experiences
-
-**Visiting Graduate Student**  
-Harvard TH Chan School of Public Health, USA  
-*2016 – 2017*  
-
-<hr class="thin">
-
-**Intern**  
-Estonian Institute for Population Studies, Tallinn University 
-*2013*  
-
-<hr class="thin">
-
-**Student Exchange**  
-Vilnius University, Lithuania  
-*2011 – 2012*  
-
-<hr class="thin">
-
-**Student Exchange**  
-American University in Bulgaria  
-*2010*  
-
-<hr class="thick">
-
 #### Grants
 
 | Year  | Grant Name                                              | Institution                                      | Details                                               |
 |-------|---------------------------------------------------------|--------------------------------------------------|-------------------------------------------------------|
-| 2020  | International Postdoc                                    | Swedish Science Council                          | Three-year postdoctoral Scholarship                    |
+| 2020  | International Postdoc                                    | Swedish Research Council                          | Three-year postdoctoral scholarship                    |
 | 2020  | Wallander Scholarship                                    | Jan Wallander's Foundation                                     | Three-year postdoctoral scholarship                      |
-| 2016  | Hedelius Scholarship                       | Tom Hedelius' Foundation                                    | One year stay at Harvard TH Chan School of Public Health |
-| 2015  | Travel grant                                             | Knut and Alice Wallenberg Foundations            | Grant for 7th African Population Conference            |
-| 2013  | Erasmus Placement                                        | Erasmus                                          | Three-month internship at Tallinn University           |
-| 2011  | Nordplus Exchange                                        | Nordplus                                         | Ten-month exchange studies at Vilnius University         |
-| 2010  | Erasmus Exchange                                         | Erasmus                                          | Five-month exchange studies at the American University in Bulgaria |
+| 2016  | Hedelius Scholarship                       | Tom Hedelius' Foundation                                    | One year scholarship |
 
 ---
 
@@ -218,4 +188,31 @@ American University in Bulgaria
 **2015**  
 *The Union for African Population Studies 7th Africa Population Conference, South Africa*  
 - Intergenerational transmission of capabilities: Mothers and children in sub-Saharan Africa.  
+
+<hr class="thick">
+
+#### Other Academic Experiences
+
+**Visiting Graduate Student**  
+Harvard TH Chan School of Public Health, USA  
+*2016 – 2017*  
+
+<hr class="thin">
+
+**Intern**  
+Estonian Institute for Population Studies, Tallinn University 
+*2013*  
+
+<hr class="thin">
+
+**Student Exchange**  
+Vilnius University, Lithuania  
+*2011 – 2012*  
+
+<hr class="thin">
+
+**Student Exchange**  
+American University in Bulgaria  
+*2010*  
+
 
