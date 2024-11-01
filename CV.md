@@ -215,4 +215,4 @@ Vilnius University, Lithuania
 American University in Bulgaria  
 *2010*  
 
-
+<hr class="thin">
