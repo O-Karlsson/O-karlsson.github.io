@@ -3,15 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Data Dashboard of the Lancet Commission on Investing in Health</title>
+
     <link rel="icon" href="GH2050-circle.png" type="image/pngn">
     <link rel="stylesheet" href="dash_dev_style.css">
-    <script src="https://d3js.org/d3.v7.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.7.0/nouislider.min.css">
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.7.0/nouislider.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+
 </head>
 <body>
 
@@ -28,7 +32,7 @@
     
 <!-- Clear selection button -->
 <div class="section" height="20000px"><button id="clearSelection">Clear Selection</button></div>
-<div class="figure-note"><sup>1</sup> Earliest year available for PPD and LE is shown in parantheses if other than 1950.<br><sup>2</sup> Not available in WHO GHE (cause specific deaths).</div>
+<div class="figure-note"><sup>1</sup> Earliest year available for PPD and LE is shown in parentheses if other than 1950.<br><sup>2</sup> Not available in WHO GHE (cause specific deaths).</div>
 <!-- Select sex -->
     <div class="section checkboxes">      
         <div>
@@ -41,19 +45,27 @@
     <div class= "section" id="treeContainer"></div>
 </div>
 
-<hr class="top"><h1 class="sect">Measures</h1></hr>
+<hr class="top"><h1 class="sect">Life expectancy decomposition by cause of death</h1></hr>
 <hr class="bottom"></hr>
 
-<!-- 
-line-chart-container-1
-data-outcome
-data-file
-line-chart // change to line-chart-1
-legend // change to legend-1
-slider-container change to slider-container-1
-yearRangeSlider change to yearRangeSlider-1
--->
 
+<h2 class="expandable">• Life expectancy gap compared to the 2019 North Atlantic due to specific causes of death</h2>
+<div class="content" data-height="30000" style="max-height: 0; overflow: hidden;">
+    <div class="figure-note">Note: All comparisons are made to the North Atlantic (ie, Western Europe and Canada) in 2019 (where life expectancy was the greatest of all the CIH regions: 82 years overall, 84 for females, and 80 for males. Only includes countries and regions with at least one year total gap. The I8 are eight infectious and maternal and child health priority conditions. The NCD7 are seven priority noncommunicable diseases and injuries. Data source: <a href="https://www.who.int/data/global-health-estimates/" target="_blank">WHO GHE</a> and <a href="https://population.un.org/wpp/" target="_blank">UN WPP</a>.</div>
+    <div id="chart-container-1"  data-dataset="e0decomp.csv" data-outcome="P" data-x-axis-title="Life expectancy gap accounted for, years" data-type="default" ></div>
+</div>
+
+
+<h2 class="expandable">• Life expectancy changes over time due to specific causes of death</h2>
+<div class="content" data-height="30000" style="max-height: 0; overflow: hidden;">
+    <div class="figure-note">Note: Changes in years of life expectancy attributable to specific causes of death are shown. Percentages of total change (made visible by touching the columns) are negative if the impact of the specific cause was in the opposite direction of the total change (eg, if there was an increase in life expectancy, the increase would have been larger had it not been for rising mortality from that cause). The I8 are eight infectious and maternal and child health priority conditions. The NCD7 are seven priority noncommunicable diseases and injuries. Data source: <a href="https://www.who.int/data/global-health-estimates/" target="_blank">WHO GHE</a> and <a href="https://population.un.org/wpp/" target="_blank">UN WPP</a>.</div>
+    <div id="chart-container-2"  data-dataset="e0decomp.csv" data-outcome="T" data-x-axis-title="Life expectancy change accounted for, years" data-type="alternative" ></div>
+</div>
+
+
+
+<hr class="top"><h1 class="sect">All Cause Mortality</h1></hr>
+<hr class="bottom"></hr>
     <h2 class="expandable">• Probability of premature death (PPD)</h2>
     <div class="content" data-height="3000" style="max-height: 0; overflow: hidden;">
     <div class="line-chart-container line-chart-container-1" style="width: 100%; height: auto;" data-outcome='q70'  data-file="ppddata.csv" yaxislabel="PPD, %" x-variable="year" xaxislabel="Year">
@@ -164,6 +176,10 @@ yearRangeSlider change to yearRangeSlider-1
 </div>
 
 
+
+
+
+
 <!-- 
 
     <h2 class="expandable">• Metric Q</h2>
@@ -185,6 +201,6 @@ yearRangeSlider change to yearRangeSlider-1
 <script src="ppdfig_dev_script.js"></script>
 <script src="selections_dev_script.js"></script>
 <script src="dash_dev_script.js"></script>
-
+<script src="e0decomp_fig.js"></script>
 </body>
 </html>

@@ -1,6 +1,25 @@
 #select-location {background-color: #96D3F1; color: #000000;}
 
 
+.bar {
+    fill: steelblue;
+}
+.bar:hover {
+    fill: orange;
+}
+.tooltip {
+    position: absolute;
+    text-align: center;
+    padding: 6px;
+    background: lightgray;
+    border-radius: 4px;
+    pointer-events: none;
+}
+
+
+
+
+
 .legend {display: flex; flex-wrap: wrap; justify-content: center; margin-top:10px; padding: 0;}
 .legend-item {
     align-items: center;
@@ -46,7 +65,7 @@ h4 {font-size: 1.1em; text-align: center; margin:  50px 0 10px 0;}
 
 .countries-heading {font-weight: bold;font-size: 1.2em;margin-top: 10px;}
 
-hr.top {border: none; border-top: 2px solid #000; margin: 30px 0px 5px 40px;}
+hr.top {border: none; border-top: 2px solid #000; margin: 60px 0px 5px 40px;}
 hr.bottom {border: none; border-top: 2px solid #000; margin: 0px 0px 5px 40px;}
 
 .container  {max-width: 800px; width: 100%; padding: 20px; box-sizing: border-box;}

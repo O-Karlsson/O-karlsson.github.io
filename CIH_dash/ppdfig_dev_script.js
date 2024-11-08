@@ -544,6 +544,7 @@ outcomes.forEach(({chartID, legendID, sliderID, containerClass }) => {
         const { minxVar, maxxVar } = findAvailableYearRange(currentData[chartID], selectedCountries, selectedSex);
         updateLineChart(chartID, legendID, sliderID, yLabel, xLabel, xVar);
         initializeSlider(minxVar, maxxVar, sliderID, chartID, legendID, yLabel, xLabel, xVar);  // Update slider range based on new selection
+
     });
     });
 
