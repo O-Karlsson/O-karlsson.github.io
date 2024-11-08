@@ -1,5 +1,5 @@
 // Initialize global arrays to store selected countries and selected sex
-let selectedCountries = ['World','United States','Türkiye','United Kingdom'];
+let selectedCountries = ['World','United States','China'];
 let selectedSex = ['both'];  // Default to an empty array
 
 // Load the CSV data using D3 and create the tree structure for country selection
@@ -44,7 +44,7 @@ d3.csv('countries.csv').then(function(data) {
             .append("label")
             .attr("class", "node-checkbox")
             .html(d => {
-                const isChecked = d.name === 'World'|| d.name ==='United States' || d.name ==='Türkiye'||  d.name ==='United Kingdom';
+                const isChecked = d.name === 'World'|| d.name ==='United States' || d.name ==='China';
                 const minyear = d.minyear ? ` (${d.minyear})<sup>1</sup>` : '';  // Add minyear if it exists
                 const supr = d.supr === '1' ? '<sup>2</sup>' : '';  // Add superscript if supr is 1
                 return `<input type="checkbox" value="${d.name}" ${isChecked ? 'checked' : ''}> ${d.name}${minyear}${supr}`;
@@ -67,7 +67,6 @@ d3.csv('countries.csv').then(function(data) {
                 // Call function to update the chart
 
             });
-
         // If it's an internal node, add child ul and recurse
         li.filter(d => d.children)
             .append("ul")
@@ -86,7 +85,6 @@ d3.csv('countries.csv').then(function(data) {
 
         document.dispatchEvent(new Event('treeConstructed'));
     };
-
     // Create the initial tree
     createTree(ul, treeData);
 });
@@ -104,12 +102,17 @@ document.querySelectorAll('input[name="sex"]').forEach(checkbox => {
 
 
 // Clear all selections
+// Clear all selections
 document.getElementById('clearSelection').addEventListener('click', function() {
-    // Clear sex checkboxes
+    // Clear and reset sex checkboxes, setting 'both' to checked
     document.querySelectorAll('input[name="sex"]').forEach(checkbox => {
-        checkbox.checked = false;
+        if (checkbox.value === 'both') {
+            checkbox.checked = true; // Visually check the 'both' checkbox
+        } else if (checkbox.value !== 'both') {
+            checkbox.checked = false; // Uncheck all other checkboxes
+        }
     });
-    selectedSex = []; // Clear selectedSex array
+    selectedSex = ['both']; // Reset selectedSex to 'both'
 
     // Clear country checkboxes
     selectedCountries = []; // Clear selectedCountries array
@@ -123,42 +126,15 @@ document.getElementById('clearSelection').addEventListener('click', function() {
         const yearSlider = document.getElementById(sliderID);
         const CxVar = d3.select(containerClass).attr('x-variable');
         xVarMap[sliderID] = CxVar; // Map sliderID to its x-variable
-        if (yearSlider.noUiSlider!==0) {
-
-            if (CxVar==='age') {
-                console.log(`Setting slider for age on ${sliderID}`);
-                console.log(xVarMap[`${sliderID}`]); // Logs the x-variable associated with 'yearRangeSlider-1'
+        if (yearSlider.noUiSlider !== 0) {
+            if (CxVar === 'age') {
                 initializeSlider(1, 100, sliderID);  // Ensures min < max
-/*
-                yearSlider.noUiSlider.updateOptions({
-                    range: {
-                        'min': 1,
-                        'max': 100
-                        
-                    }
-                }); */
-                }
-                else if (CxVar==='year') {
-                    console.log(`Setting slider for year on ${sliderID}`);
-                    console.log(xVarMap[`${sliderID}`]); // Logs the x-variable associated with 'yearRangeSlider-1'
-                    initializeSlider(1970, 2050, sliderID);  // Ensures min < max
-
-    /*
-                    yearSlider.noUiSlider.updateOptions({
-                        range: {
-                            'min': 1970,
-                            'max': 2050
-                        }
-                    }); */
-
-                    }
-
-
-
+            } else if (CxVar === 'year') {
+                initializeSlider(1970, 2050, sliderID);  // Ensures min < max
+            }
         }
-
     });
-    console.log(xVarMap['yearRangeSlider-1']); // Logs the x-variable associated with 'yearRangeSlider-1'
-
 });
+
+
 

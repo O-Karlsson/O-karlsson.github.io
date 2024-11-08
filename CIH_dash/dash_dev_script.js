@@ -1,3 +1,6 @@
+
+
+
 // Function to set initial max-height for expanded sections
 function initializeSections() {
     document.querySelectorAll('.expandable').forEach(heading => {
