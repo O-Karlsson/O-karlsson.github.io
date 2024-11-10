@@ -70,7 +70,7 @@ Duke Global Health Institute, USA
 - Managed ad-hoc data needs from commissioners requesting targeted data summaries or visualizations to aid in concept development or presentation of results to funders and stakeholders. These requests could be highly specific, requiring a quick understanding of their needs.
 - Participated in meetings with commissioners.
 - Led the writing and analyses for two background papers supporting the commission’s work and co-authored four other studies.
-- Participated in the making the <a href="https://doi.org/10.1007/s44197-024-00294-6" target="_blank">main report</a> which was published in the Lancet.
+- Participated in making the <a href="https://doi.org/10.1007/s44197-024-00294-6" target="_blank">main report</a> which was published in the Lancet.
 - Presented results at academic conferences, seminars, and workshops.
 
 
