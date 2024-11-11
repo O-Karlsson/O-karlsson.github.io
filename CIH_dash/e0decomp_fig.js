@@ -136,8 +136,10 @@ function renderChart(containerId) {
         
         // Determine which labels to use based on `type`
         let selectedYears, yearLabels, mes, at;
-        selectedYears = [2019]; // Default selected years for 'default' type
+
+
         if (type === 'default') {
+            selectedYears = [2019]; // Default selected years for 'default' type
             yearLabels = defaultYearLabels;
             mes='gap';
         } else if (type === 'alternative') {
@@ -165,7 +167,7 @@ function renderChart(containerId) {
                     .append('input')
                     .attr('type', 'checkbox')
                     .attr('value', d)
-                    .property('checked', d === 2019)
+                    .property('checked', selectedYears.includes(d)) // Fix: Use `includes` to check if the year is in `selectedYears`
                     .on('change', function () {
                         // Update selectedYears based on checked checkboxes
                         selectedYears.length = 0;
@@ -260,7 +262,7 @@ const primaryfilteredData = data.filter(d =>
                         const svg = svgWrapper.append('svg')
                             .attr('class', 'chart')
                             .attr('width', '100%')
-                            .attr('height', 'auto')
+                            .style('height', 'auto') // Use `style` instead of `attr` for "auto" height
                             .attr('viewBox', `0 0 ${svgWidth} ${svgHeight+ 50}`)
                             .attr('preserveAspectRatio', 'xMinYMin meet');
 
@@ -378,7 +380,7 @@ const primaryfilteredData = data.filter(d =>
                                 const sumForCalculation = sumByGroup[key];
                                 d3.select(this).style('fill', 'black');
                                 tooltip.style('display', 'inline')
-                                    .html(`${roundToTwoSignificantFigures(d[outcome])} years<br>% of total: ${roundToTwoSignificantFigures(d[outcome]/sumForCalculation * 100)}%`);
+                                    .html(`${roundToTwoSignificantFigures(d[outcome])} years or<br>${roundToTwoSignificantFigures(d[outcome]/sumForCalculation * 100)}% of total`);
                             })
                             .on('mousemove', function (event) {
                                 tooltip.style('top', (event.pageY + 10) + 'px')
@@ -565,8 +567,14 @@ const primaryfilteredData = data.filter(d =>
         });
     
 // Reset the year checkboxes to default (2019)
-selectedYears.length = 0; // Clear the array
-selectedYears.push(2019); // Set the default year
+selectedYears.length = 0; // Clear the array    
+
+if (type === 'default') {
+    selectedYears.push(2019); // Set the default year
+} else if (type === 'alternative') {
+    selectedYears.push(2000); // Set the default year
+}
+
 
 // Use the container ID to scope the selection to only year checkboxes
 d3.selectAll(`#${containerId}-year-checkboxes input[type="checkbox"]`).property('checked', function() {
