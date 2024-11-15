@@ -34,7 +34,6 @@
 }
 
 .content th {
-    background-color: #f4f4f4;
     font-weight: bold;
 }
 
@@ -46,13 +45,13 @@ p {
 
 hr.thick {
     border: none;
-    border-top: 5px solid #000; /* Make the line 5px thick and black */
+    border-top: 5px solid gray; /* Make the line 5px thick and black */
     margin: 50px 50px 20px;
 }
 
 hr.thin {
     border: none;
-    border-top: 1px solid #000; /* Make the line 5px thick and black */
+    border-top: 1px solid gray; /* Make the line 5px thick and black */
     margin: 10px 0; /* Add spacing around the line */
 }
 
