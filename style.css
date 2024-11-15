@@ -1,185 +1,133 @@
+html {
+    color-scheme: light dark;
+}
 body {
     font-family: Arial, sans-serif;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    margin: 0 auto; /* centers it */
+    display: flex; /* defines the layout */
+    flex-direction: column; /* items are in a column rather than next to each other */
+    align-items: center; /* since the flex-direction is a column, this is the horizontal centering (like 'justify-content') */
     line-height: 1.5;
     font-size: 18px;
-    padding-bottom: 100px; /* Adjust the value to the amount of padding you want */
-    padding-top: 50px; /* Adjust the value to the amount of padding you want */
-
+    padding-bottom: 80px; 
+    padding-top: 30px; 
+    max-width: 800px;
 }
 
-.header {
-    display: flex;
-    align-items: center;
-    margin: 20px 0;
+.header { margin: 0px 0;}
+
+h1 {font-size: 1.4em; margin: 0;}
+
+.profile-image {max-width: 150px; border-radius: 50%;}
+
+/* this CSS doesn't seem to do much */
+#mainContent {
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box; /* says the padding should be included in the width/height */ 
 }
 
-.belowname {
-    display: flex;
-    align-items: center;
-    text-align: center;
-    margin: 0px;
-}
+hr.top {border-top: 2px solid #000; margin: 30px 0px 5px 40px;}
 
-li {
-    margin-bottom: 25px; /* Adjust this value to increase or decrease space between list items */
-}
-
-p {
-    margin-top: 15px; /* Adjust this value to increase or decrease space between list items */
-    margin-bottom: 15px; /* Adjust this value to increase or decrease space between list items */
-}
-
-
-
-.profile-image {
-    max-width: 150px;
-    border-radius: 50%;
-    margin-right: 20px;
-}
-
-h1 {
-    font-size: 1.4em;
-    margin:  0;
-}
+hr.bottom {border-top: 2px solid #000; margin: 0px 0px 5px 40px;}
 
 h1.sect {
     font-size: 1.4em;
     text-align: left;
     margin:  0px 0 0px 50px;
-
-}
-
-hr.top {
-    border: none;
-    border-top: 2px solid #000; /* Make the line 5px thick and black */
-    margin: 30px 0px 5px 40px;
-}
-
-hr.bottom {
-    border: none;
-    border-top: 2px solid #000; /* Make the line 5px thick and black */
-    margin: 0px 0px 5px 40px;
-}
-
-h4 {
-    font-size: 1.1em;
-    text-align: center;
-    margin:  50px 0 10px 0;
-}
-
-.container {
-    max-width: 800px;
-
-    width: 100%;
-    padding: 20px;
-    box-sizing: border-box;
 }
 
 h2 {
     font-size: 1.2em;
     cursor: pointer;
-    background-color: #f0f0f0;
+    background-color: #c1d9eb;
     padding: 10px;
-    margin: 0px 0;
+    margin: 10px 0;
     border-radius: 5px;
     transition: background-color 0.3s;
 }
 
-h3.subheading {
-    font-size: 1em;
-    cursor: pointer;
-    background-color: #d4c4c4;
-    padding: 10px;
-    margin: 5px 40px 5px 30px;
-    border-radius: 5px;
-    transition: background-color 0.3s;
+h2:hover {background-color: #e0e0e09c;}
+
+h3 {
+    font-size: 1.1em;
+    text-align: center;
+    margin:  50px 0 10px 0;
+}
+
+/* Initially hide content */
+.content {
+    display: none;
+    text-align: left;
+    padding-bottom: 20px;
 }
 
 
-
-h2:hover, h3:hover {
-    background-color: #e0e0e0;
+/* Full-screen iframe styling */
+.dash {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    border: none;
+    z-index: 9999;
+    display: none;
 }
 
-        /* Initially hide content */
-        .content {
-            max-height: 0; /* Start with 0 height */
-            overflow: hidden; /* Hide the overflow */
-            transition: max-height 0.2s linear; /* Adjust this value to control the speed */
-        }
-
-        /* Style for expanded content */
-        .content.expanded {
-            padding: 10px;
-
-        }
-
-        /* Basic styling for expandable heading */
-        .expandable, .subheading {
-            cursor: pointer;
-            background-color: #f0f0f0;
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 5px;
-            transition: background-color 0.5s ease-out;
-        }
-
-        .expandable:hover {
-            background-color: #e0e0e0;
-        }
-
-.active + .content {
-    display: block;
+.body-hidden *:not(.dash):not(#backToPort) {
+    display: none !important;
 }
 
-#backToMenu {
+/* Back to Menu button styling */
+.backbutton {
     display: none;
     position: fixed;
-    bottom: 10px;
-    left: 10px;
-    background-color: #007bff;
+    bottom: 30px;
+    right: 26%;
+    background-color: #ac2626;
     color: white;
     border: none;
     padding: 20px;
-    cursor: pointer;
     border-radius: 5px;
+    cursor: pointer;
+    z-index: 10000;
+    white-space: normal; /* Allow text wrapping (doesn't work)*/
+    text-align: center; /* Center the text */
+    font-size: 1em;
 }
 
-#backToMenu:hover {
-    background-color: #0056b3;
+.backbutton:hover {background-color: #d26969;}
+
+
+.openFullView {
+    background-color: #ac2626;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 10px;
+    text-align: center; /* Center the text */
+    font-size: 1em;
+}
+
+.openFullView:hover {background-color: #a45e4aa1;}
+
+p {margin-top: 15px; margin-bottom: 15px;}
+
+li {margin-bottom: 25px;}
+
+@media (prefers-color-scheme: dark) {
+    h2 {
+        background-color: #252c31;
+        h2:hover {background-color: #524646;}
+    }
+    hr {color: white;}
 }
 
 @media (max-width: 600px) {
-    .container {
-        padding: 10px;
+    #mainContent {padding: 0 13px;}
+    h2 {font-size: 1.2em;}
+    .backbutton {right: 5px; }
 
-    }
-
-    h2 {
-        font-size: 1.2em;
-    }
-
-    h3 {
-        font-size: 1em;
-    }
-
-    .header {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    h1 {
-        margin-top: 10px;
-        text-align: center;
-    }
-
-
-
-    .profile-image {
-        margin: 0 0 10px;
-    }
 }

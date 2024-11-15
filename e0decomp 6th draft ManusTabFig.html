@@ -1,0 +1,1183 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>e0decomp 6th draft ManusTabFig</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="styles-paper.css" />
+  <!--
+  <div class="metadata">
+      <p><strong>First published: 2024-01-01</strong></p>
+      <p><strong>Version date: 2024-11-11</strong></p>
+      <p><strong>Open to contribution</strong></p>
+      <hr>
+</div>
+-->
+
+  <script
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"
+  type="text/javascript"></script>
+</head>
+<body class="paper-body">
+
+  <p><a href="e0decomp 6th draft ManusTabFig.pdf"target="_blank" style="vertical-align: bottom;"><strong>Download PDF</strong></a><br>
+    <a href="e0decomp 6th draft ManusTabFig.pdf"target="_blank" style="vertical-align: bottom;"><strong>Supplement PDF</strong></a></p>
+
+    
+
+<h1>Priority health conditions and life expectancy disparities</h1>
+
+<p>Omar Karlsson, Angela Y Chang, Ole Frithjof Norheim, Wenhui Mao, Sarah Bolongaita, Dean T Jamison</p>
+<p style="padding: 30px 0;"><strong>Message Omar Karlsson at <a href="mailto:karlssono@outlook.com">karlssono@outlook.com</a> for comments and suggestions.</strong></p>
+<p><strong>First published: 2024-01-01<br>Version date: 2024-11-11</strong></p>
+
+<h1>Abstract</h1>
+<p>Identifying conditions behind health disparities can guide policy,
+planning, and financing to battle the most urgent health problems. This
+study examined the impact of 145 causes of death on life expectancy
+disparities, highlighting the impact of two sets of “priority
+conditions”—eight infectious and maternal and child health conditions
+(“I-8”) and seven noncommunicable diseases and injuries (“NCD-7”)—across
+184 countries and nine geographic regions, 2000–2021. Western Europe and
+Canada (the “North Atlantic”) were used as a benchmark for life
+expectancy achievable with advanced health care and living standards.
+Life expectancy gaps were decomposed by cause of death using Pollard’s
+decomposition on the Global Health Estimates from the World Health
+Organization. The priority conditions accounted for over 70% of the life
+expectancy gap compared to the North Atlantic in most regions and
+countries. Outside sub-Saharan Africa, the NCD-7 accounted for the
+largest share (eg, 82% in China and 49% in India). Only a few conditions
+not considered priority conditions had any substantial impact, and only
+in specific contexts. However, COVID-19 increased disparities. The
+varying impact of specific priority conditions can help focus health
+policy and guide interventions to reduce risk factors and treat
+conditions.</p>
+<!--
+
+<div class="first-page">
+
+<h2>Authors</h2>
+<p>Omar Karlsson, PhD <sup>1,2,*</sup> (<a
+href="mailto:karlssono@outlook.com">karlssono@outlook.com</a>)</p>
+
+
+<p>Angela Y Chang, ScD <sup>3,4</sup> (<a
+href="mailto:achang@health.sdu.dk">achang@health.sdu.dk</a>)</p>
+
+
+<p>Prof Ole Frithjof Norheim, MD, PhD <sup>5,6</sup> (<a
+href="mailto:ole.norheim@uib.no">ole.norheim@uib.no</a>)</p>
+
+
+<p>Wenhui Mao, PhD <sup>7,8</sup> (<a
+href="mailto:wenhui.mao@duke.edu">wenhui.mao@duke.edu</a>)</p>
+
+
+<p>Sarah Bolongaita, SM <sup>5,6</sup> (<a
+href="mailto:sarah.bolongaita@uib.no">sarah.bolongaita@uib.no</a>)</p>
+
+
+<p>Prof Dean T Jamison, PhD <sup>9,10</sup> (<a
+href="mailto:meteor17@me.com">meteor17@me.com</a>)</p>
+
+
+<h2>Affiliations</h2>
+
+
+<p><sup>1</sup> Visiting Research Fellow, Duke University Population
+Research Institute, Duke University, 140 Science Dr, Durham, NC 27710,
+United States</p>
+
+
+<p><sup>2</sup> Centre for Economic Demography, School of Economics and
+Management, Lund University, PO Box 7083, 220 07 Lund, Sweden</p>
+
+
+<p><sup>3</sup> Danish Institute for Advanced Study, University of
+Southern Denmark, Studiestræde 6, Copenhagen, Denmark</p>
+
+
+<p><sup>4</sup> Danish Centre for Health Economics, University of
+Southern Denmark, Campusvej 55, 5230 Odense M, Denmark</p>
+
+
+<p><sup>5</sup> Bergen Centre for Ethics and Priority Setting (BCEPS),
+Department of Global Public Health and Primary Care, University of
+Bergen, Bergen, PO Box 7804, N-5020, Bergen, Norway</p>
+
+
+<p><sup>6</sup> Department of Global Health and Population, Harvard T.H.
+Chan School of Public Health, 677 Huntington Avenue, Boston, MA 02115,
+USA</p>
+
+
+<p><sup>7</sup> Centre for Policy Impact in Global Health, Duke
+University, Durham, NC 27708, USA</p>
+
+
+<p><sup>8</sup> Duke Global Health Institute, Duke University, Durham,
+NC 27708, USA</p>
+
+
+<p><sup>9</sup> Institute for Global Health Sciences, University of
+California San Francisco, Mission Hall, Box 1224, 550 16th Street, Third
+Floor, San Francisco, CA 94158San Francisco, USA</p>
+
+
+<p><sup>10</sup> Department of Epidemiology and Biostatistics,
+University of California San Francisco, 550 16th Street, CA 94158, San
+Francisco, USA</p>
+
+<p>*Corresponding author</p>
+</div>
+
+
+
+
+<p><strong>Keywords:</strong> Life expectancy decomposition; causes of
+death; priority setting</p>
+-->
+
+
+<h1>Introduction</h1>
+<p>Advances in public health and medicine, together with rising living
+standards, have greatly improved health, as reflected, for example, in
+largely uninterrupted gains in life expectancy over the past two
+centuries.<sup>1,2</sup> However, large health disparities suggest
+highly uneven improvements across countries. For example, while life
+expectancy at birth is 82 years in Western Europe, it is 62 years in
+sub-Saharan Africa.<sup>3</sup> Limited capacity to finance and mobilize
+resources leaves full coverage of vital services out of reach for many
+countries.<sup>4</sup> A focus on a limited number of highly
+cost-effective interventions targeted at conditions with a large or
+rising impact on health is more feasible.<sup>5–8</sup></p>
+
+
+<p>Here, we quantified how much 145 causes of death available in the
+Global Health Estimates (GHE) from the World Health Organization (WHO)
+contributed to the life expectancy gap in global regions and countries
+compared to the North Atlantic (Western Europe and Canada)—which serves
+as a benchmark for a life expectancy that is achievable with high living
+standards and advanced health care. We highlight the impact of two sets
+of causes which are suggested “priority conditions” by the third
+<em>Lancet</em> Commission on Investing in Health:<sup>9</sup> 1) eight
+infectious and maternal and child health conditions and 2) seven
+important noncommunicable diseases (NCDs) and injuries.</p>
+
+
+<p>Life expectancy serves as a reliable summary health indicator that
+reflects the composite impact of most adverse health exposures and
+morbidities on population health, including both acute exposures, such
+as deadly infections and injuries, and an accumulation of adverse
+exposures over the life course, such as nutrition, environmental
+contaminants, morbidities, and health behaviors.<sup>10</sup></p>
+
+
+<h1>Data and methods</h1>
+
+
+<h2>Data</h2>
+
+
+<p>Data on number of deaths by cause came from the WHO’s GHE (see
+appendix pp 2–3 for more details).<sup>11,12</sup> Deaths were reported
+by age and sex for 204 countries over the period 2000–2021. Five-year
+age groups were used for ages 5–84, with an open-ended group for 85 and
+older. Deaths before age five were estimated for two age groups: 0–11
+months and 1–4 years.</p>
+
+
+<p>We multiply the proportion of all deaths from each cause within each
+age interval from the WHO GHE by the corresponding all-cause
+age-specific mortality rate from the United Nations (UN) World
+Population Prospects (WPP) 2024.<sup>3</sup> Therefore, the life
+expectancy and gaps presented in this paper will be the same as those
+provided by the UN. We used life tables with single year age intervals
+for ages 0–100+ from the UN WPP and estimated the causes specific
+mortality rates using the same cause-proportions for all single-year
+ages within the broader WHO GHE age intervals.</p>
+
+
+<p>The first eight priority conditions include a set of infectious
+diseases, maternal deaths, and conditions causing the most child deaths
+(collectively referred to as the I-8).<sup>5</sup> These were:</p>
+<ol type="1">
+<li>
+
+<p>Neonatal conditions</p></li>
+<li>
+
+<p>Lower respiratory infections</p></li>
+<li>
+
+<p>Diarrheal diseases</p></li>
+<li>
+
+<p>HIV/AIDS</p></li>
+<li>
+
+<p>Tuberculosis</p></li>
+<li>
+
+<p>Malaria</p></li>
+<li>
+
+<p>Childhood-cluster diseases: Whooping cough, Diphtheria, Measles,
+Tetanus</p></li>
+<li>
+
+<p>Maternal conditions</p></li>
+</ol>
+
+
+<p>Seven NCDs and injuries (NCD-7) were also highlighted as priority
+conditions:</p>
+<ol type="1">
+<li>
+
+<p>Atherosclerotic cardiovascular diseases (ischemic heart disease,
+ischemic stroke)</p></li>
+<li>
+
+<p>Hemorrhagic stroke</p></li>
+<li>
+
+<p>NCDs strongly linked to infections (stomach cancer, liver cancer
+secondary to hepatitis B, liver cancer secondary to hepatitis C,
+cervical cancer, rheumatic heart disease, cirrhosis due to hepatitis B,
+cirrhosis due to hepatitis C)</p></li>
+<li>
+
+<p>NCDs strongly linked to tobacco use (mouth and oropharynx cancer;
+trachea, bronchus, and lung cancer; larynx cancer; chronic obstructive
+pulmonary disease)</p></li>
+<li>
+
+<p>Diabetes (diabetes mellitus, chronic kidney disease due to
+diabetes)</p></li>
+<li>
+
+<p>Road injury</p></li>
+<li>
+
+<p>Suicide (self-harm)</p></li>
+</ol>
+
+
+<p>Collectively, these 15 priority conditions reflect 30 causes of death
+as defined in the WHO GHE data (items in parentheses above: see table on
+page 3 in the appendix). The other 115 causes of death are referred to
+as “all other causes.”</p>
+
+
+<h1>Methods</h1>
+
+
+<p>We used regional classifications from the third <em>Lancet</em>
+Commission on Investing in Health, consisting of seven geographic
+regions and the three most populous countries, China, India, and the
+United States (appendix p 4). We focus on 2019 to avoid distortions due
+to COVID-19 and show results for 2000 for comparison across time.
+(Supplement 2 provides results for all countries 2000–2021 by sex and
+overall.)</p>
+
+
+<p>We decomposed the difference in life expectancy between the North
+Atlantic and target locations (ie, other regions and countries of
+interest) into components (in terms of years) attributable to the 145
+causes of death. The North Atlantic in 2019 was used, even when
+analyzing other years in the target locations, to facilitate comparisons
+across time. The North Atlantic was chosen since it had the greatest
+life expectancy (82 years<sup>3</sup>) of the regions highlighted in the
+third <em>Lancet</em> Commission on Investing in Health.</p>
+
+
+<p>We used Pollard’s decomposition method to quantify the contribution
+of each cause to the total life expectancy gap.<sup>13,14</sup> The
+formulas described here apply specifically to life tables with a radix
+of one and single-year age intervals.</p>
+
+
+<p><span class="math display">\[C_{i} = \sum_{x = 1}^{100
++}{w_{x}({_{n}^{}m}_{x,i} - {_{n}^{}\ddot{m}}_{x,i})}\]</span></p>
+
+
+<p>Component <span class="math inline">\(C_{i}\)</span> shows the gap in
+life expectancy attributable to cause <em>i</em>, and is calculated as
+the difference in the cause-specific mortality rate at age <em>x</em> to
+<em>x+n</em> between the target location (<span
+class="math inline">\({_{n}^{}m}_{x,i}\)</span>) and the North Atlantic
+(<span class="math inline">\({_{n}^{}\ddot{m}}_{x,i}\)</span>),
+multiplied by a weight <span class="math inline">\(w_{x}\)</span>
+representing the contribution of deaths at age <em>x</em> to the overall
+life expectancy gap, summed across all ages 0–100+.</p>
+
+
+<p>The weight <span class="math inline">\(w_{x}\)</span> is calculated
+as:</p>
+
+
+<p><span class="math display">\[w_{x} = \frac{l_{x}{\ddot{e}}_{x} +
+{\ddot{l}}_{x}e_{x} + l_{x + 1}{\ddot{e}}_{x + 1} + {\ddot{l}}_{x +
+1}e_{x + 1}}{4}\]</span></p>
+
+
+<p>where <span class="math inline">\(e_{x}\)</span> is life expectancy
+at age <em>x</em> and <span class="math inline">\(l_{x}\)</span> is the
+proportion of the original cohort surviving to age <em>x</em> in the
+target location, with two dots over a letter indicating the same
+measures for the North Atlantic. For age <em>x=100</em>+, the weight is
+calculated as:</p>
+
+
+<p><span class="math display">\[w_{100 +} = \frac{{\ddot{T}}_{100
++}/M_{100 +} + T_{100 +}/{\ddot{M}}_{100 + ,i}}{2}\]</span></p>
+
+
+<p>where <em>T</em> is the number of years contributed after age
+<em>100</em> and <em>M</em> is the all-cause mortality rate at age 100+.
+The sum of <span class="math inline">\(C_{i}\)</span> over all causes of
+death is the total gap in life expectancy between the target location
+and the North Atlantic.</p>
+
+
+<p>To facilitate the presentation of results, we removed causes that had
+a negative impact, which occurred when the target location had achieved
+lower cause-specific mortality rates than the North Atlantic. However,
+after this adjustment, adding the impact of all causes together could
+result in a total impact greater than the actual life expectancy gap.
+Therefore, we projected the estimated proportional impact of each cause
+(after removing negative impacts) back onto the life expectancy gap.
+(Supplement 2 provides results with negative impacts included.)</p>
+
+
+<h2>Supplementary analyses</h2>
+
+
+<p>We present summary statistics on the extent to which the priority
+conditions accounted for life expectancy disparities across 184
+countries with lower life expectancy than the North Atlantic. We also
+show results using two alternative decomposition methods:
+Arriaga’s<sup>15</sup> method and a method based on counterfactual
+age-specific mortality rates<sup>16</sup> (see appendix p 6 for
+description of methods). Finally, we provide estimates for all causes,
+regions, and countries, 2000–2021, by sex and overall.</p>
+
+
+<h2>Data availability</h2>
+
+
+<p>Global Health Estimates are available from the World Health
+Organization upon request. The UN WPP 2024 are available online at <a
+href="https://population.un.org/wpp/">https://population.un.org/wpp/</a>.</p>
+
+
+<h2>Code availability</h2>
+
+
+<p>All codes used in this paper is available at <a
+href="https://github.com/O-Karlsson/Priority-health-conditions-and-life-expectancy-disparities/">https://github.com/O-Karlsson/Priority-health-conditions-and-life-expectancy-disparities/</a>.</p>
+
+<h4 class="h4"><strong>Table 1. Life expectancy gap compared to the
+North Atlantic in 2019 attributable to specific I-8 and NCD-7, 2000 and
+2019</strong></h4>
+<div class="table-container">
+<iframe src="e0decomp 6th draft ManusTabFig_media/table-1.html" class="table-iframe"></iframe>
+</div>
+
+<p  class="tabFigNote">Note: Number of years are shown with the percentage of the total gap
+in parentheses below. Both 2000 and 2019 were compared to the North
+Atlantic in 2019 (which had a life expectancy of 82 years). The I-8 are
+neonatal conditions, lower respiratory infections, diarrheal diseases,
+HIV/AIDS, tuberculosis, malaria, childhood-cluster diseases, and
+maternal conditions. The NCD-7 are atherosclerotic cardiovascular
+diseases, hemorrhagic stroke, NCDs strongly linked to infections, NCDs
+strongly linked to tobacco use, diabetes, road injury, and suicide. Data
+from references 3 and 11.</p>
+
+
+<h1>Results</h1>
+
+
+<h2>Regions and selected countries in 2000 and 2019</h2>
+
+
+<p>In 2000, sub-Saharan Africa had a 31-year life expectancy gap
+compared to the (2019) North Atlantic benchmark (figure 1 and table 1).
+Higher mortality from I-8 accounted for 21 of those years (67% of the
+total gap). Meanwhile, higher mortality from the NCD-7 accounted for 4.4
+years (14%). By 2019, the life expectancy gap for sub-Saharan Africa had
+declined to 22 years—11 (50%) of which were attributable to I-8 and 5
+(23%) to NCD-7. Central Asia had had a nearly even split between I-8 and
+NCD-7, with 8.1 years (39%) of a 21-year gap explained by I-8 and 8.4
+(40%) by the NCD-7 in 2000. In 2019, the life expectancy gap there had
+declined to 15 years, less of which was explained by I-8 (4.2 years,
+29%) and more by the NCD-7 (7.1 years, 48%). In 2000, India had a life
+expectancy gap of 20 years, 11 (55%) explained by I-8 and 5.2 (27%)
+attributable to mortality from NCD-7. In 2019, the life expectancy gap
+in India had declined to 12 years, of which 3.4 (29%) were attributable
+to I-8 and 5.6 (49%) to NCD-7.</p>
+
+
+<p>In Western Pacific &amp; Southeast Asia, 5.3 years (41%) of a 13-year
+life expectancy gap were attributable to I-8 and 5 (39%) to NCD-7 in
+2000. In 2019, the life expectancy gap was 7.4 years, 2.1 years (28%)
+explained by I-8 and 3.7 (50%) by NCD-7. In Latin America &amp; the
+Caribbean, the life expectancy gap was 11 years in 2000, 2.5 years (22%)
+accounted for by I-8 and 4.8 (42%) by NCD-7. The gap was 7 years in
+2019, 1.4 years (20%) due to I-8, and 2.8 (40%) due to NCD-7. In the
+Middle East &amp; North Africa, the life expectancy gap was 13 years in
+2000, of which 2.6 years (20%) were attributable to I-8 and 7.1 years
+(56%) to NCD-7. That gap was 7.6 years in 2019, of which 1 year (13%)
+was attributable to I-8 and 4.6 years (60%) to the NCD-7.</p>
+
+
+<h4 class="h4"><strong>Figure 1. Life expectancy gap compared to the
+North Atlantic in 2019 attributable to sets of causes, 2000 and
+2019</strong></h4>
+
+
+<p><img
+src="e0decomp 6th draft ManusTabFig_media/media/image1.svg"
+style="width:6.19843in;height:4.79843in" /></p>
+
+
+<p  class="tabFigNote">Note: Both 2000 and 2019 were compared to the North Atlantic in 2019
+(which had a life expectancy of 82 years). The I-8 are neonatal
+conditions, lower respiratory infections, diarrheal diseases, HIV/AIDS,
+tuberculosis, malaria, childhood-cluster diseases, and maternal
+conditions. The NCD-7 are atherosclerotic cardiovascular diseases,
+hemorrhagic stroke, NCDs strongly linked to infections, NCDs strongly
+linked to tobacco use, diabetes, road injury, and suicide. Data from
+references 3 and 11.</p>
+
+
+<p>In Central &amp; Eastern Europe in 2000, I-8 accounted for 0.9 years
+(8.2%) of a 14-year gap, while the NCD-7 accounted for 9.2 years (66%).
+In 2019, the gap was 7.6 years, of which 0.5 years (7%) were accounted
+for by I-8 and 5.2 years (68%) by the NCD-7. In China, the I-8 explained
+1.7 years (17%) of a 10-year life expectancy gap in 2000, while the
+NCD-7 accounted for 6.3 years (63%). In 2019, the life expectancy gap in
+China had declined to 4.3 years, with 0.2 years (4%) attributable to I-8
+and 3.5 years (82%) to NCD-7. The United States had a 5.4-year gap in
+2000, of which 0.3 years (6%) were explained by I-8 and 3.6 years (66%)
+by NCD-7. In 2019, the life expectancy gap was 3.3 years, 0.1 years (3%)
+due to I-8, and 1.5 years (44%) due to NCD-7.</p>
+
+
+<h2>A more detailed look at the causes behind the life expectancy gaps
+in 2019</h2>
+
+
+<p>In sub-Saharan Africa in 2019, where I-8 still explains half the
+total life expectancy gap, lower respiratory infections accounted for
+the largest share by individual cause (2.1 years, 9.6%; figure 2 and
+table 1). Tuberculosis accounted for 2 years (9.2%), HIV/AIDS for 1.6
+years (7.5%), neonatal conditions for 1.5 years (7.1%), and diarrheal
+diseases for 1.4 years (6.5%). Maternal conditions accounted for 1.2
+years (5.4%) for females in sub-Saharan Africa (appendix p 8).</p>
+
+
+<p>In India in 2019 neonatal conditions and diarrheal diseases accounted
+for about 1 year (8%) of the life expectancy gap each. Lower respiratory
+infections and tuberculosis account for around 5% each, contributing 0.7
+and 0.5 years, respectively. Further, in India in 2019—where the NCD-7
+have risen in importance relative to the I-8 since 2000—atherosclerotic
+CVDs accounted for the largest share of the life expectancy gap, 2.1
+years (18%), followed by tobacco-related NCDs (1.6 years, 14%; figure 3
+and table 1). Hemorrhagic stroke, diabetes, and infection-related NCDs
+each contributed approximately 0.5 years (5%). In China, atherosclerotic
+CVDs explained 1.2 years (27%) of the life expectancy gap. Hemorrhagic
+stroke accounted for 0.8 years (19%), tobacco-related NCDs for 0.7 years
+(17%), and infection-related NCDs for 0.5 years (11%).</p>
+
+
+<p>Most I-8 had a reduced impact between 2000 and 2019 (table 1). In
+sub-Saharan Africa, the impact of HIV/AIDS, diarrheal diseases, malaria,
+tuberculosis, and childhood cluster diseases declined the most. In
+India, diarrheal diseases, neonatal conditions, and lower respiratory
+infections had the most significant decline in impact.</p>
+
+
+<h4 class="h4"><strong>Figure 2. Life expectancy gap compared to the
+North Atlantic attributable to individual I-8: Sub-Saharan Africa and
+India, 2019</strong></h4>
+
+
+<p><img
+src="e0decomp 6th draft ManusTabFig_media/media/image2.svg"
+style="width:5.99843in;height:6.99843in" /></p>
+
+
+<p  class="tabFigNote">Note: Life expectancy in the North Atlantic was 82 years in 2019. The
+full bars show the total life expectancy gap. Red parts show life
+expectancy gap accounted for by the cause indicated on the y-axis.
+Green+red parts show the cumulative contribution of the causes indicated
+at and above each bar on the y-axis to the gap. Gray part shows the
+proportion not accounted for. Data from references 3 and 11.</p>
+
+
+<h4 class="h4"><strong>Figure 3. Life expectancy gap compared to the
+North Atlantic attributable to individual NCD-7: India and China,
+2019</strong></h4>
+
+
+<p><img
+src="e0decomp 6th draft ManusTabFig_media/media/image3.svg"
+style="width:5.99843in;height:6.99843in" /></p>
+
+
+<p  class="tabFigNote">Note: Life expectancy in the North Atlantic was 82 years in 2019. The
+full bars show the total life expectancy gap. Red parts show life
+expectancy gap accounted for by the cause indicated on the y-axis.
+Blue+red parts show the cumulative contribution of the causes indicated
+at and above each bar on the y-axis to the gap. Gray part shows the
+proportion not accounted for. Data from references 3 and 11.</p>
+
+
+<p>For NCD-7, the change in impact varied across locations and causes of
+death, with the impact of most causes decreasing over time. In general,
+there were no substantial increases in the impact of individual NCD-7
+conditions in absolute terms, although the impact of atherosclerotic
+CVDs and diabetes rose somewhat in a few regions, for example,
+sub-Saharan Africa and India. Meanwhile, there were considerable
+declines in the impact of atherosclerotic CVDs in Central &amp; Eastern
+Europe, Middle East &amp; North Africa, and Latin America &amp; the
+Caribbean. China had a substantial decline in the impact of
+tobacco-related NCDs, hemorrhagic stroke, and infection-related
+NCDs.</p>
+
+
+<h2>Country-level analysis</h2>
+
+
+<p>The percentage of life expectancy gap attributable to higher I-8
+mortality ranged from 0 to 63% of the total gap across the 184 countries
+with lower life expectancy than the North Atlantic (with a median of
+16%: figure 4 and appendix p 10 for tabulated estimates). The percentage
+share accounted for by higher mortality from the NCD-7 ranged from 13%
+to 82% across countries (with a median of 48%). The percentage share
+accounted for by both I-8 and NCD-7 combined ranged from 30% to 89%
+across countries and was 72% in the median country.</p>
+
+
+<p>Only in low-income countries was the median percentage share
+accounted for by I-8 greater than the NCD-7. There was a large positive
+correlation (r = 0.82) between the share accounted for by I-8 and the
+total gap in life expectancy across countries (appendix p 11).</p>
+
+
+<h2><br />
+</h2>
+
+
+<h4 class="h4"><strong>Figure 4. Percentage of life expectancy gap
+compared to the North Atlantic attributable to I-8 and NCD-7:
+Distribution across countries, 2019</strong></h4>
+
+
+<p><img
+src="e0decomp 6th draft ManusTabFig_media/media/image4.svg"
+style="width:6.19843in;height:6.99843in" /></p>
+
+
+<p  class="tabFigNote">Note: Number of countries is shown in parentheses. Only countries
+with lower life expectancy than the North Atlantic (or 82 years) were
+included. Results are shown overall and by 2019 World Bank Income groups
+(three countries were not classified). Percentiles 5 and 95 (line) and
+25, 50, and 75 (box) are shown. Dots indicate country estimates below
+percentile 5 and above percentile 95. Countries were equally weighted
+for descriptive statistics. See appendix p 10 for tabulated descriptive
+statistics. See supplement 2 for a dataset including all estimates. The
+I-8 are neonatal conditions, lower respiratory infections, diarrheal
+diseases, HIV/AIDS, tuberculosis, malaria, childhood-cluster diseases,
+and maternal conditions. The NCD-7 are atherosclerotic cardiovascular
+diseases, hemorrhagic stroke, NCDs strongly linked to infections, NCDs
+strongly linked to tobacco use, diabetes, road injury, and suicide. Data
+from references 3 and 11.</p>
+
+
+<h2><br />
+</h2>
+
+
+<h2>Sex-specific results, alternative decomposition methods, and other
+important conditions</h2>
+
+
+<p>The impact of I-8 was substantially greater for females in India,
+primarily due to a larger impact from diarrheal diseases (0.7 years for
+males and 1.2 for females) and to a lesser extent due to lower
+respiratory infections and neonatal conditions (appendix pp 8 and 12).
+Maternal condition also had a notable impact in some regions, such as
+sub-Saharan Africa and Central Asia. The impact of NCD-7 was somewhat
+greater for females in sub-Saharan Africa (4.8 vs 5.3 years), primarily
+due to atherosclerotic CVDs (2.6 vs 3.1) and infection-related NCDs (0.6
+vs 1).</p>
+
+
+<p>Tuberculosis had a greater impact on males in sub-Saharan Africa.
+Overall, the life expectancy gap was much greater for males than females
+in Central &amp; Eastern Europe (9.9 vs 5.4-year gap), partially due to
+atherosclerotic CVDs (4.2 vs 3.4 years) and tobacco-related NCDs (0.6 vs
+0 years). Tobacco-related NCDs also had a somewhat bigger impact on
+males in Central Asia (1 vs 0.5 years). In addition, there was an impact
+of road injuries for males in some regions, for example, sub-Saharan
+Africa. Suicide was not a prominent explanatory factor in any region
+except somewhat for males in Central &amp; Eastern Europe, 0.4 years
+(3.7%), and in the United States, 0.2 years (6%).</p>
+
+
+<p>The North Atlantic had a 0.5- and 0.2-year decline in life expectancy
+between 2019 and 2021, for males and females, respectively (appendix p
+13). The gap in life expectancy (compared to the North Atlantic in 2019)
+had grown considerably in the United States in 2021, to 6.3 years for
+males and 5.1 years for females, with COVID-19 explaining 1.7 years
+(27%) and 1.5 years (28%) of the total gap, respectively. Life
+expectancy in Latin America &amp; the Caribbean, Central &amp; Eastern
+Europe, and India was impacted by COVID-19 to a much greater extent than
+in the North Atlantic, increasing the life expectancy gap.</p>
+
+
+<p>Results were highly similar when using different decomposition
+methods (appendix pp 15 and 17).</p>
+
+
+<p>Here, we note all causes not included in the I-8 or NCD-7 that had an
+impact greater than either 0.5 years or 10% of the total gap in life
+expectancy in 2019 in the six regions and three countries highlighted.
+Interpersonal violence accounted for 1.3 years (17% of the total life
+expectancy gap) for males in Latin America &amp; the Caribbean and 0.6
+years (3.6%) in sub-Saharan Africa (appendix p 19). (Interpersonal
+violence contributed 3 of a 13-year gap for males in El Salvador; the
+highest globally: see Supplement 2.) In the United States, drug use
+disorders accounted for 0.5 years (15%) for males and “Alzheimer disease
+and other dementias” accounted for 0.4 years (12%) for females.
+Hypertensive heart disease had an impact of 0.8 years (3.6%) for females
+in sub-Saharan Africa and 0.5 years (6.8%) in the Middle East &amp;
+North Africa. “Cardiomyopathy, myocarditis, endocarditis” had an impact
+of 0.5 years (5.5%) for males in Central &amp; Eastern Europe.</p>
+
+
+<h1>Discussion</h1>
+
+
+<p>In the six regions and the three most populous countries highlighted
+in this paper, mortality from the priority conditions, the I-8 and
+NCD-7, together accounted for almost 80% of the life expectancy
+disparity relative to the North Atlantic in most cases. The NCD-7
+commonly accounted for over half the total gap in 2019. We observed an
+impressive decline in the impact of I-8 in sub-Saharan Africa 2000–2019,
+which drove a large overall decline in the life expectancy disparity.
+Meanwhile, the impact of NCD-7 rose. Further, India transitioned from
+having most of the disparity attributable to deaths from I-8 in 2000 to
+having a larger share explained by NCD-7 in 2019. The NCD-7 and I-8
+together accounted for over 70% of the life expectancy disparity in most
+countries.</p>
+
+
+<p>Among the 115 causes not among the I-8 and NCD-7, hardly any had a
+large impact (or more than 10% or 0.5 years of the total life expectancy
+gap), which underscores the importance of relatively few priority
+conditions. However, interpersonal violence had a large impact for males
+in Latin America &amp; the Caribbean, and drug use disorder had a
+considerable impact in the United States. (However, by 2021, the
+COVID-19 pandemic had put most regions further behind the North
+Atlantic, especially India, Latin America &amp; the Caribbean, and
+Central &amp; Eastern Europe.)</p>
+
+
+<p>Our results highlight the importance of ensuring coverage of the most
+essential health interventions aimed at the 15 priority conditions for
+improving population health. The WHO suggested that in 2021, 4.5 billion
+people were not covered by essential health services<sup>17,18</sup> and
+that current health expenditure is far below what is needed to provide
+these.<sup>4,19,20</sup> The World Bank estimated that even with
+favorable policies and economic growth, the financing gap in low and
+middle-income countries would only be reduced by about a third by
+2030.<sup>4</sup> In settings with severely constrained finances,
+covering a limited number of critical interventions addressing the most
+urgent health problems might be more financially and administratively
+feasible, without sacrificing population health gains.<sup>5</sup></p>
+
+
+<p>The priority conditions are prominent or rising health concerns with
+known determinants and cost-effective solutions.<sup>5,21</sup> The
+relative impact of each cause on life expectancy disparities can guide
+policy emphasis, planning, and the allocation of additional health
+spending. Of the causes highlighted in this paper, atherosclerotic CVDs
+accounted for the largest share of the life expectancy gap in all
+regions except sub-Saharan Africa (where it also accounts for a
+substantial and increasing share). The importance of atherosclerotic
+CVDs highlights the need for improving diagnosis of
+hypertension<sup>22</sup> and medical interventions (eg, statins) and
+behavioral interventions (eg, reduced smoking, improved diet, and
+increased physical activity) to delay mortality from these
+causes.<sup>23</sup> Preventative interventions for diabetes, such as
+taxation of sugary drinks,<sup>24</sup> and improved diagnosis and
+treatment,<sup>25</sup> can be implemented to combat the considerable
+and rising relative impact of diabetes in some regions.</p>
+
+
+<p>The significant effect of tobacco-related NCDs in China and India
+suggests that gains can be made through tobacco control, for instance,
+by legislation restricting smoking<sup>26</sup> and
+taxation.<sup>7</sup> However, in both China and India, smoking is much
+more prevalent among males (while both prevalence and sex differences
+are smaller in the North Atlantic). Still, the impact of tobacco-related
+NCDs was similar for males and females in China and greater for females
+in India, which may suggest that other factors, such as
+outdoor<sup>27</sup> and indoor<sup>28</sup> air pollution, may play a
+role.</p>
+
+
+<p>An expansion of maternal and child health interventions (especially
+prevention of diarrhea, neonatal conditions, and lower respiratory
+infections) and tuberculosis interventions remains essential in
+sub-Saharan Africa, India, Central Asia, and Western Pacific &amp;
+Southeast Asia. Since childhood deaths often result from repeated
+adverse exposures, an intervention aimed at reducing deaths from one
+condition can also indirectly reduce mortality from other
+causes.<sup>29</sup> Poor health in childhood can also have compounding
+effects on human development in terms of health,<sup>30,31</sup>
+physiological<sup>32</sup> and cognitive development<sup>33</sup> and
+schooling and income,<sup>34</sup> which in turn are linked to life
+expectancy.<sup>35</sup></p>
+
+
+<p>Some of the causes highlighted here contributed little to the life
+expectancy disparities. The relatively small impact of childhood-cluster
+diseases highlights the success of the widespread (although incomplete)
+distribution of vaccines.<sup>36,37</sup> For example, in sub-Saharan
+Africa, the impact of childhood-cluster diseases was considerable in
+2000 (1.5 years) but had declined substantially by 2019 (to 0.4 years).
+Further, suicide had little (or, often, no) impact on life expectancy
+disparities since suicide is not particularly rare in the North
+Atlantic.<sup>38</sup> Suicide is also only the most extreme consequence
+of poor mental health, which is a rising health concern, and is
+associated with heightened mortality from a range of conditions, likely
+stemming from factors such as health behaviors, access to care, and
+socioeconomic factors.<sup>39,40</sup></p>
+
+
+<p>Previous studies have used the measures of amenable mortality—or
+deaths that could have been avoided with timely and effective care—to
+measure shortcomings in health.<sup>41,42</sup> Amenable mortality
+evidences a similar geographic distribution as the life expectancy
+disparities in this study and also suggests a greater need for
+addressing mortality from infectious diseases and maternal and child
+deaths at lower levels of development.<sup>41</sup> This study takes a
+more general approach using a more straightforward metric and benchmarks
+shortcomings to an outcome that has been achieved. However, studies
+using amenable mortality remind us that further improvements can be
+achieved even in our benchmark—the North Atlantic—by reducing avoidable
+deaths.</p>
+
+
+<p>Some limitations and caveats should be kept in mind when interpreting
+these results. First, there are caveats related to using life expectancy
+to identify current shortcomings in health. Mortality often results from
+repeated or extended periods of adverse exposures (eg, smoking, diet,
+and early life infections and undernutrition) involving many interlinked
+factors. Since (period) life expectancy gives a snapshot of current
+age-specific mortality, this decomposition will not capture the impact
+of recent health interventions and changes in underlying risk factors
+that impact mortality rates with delays. For example, rowecent dramatic
+declines in tobacco use in India are likely to reduce the impact of
+tobacco-related NCDs in the future.<sup>43</sup> Therefore, the results
+from this paper should be viewed together with information on recent
+changes in underlying risk factors.</p>
+
+
+<p>Second, there are limitations related to data quality. Data in
+countries without well-functioning vital registration systems relied on
+censuses, survey data (eg, sibling survival), and model life tables to
+estimate all-cause mortality; and various methods and sources for
+specific causes of death.<sup>12</sup> However, data quality issues were
+unlikely to be an underlying factor in driving the predominant
+importance of the priority conditions.</p>
+
+
+<h1>Conclusions</h1>
+
+
+<p>This study underscores the significant impact of 15 priority
+conditions on life expectancy disparities, with notable regional
+variations and transitions over time. The decline in deaths from I-8,
+particularly in sub-Saharan Africa, contrasts with the rising importance
+of NCD-7, highlighting the evolving nature of global health challenges.
+These findings emphasize the critical importance of focusing limited
+resources on the key conditions that contribute the most to poor health
+and health disparities.</p>
+
+
+<h1><br />
+</h1>
+
+
+<h1>Funding</h1>
+
+
+<p>Karlsson was funded by a Wallander Scholarship (Stockholm, Sweden:
+W19-0015) from the Jan Wallander and Tom Hedelius Foundation. The work
+of the Commission on Investing in Health 3.0 was supported by the
+Norwegian Agency for Development Cooperation (NORAD, Osla, Norway:
+RAF-20/0032) and Bill and Melinda Gates Foundation (Seattle, WA, USA:
+INV-061385).</p>
+
+
+<h1>Role of the funding source</h1>
+
+
+<p>The funding sources played a role in the data collection and
+analysis, reporting and interpretation of results, or the decision to
+submit the manuscript for publication. Authors were not precluded from
+accessing data in the study, and they accept responsibility to submit
+for publication.</p>
+
+
+<h1>Compliance with ethical standards</h1>
+
+
+<p>This project used publicly accessible secondary aggregate data from
+the WHO and UN. These activities do not meet the regulatory definition
+of human subject research. As such, an Institutional Review Board review
+was not required.</p>
+
+
+<h1>Contributions</h1>
+
+
+<p>Omar Karlsson did data management, analysis, reporting, and wrote the
+manuscript. Dean Jamison and Omar Karlsson devised the conceptual idea
+of the paper. All authors provided critical feedback on the manuscript.
+All authors approved the final manuscript as submitted and agree to be
+accountable for all aspects of the work.</p>
+
+
+<h1>Declarations of interest</h1>
+
+
+<p>None.</p>
+
+
+<h1>Acknowledgements</h1>
+
+
+<p>Omar Karlsson is grateful to the Duke Population Research Center
+(DPRC) and its NICHD Center Grant (P2C HD0065563) for providing office
+space and IT support.</p>
+
+
+<h1>Supplementary information</h1>
+
+
+<p>Supplements 1 and 2.</p>
+
+
+<h1><br />
+</h1>
+
+
+<h1>REFERENCES</h1>
+
+
+<p>1 Oeppen J, Vaupel JW. Demography. Broken limits to life expectancy.
+<em>Science</em> 2002; <strong>296</strong>: 1029–31.</p>
+
+
+<p>2 Weil DN. Chapter 3 - Health and Economic Growth. In: Aghion P,
+Durlauf SN, eds. Handbook of Economic Growth. Elsevier, 2014:
+623–82.</p>
+
+
+<p>3 United Nations, Department of Economic and Social Affairs,
+Population Division. World Population Prospects 2024, Online Edition.
+2024. https://population.un.org/wpp/Download/Standard/MostUsed/
+(accessed July 14, 2024).</p>
+
+
+<p>4 World Bank Group. High-Performance Health Financing for Universal
+Health Coverage (Vol. 2) : Driving Sustainable, Inclusive Growth in the
+21st Century (English). Washington, D.C.: World Bank Group, 2019
+http://documents.worldbank.org/curated/en/641451561043585615/Driving-Sustainable-Inclusive-Growth-in-the-21st-Century
+(accessed Dec 14, 2023).</p>
+
+
+<p>5 Jamison DT, Summers LH, Alleyne G, <em>et al.</em> Global health
+2035: a world converging within a generation. <em>The Lancet</em> 2013;
+<strong>382</strong>: 1898–955.</p>
+
+
+<p>6 Watkins DA, Yamey G, Schäferhoff M, <em>et al.</em> Alma-Ata at 40
+years: reflections from the Lancet Commission on Investing in Health.
+<em>The Lancet</em> 2018; <strong>392</strong>: 1434–60.</p>
+
+
+<p>7 Watkins DA, Msemburi WT, Pickersgill SJ, <em>et al.</em> NCD
+Countdown 2030: efficient pathways and strategic investments to
+accelerate progress towards the Sustainable Development Goal target 3.4
+in low-income and middle-income countries. <em>The Lancet</em> 2022;
+<strong>399</strong>: 1266–78.</p>
+
+
+<p>8 Mao W, Ogbuoji O, Watkins D, <em>et al.</em> Achieving global
+mortality reduction targets and universal health coverage: The impact of
+COVID-19. <em>PLOS Medicine</em> 2021; <strong>18</strong>:
+e1003675.</p>
+
+
+<p>9 Dean T Jamison*, Lawrence H Summers*, Angela Y Chang†, Omar
+Karlsson†, Wenhui Mao†, Ole F Norheim†, Osondu Ogbuoji†, Marco
+Schäferhoff†, David Watkins†, Olusoji Adeyi, George Alleyne, Ala Alwan,
+Shuchi Anand, Ruth Belachew, Seth Berkley, Stefano M Bertozzi, Sarah
+Bolongaita, Donald Bundy, Flavia Bustreo, Marcia C Castro, Simiao Chen,
+Victoria Y Fan, Ayodamope Fawole, Richard Feachem,, <em>et al.</em>
+Global health 2050: the path to halving premature death by mid-century.
+<em>The Lancet</em> forthcoming.</p>
+
+
+<p>10 Bengtsson T, Lindström M. Childhood misery and disease in later
+life: The effects on mortality in old age of hazards experienced in
+early life, southern Sweden, 1760-1894. <em>Population Studies</em>
+2000; <strong>54</strong>: 263–77.</p>
+
+
+<p>11 World Health Organization. Global Health Estimates. 2022.
+https://www.who.int/data/global-health-estimates (accessed Dec 14,
+2023).</p>
+
+
+<p>12 World Health Organization. Global Health Estimates, 2000-2021.
+Geneva: Department of Data and Analytics (DNA) Division of Data,
+Analytics and Delivery for Impact (DDI) WHO, 2024.</p>
+
+
+<p>13 Pollard JH. On the decomposition of changes in expectation of life
+and differentials in life expectancy. <em>Demography</em> 1988;
+<strong>25</strong>: 265–76.</p>
+
+
+<p>14 Suchindran C, MEASURE Evaluation. Lesson 5: Expectation of Life at
+Birth. Multiple-Decrement Life Tables. 2024.
+https://www.measureevaluation.org/resources/training/online-courses-and-resources/non-certificate-courses-and-mini-tutorials/multiple-decrement-life-tables/lesson-5.html
+(accessed July 14, 2024).</p>
+
+
+<p>15 Arriaga EE. Measuring and explaining the change in life
+expectancies. <em>Demography</em> 1984; <strong>21</strong>: 83–96.</p>
+
+
+<p>16 Haacker M. Contributions of declining mortality, overall and from
+HIV, TB and malaria, to reduced health inequality and inequity across
+countries. <em>Health Policy Plan</em> 2023; <strong>38</strong>:
+939–48.</p>
+
+
+<p>17 World Health Organization and International Bank for
+Reconstruction and Development / The World Bank. Tracking universal
+health coverage: 2023 global monitoring report. Geneva: World Health
+Organization and International Bank for Reconstruction and Development /
+The World Bank, 2023
+https://cdn.who.int/media/docs/default-source/hgf/9789240080379.pdf?sfvrsn=780a6606_3&amp;download=true
+(accessed Dec 14, 2023).</p>
+
+
+<p>18 United Nations. Indicator 3.8.1: Coverage of essential health
+services. SDG indicator metadata. 2023.
+https://unstats.un.org/sdgs/metadata/files/Metadata-03-0D-01.pdf
+(accessed Dec 14, 2023).</p>
+
+
+<p>19 World Health Organization. World health statistics 2017:
+monitoring health for the SDGs, sustainable development goals. Geneva:
+World Health Organization, 2017
+https://iris.who.int/bitstream/handle/10665/255336/9789241565486-eng.pdf?sequence=1
+(accessed Dec 22, 2023).</p>
+
+
+<p>20 World Bank. Current health expenditure per capita (current US$) -
+Lower middle income, Low income. World Bank Open Data. 2023.
+https://data.worldbank.org/indicator/SH.XPD.CHEX.PC.CD?locations=XN-XM
+(accessed Dec 22, 2023).</p>
+
+
+<p>21 Jamison DT, Alwan A, Mock CN, <em>et al.</em> Universal health
+coverage and intersectoral action for health: key messages from Disease
+Control Priorities, 3rd edition. <em>Lancet</em> 2018;
+<strong>391</strong>: 1108–20.</p>
+
+
+<p>22 World Health Organization. Global report on hypertension: the race
+against a silent killer. Geneva: World Health Organization, 2023
+https://www.who.int/teams/noncommunicable-diseases/hypertension-report
+(accessed Dec 14, 2023).</p>
+
+
+<p>23 Arnett DK, Blumenthal RS, Albert MA, <em>et al.</em> 2019 ACC/AHA
+Guideline on the Primary Prevention of Cardiovascular Disease: A Report
+of the American College of Cardiology/American Heart Association Task
+Force on Clinical Practice Guidelines. <em>Circulation</em> 2019;
+<strong>140</strong>. DOI:10.1161/CIR.0000000000000678.</p>
+
+
+<p>24 Colchero MA, Rivera-Dommarco J, Popkin BM, Ng SW. In Mexico,
+Evidence Of Sustained Consumer Response Two Years After Implementing A
+Sugar-Sweetened Beverage Tax. <em>Health Affairs</em> 2017;
+<strong>36</strong>: 564–71.</p>
+
+
+<p>25 World Health Organization. Diabetes: Prevention and treatment.
+Health Topics.
+https://www.who.int/health-topics/diabetes?gclid=CjwKCAiA7t6sBhAiEiwAsaieYrzZiOdSMJbYFpFxFSsWuHY7D0SFgqcFNujZCx0AzToVvPjIlqF-MhoCkM4QAvD_BwE#tab=tab_3
+(accessed Jan 5, 2024).</p>
+
+
+<p>26 Akter S, Islam MdR, Rahman MdM, <em>et al.</em> Evaluation of
+Population-Level Tobacco Control Interventions and Health Outcomes: A
+Systematic Review and Meta-Analysis. <em>JAMA Network Open</em> 2023;
+<strong>6</strong>: e2322341–e2322341.</p>
+
+
+<p>27 Guan W-J, Zheng X-Y, Chung KF, Zhong N-S. Impact of air pollution
+on the burden of chronic respiratory diseases in China: time for urgent
+action. <em>The Lancet</em> 2016; <strong>388</strong>: 1939–51.</p>
+
+
+<p>28 Liu N, Liu W, Deng F, <em>et al.</em> The burden of disease
+attributable to indoor air pollutants in China from 2000 to 2017.
+<em>The Lancet Planetary Health</em> 2023; <strong>7</strong>:
+e900–11.</p>
+
+
+<p>29 Schmidt W-P, Cairncross S, Barreto ML, Clasen T, Genser B. Recent
+diarrhoeal illness and risk of lower respiratory infections in children
+under the age of 5 years. <em>International Journal of Epidemiology</em>
+2009; <strong>38</strong>: 766–72.</p>
+
+
+<p>30 Guerrant RL, DeBoer MD, Moore SR, Scharf RJ, Lima AAM. The
+impoverished gut—a triple burden of diarrhoea, stunting and chronic
+disease. <em>Nat Rev Gastroenterol Hepatol</em> 2013;
+<strong>10</strong>: 220–9.</p>
+
+
+<p>31 Allinson JP, Chaturvedi N, Wong A, <em>et al.</em> Early childhood
+lower respiratory tract infection and premature adult death from
+respiratory disease in Great Britain: a national birth cohort study.
+<em>The Lancet</em> 2023; <strong>401</strong>: 1183–93.</p>
+
+
+<p>32 Karlsson O. Scarring and selection effects on children surviving
+elevated rates of postneonatal mortality in sub-Saharan Africa. <em>SSM
+- Population Health</em> 2022; <strong>19</strong>: 101160.</p>
+
+
+<p>33 Khalil IA-M, Troeger C, Rao P, <em>et al.</em> Assessing the
+Nonfatal Burden of Childhood Diarrhea Including Malnutrition, Physical
+Growth, and Cognitive Development. <em>Open Forum Infectious
+Diseases</em> 2016; <strong>3</strong>: 1220.</p>
+
+
+<p>34 Akseer N, Tasic H, Onah MN, <em>et al.</em> Economic costs of
+childhood stunting to the private sector in low- and middle-income
+countries. <em>eClinicalMedicine</em> 2022; <strong>45</strong>.
+DOI:10.1016/j.eclinm.2022.101320.</p>
+
+
+<p>35 Chetty R, Stepner M, Abraham S, <em>et al.</em> The Association
+Between Income and Life Expectancy in the United States, 2001-2014.
+<em>JAMA</em> 2016; <strong>315</strong>: 1750–66.</p>
+
+
+<p>36 World Bank. Immunization, DPT (% of children ages 12-23 months) -
+World, Sub-Saharan Africa. World Bank Open Data. 2023.
+https://data.worldbank.org/indicator/SH.IMM.IDPT?locations=1W-ZG
+(accessed Dec 22, 2023).</p>
+
+
+<p>37 WHO/UNICEF. Estimates of National Immunization Coverage, 2022
+Revision. WUENIC Trends. 2023.
+https://worldhealthorg.shinyapps.io/wuenic-trends-2023/ (accessed Dec
+22, 2023).</p>
+
+
+<p>38 World Health Organization. Suicide rate estimates,
+age-standardized Estimates by country. Global Health Observatory data
+repository. 2021.
+https://apps.who.int/gho/data/view.main.MHSUICIDEASDRv?lang=en (accessed
+Jan 5, 2024).</p>
+
+
+<p>39 Walker ER, McGee RE, Druss BG. Mortality in Mental Disorders and
+Global Disease Burden Implications: A Systematic Review and
+Meta-analysis. <em>JAMA Psychiatry</em> 2015; <strong>72</strong>:
+334–41.</p>
+
+
+<p>40 Laursen TM, Nordentoft M, Mortensen PB. Excess early mortality in
+schizophrenia. <em>Annu Rev Clin Psychol</em> 2014; <strong>10</strong>:
+425–48.</p>
+
+
+<p>41 Barber RM, Fullman N, Sorensen RJD, <em>et al.</em> Healthcare
+Access and Quality Index based on mortality from causes amenable to
+personal health care in 195 countries and territories, 1990–2015: a
+novel analysis from the Global Burden of Disease Study 2015. <em>The
+Lancet</em> 2017; <strong>390</strong>: 231–66.</p>
+
+
+<p>42 Nolte E, McKee M. Variations in amenable mortality—Trends in 16
+high-income nations. <em>Health Policy</em> 2011; <strong>103</strong>:
+47–52.</p>
+
+
+<p>43 World Health Organization. Age-standardized estimates of current
+tobacco use, tobacco smoking and cigarette smoking (Tobacco control:
+Monitor). The Global Health Observatory. 2022.
+https://www.who.int/data/gho/data/indicators/indicator-details/GHO/gho-tobacco-control-monitor-current-tobaccouse-tobaccosmoking-cigarrettesmoking-agestd-tobagestdcurr
+(accessed Jan 6, 2024).</p>
+
+    <!-- Modal for Comment Section
+    <div id="commentModal" class="modal">
+      <div class="modal-content">
+          <span id="closeModal" class="close-button">&times;</span>
+          <h2>Comment</h2>
+          <div id="utterances-container"></div>
+      </div>
+  </div>
+
+    <button id="commentButton" class="comment-button">💬 Comment</button>
+
+<script src="https://utteranc.es/client.js"
+    repo="O-Karlsson/O-karlsson.github.io"
+    issue-term="C:/Users/Om/OneDrive/Everything/Work in progress/PortofolioDEV"
+    theme="github-light"
+    crossorigin="anonymous"
+    async>
+    </script>
+
+  -->
+    
+<script src="script-paper.js"></script>
+
+
+</body>
+</html>

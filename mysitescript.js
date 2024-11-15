@@ -13,7 +13,6 @@ function loadMarkdownContent(url, targetElementId) {
 }
 
 // Call the function to load content from your markdown file into the "Project X" section
-loadMarkdownContent('CIH.md', 'project-x-content');
 loadMarkdownContent('CV.md', 'cv-content');
 
 
@@ -24,15 +23,13 @@ function toggleSection(headings) {
             const content = heading.nextElementSibling;
 
             // Toggle between collapsed and expanded states using max-height
-            if (content.style.maxHeight && content.style.maxHeight !== '0px') {
-                content.style.maxHeight = '0px'; // Collapse
+            if (content.style.display === 'block') {
+                content.style.display = 'none';
+                backToMenuButton.style.display = 'none';
             } else {
-                const maxHeight = content.getAttribute('data-height') || '50000px'; // Use fixed max height or default to 500px
-                content.style.maxHeight = maxHeight; // Expand to max height
+                content.style.display = 'block';
+                backToMenuButton.style.display = 'block';
             }
-
-            // Mark this section as active/inactive
-            heading.classList.toggle('active');
 
             // Show the "Back to Menu" button when any content is expanded
             document.getElementById('backToMenu').style.display = 'block';
@@ -44,20 +41,68 @@ function toggleSection(headings) {
 }
 
 
-    
-// Initialize toggle for main headings (h2 elements)
-toggleSection(document.querySelectorAll('h2.expandable'));
+toggleSection(document.querySelectorAll('h2'));
 
-// Initialize toggle for subheadings (h3 elements)
-toggleSection(document.querySelectorAll('h3.subheading'));
 
-// Back to Menu button functionality
-document.getElementById('backToMenu').addEventListener('click', () => {
-    // Collapse all content sections
+
+// Function to collapse all expanded headers
+function collapseAllHeaders() {
+    // Loop through all content sections and hide them
     document.querySelectorAll('.content').forEach(content => {
-        content.style.maxHeight = '0px'; // Collapse content
+        content.style.display = 'none';
     });
 
     // Hide the "Back to Menu" button
-    document.getElementById('backToMenu').style.display = 'none';
-});
+    backToMenuButton.style.display = 'none';
+    backToPortButton.style.display = 'none';
+
+}
+
+
+        // Select all buttons with the .openFullView class
+        const openFullViewButtons = document.querySelectorAll('.openFullView');
+        const iframe = document.querySelector('.dash');
+        const backToMenuButton = document.getElementById('backToMenu');
+        const backToPortButton = document.getElementById('backToPort');
+
+        const body = document.body;
+
+        // Function to handle opening the full-window iframe
+        openFullViewButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Get the URL from the data-src attribute of the clicked button
+                const src = button.getAttribute('data-src');
+
+                // Set the iframe source dynamically and display it
+                iframe.src = src;
+                iframe.style.display = 'block';
+                backToMenuButton.style.display = 'none';
+                backToPortButton.style.display = 'block';
+
+                // Hide the rest of the body content
+                body.classList.add('body-hidden');
+            });
+        });
+
+        // Handle "Back to Menu" button click
+        backToMenuButton.addEventListener('click', () => {
+            // Hide the iframe and the Back to Menu button
+            backToMenuButton.style.display = 'none';
+            collapseAllHeaders()
+        });
+
+
+                // Handle "Back to Menu" button click
+                backToPortButton.addEventListener('click', () => {
+                    backToMenuButton.style.display = 'block';
+
+                    // Hide the iframe and the Back to Menu button
+                    iframe.style.display = 'none';
+                    backToPortButton.style.display = 'none';
+                   // Clear the iframe source to stop loading the content
+                    iframe.src = '';
+                    // Show the rest of the body content
+                    body.classList.remove('body-hidden');
+                });
+
+
