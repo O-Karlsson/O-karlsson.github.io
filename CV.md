@@ -137,7 +137,7 @@ School of Economics and Management, Lund University, Sweden
 | Year  | Grant Name                                              | Institution                                      | Details                                               |
 |-------|---------------------------------------------------------|--------------------------------------------------|-------------------------------------------------------|
 | 2020  | International Postdoc                                    | Swedish Research Council                          | Three-year postdoctoral scholarship                    |
-| 2020  | Wallander Scholarship                                    | Jan Wallander's Foundation                                     | Three-year postdoctoral scholarship                      |
+| 2020  | Wallander Scholarship                                    | Jan Wallander's Foundation                                     | Two-year postdoctoral scholarship                      |
 | 2016  | Hedelius Scholarship                       | Tom Hedelius' Foundation                                    | One year scholarship |
 
 ---
