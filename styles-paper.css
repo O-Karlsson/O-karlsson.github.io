@@ -117,7 +117,7 @@ th, td {
 }
 
 /* Responsive Design for Smaller Screens */
-@media (max-width: 800px) {
+@media (max-width: 900px) {
     .table-container {
         overflow-y: scroll; /* Always show vertical scrollbar */
         width: 100%; 
