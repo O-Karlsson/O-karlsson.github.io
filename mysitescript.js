@@ -103,6 +103,9 @@ function collapseAllHeaders() {
                     iframe.src = '';
                     // Show the rest of the body content
                     body.classList.remove('body-hidden');
+                    collapseAllHeaders()
+
+
                 });
 
 
