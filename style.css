@@ -8,7 +8,7 @@ body {
     flex-direction: column; /* items are in a column rather than next to each other */
     align-items: center; /* since the flex-direction is a column, this is the horizontal centering (like 'justify-content') */
     line-height: 1.5;
-    font-size: 18px;
+    font-size: 17px;
     padding-bottom: 80px; 
     padding-top: 30px; 
     max-width: 800px;
@@ -16,14 +16,14 @@ body {
 
 .header { margin: 0px 0;}
 
-h1 {font-size: 1.4em; margin: 0;}
+h1 {font-size: 1.2em; margin: 0;}
 
-.profile-image {max-width: 150px; border-radius: 50%;}
+.profile-image {max-width: 150px; border-radius: 50%; padding: 20px;}
 
 /* this CSS doesn't seem to do much */
 #mainContent {
     width: 100%;
-    padding: 20px;
+    padding: 0 20px;
     box-sizing: border-box; /* says the padding should be included in the width/height */ 
 }
 
@@ -32,13 +32,13 @@ hr.top {border-top: 2px solid #000; margin: 30px 0px 5px 40px;}
 hr.bottom {border-top: 2px solid #000; margin: 0px 0px 5px 40px;}
 
 h1.sect {
-    font-size: 1.4em;
+    font-size: 1.2em;
     text-align: left;
     margin:  0px 0 0px 50px;
 }
 
 h2 {
-    font-size: 1.2em;
+    font-size: 1.1em;
     cursor: pointer;
     background-color: #c1d9eb;
     padding: 10px;
@@ -84,11 +84,11 @@ h3 {
     display: none;
     position: fixed;
     bottom: 30px;
-    right: 26%;
+    right: 10%;
     background-color: #ac2626;
     color: white;
     border: none;
-    padding: 20px;
+    padding: 13px;
     border-radius: 5px;
     cursor: pointer;
     z-index: 10000;
@@ -127,7 +127,7 @@ li {margin-bottom: 25px;}
 
 @media (max-width: 900px) {
     #mainContent {padding: 0 13px;}
-    h2 {font-size: 1.2em;}
+    h2 {font-size: 1.1em;}
     .backbutton {right: 5px; }
 
 }

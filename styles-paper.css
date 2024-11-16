@@ -5,7 +5,7 @@ html {
 body {
     width: auto; /* Remove any width restrictions on the body */
     font-family: Arial, sans-serif;
-    font-size: 20px;
+    font-size: 17px;
     line-height: 1.5; /* 1.5 line spacing */
     width: 100%; /* Full width of the viewport */
     max-width: 800px; /* Constrain the body width to the viewport */
