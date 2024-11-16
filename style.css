@@ -125,7 +125,7 @@ li {margin-bottom: 25px;}
     hr {color: white;}
 }
 
-@media (max-width: 800px) {
+@media (max-width: 900px) {
     #mainContent {padding: 0 13px;}
     h2 {font-size: 1.2em;}
     .backbutton {right: 5px; }
