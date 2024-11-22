@@ -68,14 +68,18 @@ function collapseAllHeaders() {
         const body = document.body;
 
 // Function to handle opening the full-window HTML
-openFullViewButtons.forEach(button => {
+document.querySelectorAll('.openFullView').forEach(button => {
     button.addEventListener('click', () => {
-        // Get the URL from the data-src attribute of the clicked button
-        const src = button.getAttribute('data-src');
+        const backDestination = button.getAttribute('data-back'); // Get the data-back value
+        const src = button.getAttribute('data-src'); // Get the data-src value
 
-        // Navigate to the new HTML page
         if (src) {
-            window.location.href = src;
+            // Append the backDestination as a query parameter to the src URL
+            const url = new URL(src, window.location.origin);
+            if (backDestination) {
+                url.searchParams.set('back', backDestination); // Add the back query parameter
+            }
+            window.location.href = url.toString(); // Navigate to the new URL with the query parameter
         }
     });
 });
