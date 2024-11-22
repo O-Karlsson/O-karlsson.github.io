@@ -7,7 +7,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeMenu = document.getElementById('close-menu');
     const closeToc = document.getElementById('close-toc');
     const tocList = document.getElementById('toc-list');
+    // Pass the back query parameter to script-paper.js via the global context or directly as an argument
+    const urlParams = new URLSearchParams(window.location.search);
+    const backTarget = urlParams.get('back') || 'index.html'; // Default to index.html if no parameter is provided
 
+    // Store it in a global variable if needed by script-paper.js
+    window.backTarget = backTarget;
     menuButton.addEventListener('click', () => {
         menuModal.style.display = 'block';
     });
@@ -17,10 +22,10 @@ document.addEventListener('DOMContentLoaded', () => {
         populateTOC();
     });
 
+    // Set the Back button's click behavior
     backButton.addEventListener('click', () => {
-        window.location.href = 'index.html';
+        window.location.href = backTarget; // Navigate to the back destination
     });
-
     closeMenu.addEventListener('click', () => {
         menuModal.style.display = 'none';
     });

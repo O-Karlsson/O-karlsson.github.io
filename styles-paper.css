@@ -2,19 +2,18 @@ html {
     color-scheme: light dark;
 }
 /* Apply styles directly to the body */
-body {
-    width: auto; /* Remove any width restrictions on the body */
+body.paper-body {
     font-family: Arial, sans-serif;
     font-size: 17px;
-    line-height: 1.5; /* 1.5 line spacing */
-    width: 100%; /* Full width of the viewport */
-    max-width: 800px; /* Constrain the body width to the viewport */
-    margin: 0 auto; /* Center the content */
+    line-height: 1.5; /* Line spacing for better readability */
+    width: 100%;
+    max-width: 800px; /* Constrain the body width */
+    margin: 0 auto; /* Center the body within the viewport */
     padding: 40px;
+    text-align: left; /* Ensure text remains left-aligned */
 }
 
-
-.first-page {margin: 0; font-weight:bold;}
+.toc-head {margin: 0; font-weight:bold;}
 .messageMe {padding:50px 0; margin:0; font-weight:bold;}
 .titles {margin:0; padding:30px; font-weight:bold; font-size:30px; text-align:center;}
 
@@ -62,10 +61,10 @@ sup {
 
 /* Images */
 img {
-    max-width: 800px;
-    width: 100% !important;
-    height: auto !important;
-    margin: 5px auto;
+    display: block; /* Turn the image into a block element */
+    margin: 0 auto; /* Center the image horizontally */
+    max-width: 100%; /* Ensure the image scales down if too wide */
+    height: auto; /* Maintain the image's aspect ratio */
 }
 
 
@@ -236,6 +235,8 @@ th, td {
 
 @media (prefers-color-scheme: dark) {
     .modal ul li {
-    color: black;        
-    }
+    color: black;     
+}
+.toc-head {    color: black;     
+} 
     }
