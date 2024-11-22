@@ -67,22 +67,18 @@ function collapseAllHeaders() {
 
         const body = document.body;
 
-        // Function to handle opening the full-window iframe
-        openFullViewButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                // Get the URL from the data-src attribute of the clicked button
-                const src = button.getAttribute('data-src');
+// Function to handle opening the full-window HTML
+openFullViewButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        // Get the URL from the data-src attribute of the clicked button
+        const src = button.getAttribute('data-src');
 
-                // Set the iframe source dynamically and display it
-                iframe.src = src;
-                iframe.style.display = 'block';
-                backToMenuButton.style.display = 'none';
-                backToPortButton.style.display = 'block';
-
-                // Hide the rest of the body content
-                body.classList.add('body-hidden');
-            });
-        });
+        // Navigate to the new HTML page
+        if (src) {
+            window.location.href = src;
+        }
+    });
+});
 
         // Handle "Back to Menu" button click
         backToMenuButton.addEventListener('click', () => {
