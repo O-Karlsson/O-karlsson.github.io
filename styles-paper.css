@@ -13,18 +13,11 @@ body {
     padding: 40px;
 }
 
-.first-page {
-    line-height: 1;
-h2 {
-    font-size: 20px;
-    font-weight: bold;
-    font-style: normal;  
-}
-p {
-    margin-top: 0;
-    margin-bottom: 0.5em;
-}
-}
+
+.first-page {margin: 0; font-weight:bold;}
+.messageMe {padding:50px 0; margin:0; font-weight:bold;}
+.titles {margin:0; padding:30px; font-weight:bold; font-size:30px; text-align:center;}
+
 
 .table-body {
     margin: 0;
@@ -56,7 +49,8 @@ h4 {
 }
 
 .tabFigNote {
-    padding-left: 30px; 
+    padding-left: 50px; 
+    padding-bottom: 50px; 
     font-size: 16px;
 }
 
@@ -80,13 +74,11 @@ img {
     position: relative; /* Positions the iframe relative to its normal position. */
     left: 50%; /* Moves the iframe 50% to the right from its normal position (used for centering). */
     transform: translateX(-50%); /* Moves the iframe left by 50% of its own width, effectively centering it. */
-    
     width: 100%; /* Sets the iframe width to 100% of the viewport width (ignores the body width). */
     max-width: 100vw; /* Limits the iframe width to the viewport width to prevent overflow issues. */
     padding: 0px; /* Removes any padding inside the iframe. */
     border: none;
 }
-
 
 
 /* Table Styling */
@@ -101,6 +93,106 @@ th, td {
     text-align: left; /* Align all content to the left */
     vertical-align: top; /* Align content to the top of the cell */
     white-space: nowrap; /* Prevent text wrapping */
+}
+
+
+#footer-banner {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    max-width: 800px;
+    background: #333;
+    color: #fff;
+    display: flex;
+    justify-content: space-around;
+    z-index: 1000;
+    margin:0;
+    padding:10px;
+}
+
+#footer-banner button {
+    background: #555;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    
+    cursor: pointer;
+}
+
+#footer-banner button:hover {
+    background: #777;
+}
+
+.modal {
+    overflow: auto;
+    word-wrap: break-word; /* Break long words */
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Dim background */
+    z-index: 1001;
+    
+}
+
+.closebutton {
+    font-size:20px;
+    margin:20px;
+
+}
+.modal-content {
+    overflow: auto;
+    position: relative;
+    margin: auto;
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    max-width: 500px;
+    z-index: 1002; /* Higher than background */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    font-size:16px;
+
+}
+
+.modal ul {
+    list-style: none;
+    padding: 0;
+}
+
+.modal ul li {
+    margin: 10px 0;
+    
+}
+
+
+#toc-list {
+    list-style: none; /* Remove bullets */
+    padding: 0;
+    
+}
+
+#toc-list li {
+    margin: 5px 0;
+
+}
+
+#toc-list li a {
+    text-decoration: none;
+    color: #333; /* Adjust color as needed */
+}
+
+#toc-list li.toc-h2 {
+    margin-left: 20px; /* Indent H2 */
+}
+
+#toc-list li.toc-h3 {
+    margin-left: 40px; /* Indent H3 */
+}
+
+#toc-list li.toc-h4 {
+    margin-left: 60px; /* Indent H4 */
 }
 
 /* Responsive Design for Smaller Screens */
@@ -125,7 +217,9 @@ th, td {
         border: 3px solid #007bff;
         margin: 0 15px;
     }
-
+    #footer-banner {
+    left: 0;
+    }
     table {margin: 0 10px;}
 
     html, body {
@@ -140,3 +234,8 @@ th, td {
 }
 
 
+@media (prefers-color-scheme: dark) {
+    .modal ul li {
+    color: black;        
+    }
+    }

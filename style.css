@@ -63,22 +63,6 @@ h3 {
 }
 
 
-/* Full-screen iframe styling */
-.dash {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    border: none;
-    z-index: 9999;
-    display: none;
-}
-
-.body-hidden *:not(.dash):not(#backToPort) {
-    display: none !important;
-}
-
 /* Back to Menu button styling */
 .backbutton {
     display: none;
