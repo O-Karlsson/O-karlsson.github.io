@@ -70,7 +70,7 @@ Duke Global Health Institute, USA
 - Participated in meetings with commissioners.
 - Led the writing and analyses for two background papers supporting the commission’s work and co-authored four other studies.
 - Participated in making the <a href="https://doi.org/10.1007/s44197-024-00294-6" target="_blank">main report</a> which was published in the Lancet.
-- Presented results at academic conferences, seminars, and workshops.
+- Presented results at academic conferences and seminars at Duke.
 
 
 <hr class="thin">
@@ -85,7 +85,6 @@ Centre for Economic Demography, School of Economics and Management, Lund Univers
 **Takemi Research Fellow in International Health**  
 Harvard TH Chan School of Public Health, USA  
 *2019 – 2022*  
-- Fellowship focusing on international health research.
 - Constructed and analyzed large datasets from household surveys using parallel computing. This also involved cleaning, structuring, and managing data to ensure accuracy and consistency.
 - Wrote manuscripts and published findings in academic journals.
 - Presented results at academic conferences and seminars within Harvard.
@@ -110,9 +109,10 @@ UNICEF Programme Division, Nutrition Section, USA
 Centre for Economic Demography, School of Economics and Management, Lund University, Sweden  
 *2018 – 2019*  
 - Contributed to research in historical demography, studying socioeconomic disparities in child mortality in 19th century Sweden.
-- Prepared data from a unique historical economic and demographic database, containing full information of all vital events and occupations within a region in southern Sweden. 
+- Prepared data from a unique historical economic and demographic database, containing all vital events and occupations within a region in southern Sweden. 
 - Conducted survival analyses.
 - Contributed to writing of a journal article.
+<hr class="thin">
 
 <hr class="thick">
 
@@ -129,6 +129,7 @@ School of Economics and Management, Lund University, Sweden
 **MSc in Economic Demography**  
 School of Economics and Management, Lund University, Sweden  
 *2012 – 2014*  
+<hr class="thin">
 
 <hr class="thick">
 
@@ -140,7 +141,7 @@ School of Economics and Management, Lund University, Sweden
 | 2020  | Wallander Scholarship                                    | Jan Wallander's Foundation                                     | Two-year postdoctoral scholarship                      |
 | 2016  | Hedelius Scholarship                       | Tom Hedelius' Foundation                                    | One year scholarship |
 
----
+<hr class="thin">
 
 <hr class="thick">
 
@@ -161,6 +162,7 @@ School of Economics and Management, Lund University, Sweden
 **2020**  
 *Harvard Center for Population and Development Studies: Friday Luncheon Seminars*  
 - Household technology and child health.
+<hr class="thin">
 
 <hr class="thick">
 
@@ -187,7 +189,9 @@ School of Economics and Management, Lund University, Sweden
 **2015**  
 *The Union for African Population Studies 7th Africa Population Conference, South Africa*  
 - Intergenerational transmission of capabilities: Mothers and children in sub-Saharan Africa.  
+<hr class="thin">
 
+<!--
 <hr class="thick">
 
 #### Other Academic Experiences
@@ -215,3 +219,4 @@ American University in Bulgaria
 *2010*  
 
 <hr class="thin">
+-->
