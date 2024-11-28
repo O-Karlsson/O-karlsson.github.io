@@ -83,7 +83,7 @@ Duke Global Health Institute, USA
 **Postdoctoral Fellow**  
 Centre for Economic Demography, School of Economics and Management, Lund University, Sweden  
 *2022 – Present*  
-- Conducted research on economic demography with a focus on human development.
+- Independently conducted research on economic demography with a focus on human development.
 
 <hr class="thin">
 
