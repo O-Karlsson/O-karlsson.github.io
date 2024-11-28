@@ -152,6 +152,10 @@ School of Economics and Management, Lund University, Sweden
 
 #### Selected Lectures and Seminars
 
+**2024**
+*Duke University Population Research Institute: Seminar Series*
+- Global health 2050: the path to halving premature death by mid-century.
+
 **2023**  
 *Korea University: International Symposium on Precision Public Health*  
 - Differences in child mortality and morbidity across the first five years in low- and middle-income countries.
