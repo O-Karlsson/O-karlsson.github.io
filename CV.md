@@ -55,7 +55,12 @@ hr.thin {
     margin: 10px 0; /* Add spacing around the line */
 }
 
+h4 {
+    text-align: center;
+}
+
 </style>
+
 <hr class="thick">
 
 #### Work and Academic Appointments
