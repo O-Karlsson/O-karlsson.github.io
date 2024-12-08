@@ -79,7 +79,7 @@ d3.csv('countries.csv').then(function(data) {
                     d3.select(this.parentNode) // Go up to the parent of this region
                         .append("div") // Add heading directly after the children
                         .attr("class", "countries-heading")
-                        .text("Countries");
+                        .text("Countries or entities");
                 }
             });
 
