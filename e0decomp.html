@@ -1,13 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="refresh" content="0; url=https://omarkarlsson.com/CIH_dash/e0decomp">
-    <title>Redirecting...</title>
+
+    <title>Interactive data dashboard for the paper<br>'Priority health conditions and life expectancy disparities'</title>
+    <link rel="stylesheet" href="CIH_dash/style_main.css">
+
+<!--
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.7.0/nouislider.min.css">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.7.0/nouislider.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+-->
+
+<link rel="stylesheet" href="CIH_dash/offlineLib/nouislider.min.css">
+<script src="CIH_dash/offlineLib/d3.v7.min.js"></script>
+<script src="CIH_dash/offlineLib/nouislider.min.js"></script>
+<script src="CIH_dash/offlineLib/html2canvas.min.js"></script>
+
+<title>Interactive data dashboard for the paper "Priority health conditions and life expectancy disparities"</title>
+
 </head>
 <body>
-    <p>If you are not redirected automatically, follow this <a href="https://omarkarlsson.com/CIH_dash/e0decomp">link</a>.</p>
+
+    <h1>Interactive data dashboard for the paper: <br>Priority health conditions and life expectancy disparities</h1>
+
+
+<div class="container">
+
+    <hr class="top"><h1 class="sect">Select locations and sex</h1></hr>
+    <hr class="bottom"></hr>
+    
+<!-- Clear selection button -->
+
+    <div class="section" height="20000px"><button id="clearSelection">Clear Selection</button></div>
+    <div class="figure-note"><sup>2</sup> No data.</div>
+
+    <!-- Select sex -->
+    <div class="section checkboxes">      
+            <div>
+                <label><input type="checkbox" name="sex" value="both" checked> Both</label>
+                <label><input type="checkbox" name="sex" value="female"> Female</label>
+                <label><input type="checkbox" name="sex" value="male"> Male</label>
+            </div>
+
+    <!-- Select country/region -->
+        <div class= "section" id="treeContainer"></div>
+    </div>
+
+
+    <!-- Expandable sub-headings -->
+    <h2 class="expandable">• Life expectancy gap compared to the 2019 North Atlantic due to specific causes of death (click to expand)</h2>
+    <div class="content" data-height="30000" style="max-height: 0; overflow: hidden;">
+        <div class="figure-note">Note: The bars show how much of the life expectancy gap (in years—hover/touch for %) is attributable to the cause of death indicated on the y-axis. All comparisons are made to the North Atlantic (ie, Western Europe and Canada) in 2019 (where life expectancy was the greatest of all the CIH regions: 82 years overall, 84 for females, and 80 for males). Only includes countries and regions with at least one year total gap. The I8 are eight infectious and maternal and child health priority conditions. The NCD7 are seven priority noncommunicable diseases and injuries. Data source: <a href="https://www.who.int/data/global-health-estimates/" target="_blank">WHO GHE</a> and <a href="https://population.un.org/wpp/" target="_blank">UN WPP</a>.</div>
+        <div id="decomp-container-1" class="decomp-container" dataset="CIH_dash/data/e0decomp.csv" outcome="P_no0" x-metric="gap" data-rendered="false"></div>
+    </div>
+
+    </div>
+
+</div>
+<button id="backToMenu">Back to Menu</button>
+<script src="script_selections_paper.js"></script>
+<script src="CIH_dash/script_main.js"></script>
+<script src="CIH_dash/script_line_figs.js"></script>
+<script src="CIH_dash/script_e0decomp_figs.js"></script>
 </body>
 </html>
-
