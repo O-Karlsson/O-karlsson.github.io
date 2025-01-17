@@ -80,38 +80,45 @@
     <h2 class="expandable">• Probability of premature death (PPD)</h2>
         <div class="content" data-height="3000" style="max-height: 0; overflow: hidden;">
         <div id="line-1" class="line-chart-container" style="width: 100%; height: auto;" y-var='q70' data-file="data/data_by_year.csv" y-title="PPD, %" x-var="year" x-title="Year" x-range="[1970,2050]"  data-rendered="false"></div>
+        <div class="figure-note">Note: PPD is the probability of dying before age 70. Data source: <a href="https://population.un.org/wpp/" target="_blank">UN WPP</a> (after 1950) and <a href="https://www.mortality.org/" target="_blank">HMD</a> (before 1950 , when available).</div>
     </div>
 
     <h2 class="expandable">• Life Expectancy (LE)</h2>
         <div class="content" data-height="3000" style="max-height: 0; overflow: hidden;">
         <div id="line-2" class="line-chart-container" style="width: 100%; height: auto;" y-var='e0' data-file="data/data_by_year.csv" y-title="LE, years" x-var="year" x-title="Year" x-range="[1970,2050]"  data-rendered="false"></div>
+        <div class="figure-note">Data source: <a href="https://population.un.org/wpp/" target="_blank">UN WPP</a> (after 1950) and <a href="https://www.mortality.org/" target="_blank">HMD</a> (before 1950 , when available).</div>
     </div>
 
     <h2 class="expandable">• Crude mortality rate (CMR) per 1000 population</h2>
         <div class="content" data-height="3000" style="max-height: 0; overflow: hidden;">
         <div id="line-3" class="line-chart-container" style="width: 100%; height: auto;" y-var='rcdr' data-file="data/data_by_year.csv" y-title="CMR per 1000 population" x-var="year" x-title="Year" x-range="[1970,2050]"  data-rendered="false"></div>
+        <div class="figure-note">Data source: <a href="https://population.un.org/wpp/" target="_blank">UN WPP</a>.</div>
     </div>
 
 
     <h2 class="expandable">• Crude mortality rate (CMR) per 1000 working-age population</h2>
         <div class="content" data-height="3000" style="max-height: 0; overflow: hidden;">
         <div id="line-4" class="line-chart-container" style="width: 100%; height: auto;" y-var='rcdrs' data-file="data/data_by_year.csv" y-title="CMR per 1000 working-age" x-var="year" x-title="Year" x-range="[1970,2050]"  data-rendered="false"></div>
+        <div class="figure-note">Note: Working age is defined as 15-64 years. Data source: <a href="https://population.un.org/wpp/" target="_blank">UN WPP</a>.</div>
     </div>
 
 
     <h2 class="expandable">• Probability of death between birth and age x in 2023</h2>
         <div class="content" data-height="3000" style="max-height: 0; overflow: hidden;">
         <div id="line-5" class="line-chart-container" style="width: 100%; height: auto;" y-var='qa' data-file="data/data_by_age.csv" y-title="Probability of death by age x, %" x-var="age" x-title="Age = x" x-range="[1,100]"  data-rendered="false"></div>
+        <div class="figure-note">Note: The line show the probability of dying before the age indicated on the x-axis in 2023. Data source: <a href="https://population.un.org/wpp/" target="_blank">UN WPP</a>.</div>
     </div>
 
     <h2 class="expandable">• Probability of death between age 70 and age x in 2023</h2>
         <div class="content" data-height="3000" style="max-height: 0; overflow: hidden;">
         <div id="line-6" class="line-chart-container" style="width: 100%; height: auto;" y-var='p70' data-file="data/data_by_age.csv" y-title="Probability of death by age x, %" x-var="age" x-title="Age = x" x-range="[71,100]"  data-rendered="false"></div>
+        <div class="figure-note">Note: The line show the probability of dying between age 70 and the age indicated on the x-axis in 2023. Data source: <a href="https://population.un.org/wpp/" target="_blank">UN WPP</a>.</div>
     </div>
 
     <h2 class="expandable">• Age specific probability of death in 2023</h2>
         <div class="content" data-height="3000" style="max-height: 0; overflow: hidden;">
         <div id="line-7" class="line-chart-container" style="width: 100%; height: auto;" y-var='nqx' data-file="data/data_by_age.csv" y-title="Probability of death, %" x-var="age" x-title="Age" x-range="[0,99]"  data-rendered="false"></div>
+        <div class="figure-note">Note: The line show the probability of dying at the age indicated on the x-axis in 2023. Single-age intervals are used. Data source: <a href="https://population.un.org/wpp/" target="_blank">UN WPP</a>.</div>
     </div>
 
 </div>
