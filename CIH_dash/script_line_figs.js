@@ -471,8 +471,8 @@ function handleMouseMove(event) {
     // Reposition and update the tooltip
     tooltipBox
         .html(tooltipHtml)
-        .style('left', `${event.pageX-80 }px`)
-        .style('top', `${event.pageY-140}px`)
+        .style('left', `${event.pageX+10 }px`)
+        .style('top', `${event.pageY-40}px`)
         .style('display', 'block');
 }
 
