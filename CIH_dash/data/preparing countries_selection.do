@@ -1,5 +1,5 @@
-global dir "C:\Users\Om\OneDrive\Everything\Work in progress\DashDEV\CIH_dash\data\"
-global data "C:\Users\\Om\\OneDrive\Everything\Work in progress\CIH\data\"
+global dir "C:\Users\Karls\OneDrive\Everything\Work in progress\DashDEV\CIH_dash\data\"
+global data "C:\Users\\Karls\\OneDrive\Everything\Work in progress\CIH\data\"
 cd "$dir"
 
 // id which country have un wpp data
