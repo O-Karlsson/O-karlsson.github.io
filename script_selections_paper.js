@@ -9,7 +9,7 @@ let selectedCountries = ['World','United States','China'];
 let selectedSex = ['both'];  
 
 // Load the CSV data and create the tree structure for country selection
-d3.csv('CIH_dash/data/countries_selection.csv').then(function(data) {
+d3.csv('CIH_dash/data/countries.csv').then(function(data) {
 
     // Convert CSV into hierarchical structure
     const regionsData = d3.group(data, d => d.region);
