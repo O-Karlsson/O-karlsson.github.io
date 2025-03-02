@@ -1,4 +1,4 @@
-global dir "C:\Users\Karls\OneDrive\Everything\Work in progress\DashDEV\CIH_dash\data\"
+global dir "C:\Users\Karls\OneDrive\Everything\Work in progress\2025-01-15 GitRepos\O-karlsson.github.io\CIH_dash\data\"
 global data "C:\Users\Karls\OneDrive\Everything\Work in progress\CIH\deomposition paper\"
 global dataORG "C:\Users\Karls\OneDrive\Everything\Work in progress\CIH\data\"
 
@@ -110,6 +110,7 @@ keep if !strpos(bench,"NA")
 As it was is in the data, it's specified by the end year. 
 2019 is both compared to 2000 and 2010. This sets the full period comparison to the earlier year (2000) 
 Maybe consider making the year variable a string so it's less confusing */
+
 replace year = 2000 if bench == "2000" & year == 2019
 
 rename P T
@@ -132,18 +133,14 @@ merge 1:1 region country year sex causename type using temp2, nogen
 save temp, replace
 
 
-duplicates drop country sex year , force
-
-/* the change figures should show life expectacny in the benchmark (ie at baseline)  
-rather than in the target year. The gap figures should show life expectacny in the target location
-and not the benchmark */
-
+keep if type=="_NCD" & causename=="Total"
 replace type = "THE E0" 
 replace causename = "THE E0"
-drop P detail T P_no0
-rename (exobs exb)(P T) // it's stored in P or T
-gen P_no0 = P
-
+drop P detail T P_no0 bench type 
+gen P = exobs
+gen P_no0 = exobs
+gen T = exobs
+drop exobs exb
 append using temp
 
 replace country=subinstr(country," & ", " and ",.)
