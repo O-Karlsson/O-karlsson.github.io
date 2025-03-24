@@ -103,7 +103,7 @@ UNICEF Programme Division, Nutrition Section, USA
 - Met with the UNICEF team to understand their specific goals and information needs.
 - Conducted customized data analyzes to provide insights relevant to the UNICEF team's objectives.
 - Translated quantitative findings into actionable recommendations to support decision-making.
-- Led the writing of journal articles, reports, and presentations that made complex data accessible to a non-technical audience.
+- Wrote journal articles, reports, and presentations that made complex data accessible to a non-technical audience.
 - Conducted a workshop to help the broader UNICEF staff understand the data analysis, interpretation, and application in their health initiatives.
 
 
@@ -116,7 +116,7 @@ Centre for Economic Demography, School of Economics and Management, Lund Univers
 - Contributed to research in historical demography, studying socioeconomic disparities in child mortality in 19th century Sweden.
 - Prepared data from a unique historical economic and demographic database, containing all vital events and occupations within a region in southern Sweden. 
 - Conducted survival analyses.
-- Contributed to writing of a journal article.
+- Contributed to writing a journal article.
 <hr class="thin">
 
 <hr class="thick">
@@ -151,11 +151,14 @@ School of Economics and Management, Lund University, Sweden
 <hr class="thick">
 
 #### Selected Lectures and Seminars
+**2025**
+*Prince Mahidol Award Conference (PMAC)*
+- Global Health 2050: Leveraging technological advances to halve premature deaths by 2050.
 
 **2024**
 *Duke University Population Research Institute: Seminar Series*
 - Global health 2050: the path to halving premature death by mid-century.
-
+    
 **2023**  
 *Korea University: International Symposium on Precision Public Health*  
 - Differences in child mortality and morbidity across the first five years in low- and middle-income countries.
