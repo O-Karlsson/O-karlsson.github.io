@@ -63,172 +63,63 @@ h4 {
 
 <hr class="thick">
 
-#### Work and Academic Appointments
 
-**Visiting Research Fellow**  
-Duke University Population Research Institute, USA  
-Duke Global Health Institute, USA  
-*2022 – Present*  
-- Managed data and conducted analyses on health trends and other indicators using various data sources, such as life tables and detailed cause-of-death data, for the third Lancet Commission on Investing in Health.
-- Set up and hosted an <a href= "https://omarkarlsson.com/CIH_dash/" target="_blank" rel="noopener noreferrer">interactive dashboard</a> (using JavaScript D3) displaying visualizations of key metrics, trends, and projections. This allows commissioners to explore data layers and generate displays as needed. 
-- Managed ad-hoc data needs from commissioners requesting targeted data summaries or visualizations to aid in concept development or presentation of results to funders and stakeholders. These requests could be highly specific, requiring a quick understanding of their needs.
-- Participated in meetings with commissioners.
-- Led the writing and analyses for two background papers supporting the commission’s work and co-authored four other studies.
-- Participated in making the <a href="https://doi.org/10.1007/s44197-024-00294-6" target="_blank">main report</a> which was published in the Lancet.
-- Presented results at academic conferences and seminars at Duke.
+####  Academic Apointments
 
+**Visiting Research Fellow**<span style="float:right">August 2022 – present</span>   
+Duke University Population Research Institute and Duke Global Health Institute, USA
 
-<hr class="thin">
+**Postdoctoral Fellow**<span style="float:right">January 2020 – present</span>   
+Centre for Economic Demography, Lund University, Sweden
 
-**Postdoctoral Fellow**  
-Centre for Economic Demography, School of Economics and Management, Lund University, Sweden  
-*2022 – Present*  
-- Independently conducted research on economic demography with a focus on human development.
+**Research Fellow**<span style="float:right">September 2019 – August 2022</span>   
+Takemi Program in International Health, Harvard TH Chan School of Public Health, USA
 
-<hr class="thin">
+<hr class="thick">
 
-**Takemi Research Fellow in International Health**  
-Harvard TH Chan School of Public Health, USA  
-*2019 – 2022*  
-- Constructed and analyzed large datasets from household surveys using parallel computing. This also involved cleaning, structuring, and managing data to ensure accuracy and consistency.
-- Wrote manuscripts and published findings in academic journals.
-- Presented results at academic conferences and seminars within Harvard.
+#### Employment And Consultancies
 
+**External Consultant**<span style="float:right">October 2020 – September 2021</span>   
+UNICEF, Programme Division, Nutrition Section, USA
 
-<hr class="thin">
-
-**External Consultant**  
-UNICEF Programme Division, Nutrition Section, USA  
-*2020 – 2021*  
-- Met with the UNICEF team to understand their specific goals and information needs.
-- Conducted customized data analyzes to provide insights relevant to the UNICEF team's objectives.
-- Translated quantitative findings into actionable recommendations to support decision-making.
-- Wrote journal articles, reports, and presentations that made complex data accessible to a non-technical audience.
-- Conducted a workshop to help the broader UNICEF staff understand the data analysis, interpretation, and application in their health initiatives.
-
-
-
-<hr class="thin">
-
-**Researcher**  
-Centre for Economic Demography, School of Economics and Management, Lund University, Sweden  
-*2018 – 2019*  
-- Contributed to research in historical demography, studying socioeconomic disparities in child mortality in 19th century Sweden.
-- Prepared data from a unique historical economic and demographic database, containing all vital events and occupations within a region in southern Sweden. 
-- Conducted survival analyses.
-- Contributed to writing a journal article.
-<hr class="thin">
+**Researcher**<span style="float:right">October 2018 – August 2019</span>  
+Centre for Economic Demography, Lund University, Sweden
 
 <hr class="thick">
 
 
 #### Education
 
-**PhD in Economic History**  
-School of Economics and Management, Lund University, Sweden  
-*2014 – 2018*  
+**PhD in Economic History**<span style="float:right">September 2014 – September 2018</span>  
+Lund University, Sweden
 - Dissertation: <span><a href="Growth_and_Survival.pdf" target="_blank">Growth and Survival: Child Health Disparities and Early Life Adversity in Sub-Saharan Africa</a></span>  
-- Supervisor: <a href="https://portal.research.lu.se/en/persons/martin-dribe" target="_blank">Martin Dribe</a>. Assistant Supervisor: <a href="https://portal.research.lu.se/en/persons/therese-nilsson" target="_blank">Therese Nilsson</a>.
-<hr class="thin">
+- Supervisors: <a href="https://portal.research.lu.se/en/persons/martin-dribe" target="_blank">Martin Dribe</a> (main), <a href="https://portal.research.lu.se/en/persons/therese-nilsson" target="_blank">Therese Nilsson</a> (assistant)
+- Selected coursework: Advanced Econometrics, Multivariate Analysis, Statistical Methods for Econometrics, Advanced Development Economics
 
-**MSc in Economic Demography**  
-School of Economics and Management, Lund University, Sweden  
-*2012 – 2014*  
-<hr class="thin">
+**MSc in Economic Demography**<span style="float:right">September 2012 – July 2014</span>   
+Lund University, Sweden
+- Selected coursework: Epidemiology and Biostatistics, Econometrics, Applied Microeconometrics, Advanced Time Series Analysis, Population and Living Standards, Topics in Economic Demography – Health and Mortality, Causes of Demographic Change, Consequences of Demographic Change
 
 <hr class="thick">
+
 
 #### Grants
 
-| Year  | Grant Name                                              | Institution                                      | Details                                               |
-|-------|---------------------------------------------------------|--------------------------------------------------|-------------------------------------------------------|
-| 2020  | International Postdoc                                    | Swedish Research Council                          | Three-year postdoctoral scholarship                    |
-| 2020  | Wallander Scholarship                                    | Jan Wallander's Foundation                                     | Two-year postdoctoral scholarship                      |
-| 2016  | Hedelius Scholarship                       | Tom Hedelius' Foundation                                    | One year scholarship |
+**Jan Wallanders and Tom Hedelius Foundation**<span style="float:right">December 2020</span>  
+Wallander Scholarship (three-year postdoctoral scholarship)
 
-<hr class="thin">
+**Swedish Research Council**<span style="float:right">December 2019</span>  
+International Postdoc (three-year postdoctoral funding)
 
-<hr class="thick">
-
-#### Selected Lectures and Seminars
-**2025**
-*Prince Mahidol Award Conference (PMAC)*
-- Global Health 2050: Leveraging technological advances to halve premature deaths by 2050.
-
-**2024**
-*Duke University Population Research Institute: Seminar Series*
-- Global health 2050: the path to halving premature death by mid-century.
-    
-**2023**  
-*Korea University: International Symposium on Precision Public Health*  
-- Differences in child mortality and morbidity across the first five years in low- and middle-income countries.
-
-<hr class="thin">
-
-**2021**  
-*UNICEF: Nutrition Master Class*  
-- To what extent is child mortality and wasting prevalence concentrated before age two? Implications for nutrition and health programs.
-
-<hr class="thin">
-
-**2020**  
-*Harvard Center for Population and Development Studies: Friday Luncheon Seminars*  
-- Household technology and child health.
-<hr class="thin">
+**Jan Wallanders and Tom Hedelius Foundation**<span style="float:right">March 2016</span>  
+Hedelius Scholarship (one-year visiting student scholarship)
 
 <hr class="thick">
 
-#### Selected Conference Presentations
 
-**2024**  
-*Consortium of Universities for Global Health 15th Annual Conference*  
-- Life expectancy deficits by cause of death: a life table decomposition.
-
-<hr class="thin">
-
-**2023**  
-*The Population Association of America 2023 Annual Meeting*  
-- Anemia severity and school attendance among 251,401 adolescents aged 15–18 years: A nationally representative household fixed-effects study in India.  
-
-<hr class="thin">
-
-**2018**  
-*European Population Conference*  
-- Influence of Disease Environment in Infancy on Childhood Health and Education in Sub-Saharan Africa.
-
-<hr class="thin">
-
-**2015**  
-*The Union for African Population Studies 7th Africa Population Conference, South Africa*  
-- Intergenerational transmission of capabilities: Mothers and children in sub-Saharan Africa.  
-<hr class="thin">
-
-<!--
+#### Mentorship
+Assisted in supervising three MSc students in Economic Demography at Lund University, 2016–2018. Advised on the thesis topics, and provided feedback on research design, data analysis, and written drafts.
 <hr class="thick">
 
-#### Other Academic Experiences
 
-**Visiting Graduate Student**  
-Harvard TH Chan School of Public Health, USA  
-*2016 – 2017*  
 
-<hr class="thin">
-
-**Intern**  
-Estonian Institute for Population Studies, Tallinn University 
-*2013*  
-
-<hr class="thin">
-
-**Student Exchange**  
-Vilnius University, Lithuania  
-*2011 – 2012*  
-
-<hr class="thin">
-
-**Student Exchange**  
-American University in Bulgaria  
-*2010*  
-
-<hr class="thin">
--->
