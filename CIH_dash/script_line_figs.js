@@ -20,8 +20,7 @@ function selectionFilter(fullData, currentData, filters, selectedFilters, curren
     const rowsToAdd = fullData.filter((row) =>
         additions.includes(row[filters.aim]) &&
         selectedFilters.other.includes(row[filters.other]) &&
-        selectedFilters.other2.includes(row[filters.other2]) &&
-        row[filters.outcome]!==null && !isNaN(row[filters.outcome])
+        selectedFilters.other2.includes(row[filters.other2])
     );
 
     const rowsToRemove = currentData.filter((row) =>
@@ -317,8 +316,12 @@ function lineFigure(containerId, filteredData, xVar, yVar, xVarTitle, yVarTitle)
 // Group data by country and sex
 const groupedData = d3.group(filteredData, d => d.country, d => d.sex);
 
+console.log(filteredData.map(d=>({x:d[xVar], y:d[yVar]})));
+console.log("DDD");
+
 // Line generator
-const line = d3.line().x(d => xScale(d[xVar])).y(d => yScale(d[yVar]));
+const line = d3.line().defined(d => d[yVar] != null && !isNaN(d[yVar]))
+.x(d => xScale(d[xVar])).y(d => yScale(d[yVar]));
 
 // Color scale for countries
 const colorScale = d3.scaleOrdinal(d3.schemeCategory10).domain(selectedCountries);
@@ -535,8 +538,7 @@ function drawLineFigures(containerId) {
             selectedCountries.includes(row.country) &&
             selectedSex.includes(row.sex) &&
             row[xVar] >= xRange[0] &&
-            row[xVar] <= xRange[1] &&
-            row[yVar]!==null && !isNaN(row[yVar])
+            row[xVar] <= xRange[1]
         );
         
         // Get the range for the slider (function above)
