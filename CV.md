@@ -64,7 +64,7 @@ h4 {
 <hr class="thick">
 
 
-####  Academic Apointments
+####  Academic Appointments
 
 **Visiting Research Fellow**, August 2022 – present   
 Duke University Population Research Institute and Duke Global Health Institute, USA
