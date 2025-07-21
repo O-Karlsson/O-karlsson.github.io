@@ -43,7 +43,12 @@ function toggleSection(headings) {
 
 toggleSection(document.querySelectorAll('h2'));
 
-
+        // Select all buttons with the .openFullView class
+        const openFullViewButtons = document.querySelectorAll('.openFullView');
+        const backToMenuButton = document.getElementById('backToMenu');
+        const backToPortButton = document.getElementById('backToPort');
+        const body = document.body;
+        const iframe = document.querySelector('.dash');
 
 // Function to collapse all expanded headers
 function collapseAllHeaders() {
@@ -53,19 +58,14 @@ function collapseAllHeaders() {
     });
 
     // Hide the "Back to Menu" button
-    backToMenuButton.style.display = 'none';
-    backToPortButton.style.display = 'none';
+   if (backToMenuButton)  backToMenuButton.style.display = 'none';
+    if (backToPortButton)backToPortButton.style.display = 'none';
 
 }
 
 
-        // Select all buttons with the .openFullView class
-        const openFullViewButtons = document.querySelectorAll('.openFullView');
-        const iframe = document.querySelector('.dash');
-        const backToMenuButton = document.getElementById('backToMenu');
-        const backToPortButton = document.getElementById('backToPort');
 
-        const body = document.body;
+
 
 // Function to handle opening the full-window HTML
 document.querySelectorAll('.openFullView').forEach(button => {
@@ -83,6 +83,7 @@ document.querySelectorAll('.openFullView').forEach(button => {
         }
     });
 });
+if (backToMenuButton) {
 
         // Handle "Back to Menu" button click
         backToMenuButton.addEventListener('click', () => {
@@ -90,7 +91,8 @@ document.querySelectorAll('.openFullView').forEach(button => {
             backToMenuButton.style.display = 'none';
             collapseAllHeaders()
         });
-
+    }
+if (backToPortButton) {
 
                 // Handle "Back to Menu" button click
                 backToPortButton.addEventListener('click', () => {
@@ -108,20 +110,27 @@ document.querySelectorAll('.openFullView').forEach(button => {
 
                 });
 
-
-// Auto-expand section if URL has a hash on page load
-document.addEventListener('DOMContentLoaded', () => {
-    const hash = window.location.hash;
-    if (hash) {
-        const section = document.querySelector(hash);
-        if (section && section.classList.contains('content')) {
-            section.style.display = 'block';
-            const backToMenuButton = document.getElementById('backToMenu');
-            if (backToMenuButton) {
-                backToMenuButton.style.display = 'block';
             }
-            // Optional: scroll to it again after expanding
-            section.scrollIntoView({ behavior: 'smooth' });
+
+            // Auto-expand section if hash is present in the URL
+window.addEventListener('load', () => {
+    const hash = window.location.hash;
+
+    if (hash) {
+        const heading = document.querySelector(hash);
+
+        if (heading && heading.tagName.toLowerCase() === 'h2') {
+            const content = heading.nextElementSibling;
+
+            if (content && content.classList.contains('content')) {
+                content.style.display = 'block';
+                if (backToMenuButton) backToMenuButton.style.display = 'block';
+                
+                // Smooth scroll into view
+                setTimeout(() => {
+                    heading.scrollIntoView({ behavior: 'smooth' });
+                }, 200);
+            }
         }
     }
 });
