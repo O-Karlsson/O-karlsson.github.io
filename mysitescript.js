@@ -109,3 +109,19 @@ document.querySelectorAll('.openFullView').forEach(button => {
                 });
 
 
+// Auto-expand section if URL has a hash on page load
+document.addEventListener('DOMContentLoaded', () => {
+    const hash = window.location.hash;
+    if (hash) {
+        const section = document.querySelector(hash);
+        if (section && section.classList.contains('content')) {
+            section.style.display = 'block';
+            const backToMenuButton = document.getElementById('backToMenu');
+            if (backToMenuButton) {
+                backToMenuButton.style.display = 'block';
+            }
+            // Optional: scroll to it again after expanding
+            section.scrollIntoView({ behavior: 'smooth' });
+        }
+    }
+});
