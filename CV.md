@@ -64,62 +64,58 @@ h4 {
 <hr class="thick">
 
 
-####  Academic Appointments
+#### Academic Appointments
 
-**Visiting Research Fellow**, August 2022 – present   
-Duke University Population Research Institute and Duke Global Health Institute, USA
+**Visiting Research Fellow**, August 2022–present  
+Duke University Population Research Institute, USA  
+Center for Policy Impact in Global Health, Duke Global Health Institute, USA
 
-**Postdoctoral Fellow**, January 2020 – present  
+**Postdoctoral Fellow**, January 2020–present  
 Centre for Economic Demography, Lund University, Sweden
 
-**Research Fellow**, September 2019 – August 2022  
-Takemi Program in International Health, Harvard TH Chan School of Public Health, USA
+**Takemi Research Fellow**, September 2019–August 2022  
+Department of Global Health and Population, Harvard T.H. Chan School of Public Health, USA
 
 <hr class="thick">
 
-#### Employment And Consultancies
+#### Employment and Consultancies
 
-**External Consultant**, October 2020 – September 2021  
+**External Consultant**, October 2020–September 2021  
 UNICEF, Programme Division, Nutrition Section, USA
 
-**Researcher**, October 2018 – August 2019  
+**Researcher**, October 2018–August 2019  
 Centre for Economic Demography, Lund University, Sweden
 
 <hr class="thick">
-
 
 #### Education
 
-**PhD in Economic History**, September 2014 – September 2018  
-Lund University, Sweden
+**PhD in Economic History**, September 2014–September 2018  
+Lund University, School of Economics and Management, Sweden  
 - Dissertation: <span><a href="Growth_and_Survival.pdf" target="_blank">Growth and Survival: Child Health Disparities and Early Life Adversity in Sub-Saharan Africa</a></span>  
-- Supervisors: <a href="https://portal.research.lu.se/en/persons/martin-dribe" target="_blank">Martin Dribe</a> (main), <a href="https://portal.research.lu.se/en/persons/therese-nilsson" target="_blank">Therese Nilsson</a> (assistant)
-- Selected coursework: Advanced Econometrics, Multivariate Analysis, Statistical Methods for Econometrics, Advanced Development Economics
+- Supervisors: <a href="https://portal.research.lu.se/en/persons/martin-dribe" target="_blank">Martin Dribe</a> (primary), <a href="https://portal.research.lu.se/en/persons/therese-nilsson" target="_blank">Therese Nilsson</a> (secondary)  
+- Selected coursework: Supervising Master’s Theses, Advanced Econometrics, Multivariate Analysis, Statistical Methods for Econometrics, Advanced Development Economics  
+- Included one year as a visiting student at Harvard T.H. Chan School of Public Health
 
-**MSc in Economic Demography**, September 2012 – July 2014  
-Lund University, Sweden
-- Selected coursework: Epidemiology and Biostatistics, Econometrics, Applied Microeconometrics, Advanced Time Series Analysis, Population and Living Standards, Topics in Economic Demography – Health and Mortality, Causes of Demographic Change, Consequences of Demographic Change
+**MSc in Economic Demography**, September 2012–July 2014  
+Lund University, School of Economics and Management, Sweden  
+- Selected coursework: Epidemiology and Biostatistics, Econometrics, Applied Microeconometrics, Advanced Time Series Analysis, Population and Living Standards, Advanced Topics in Economic Demography—Health and Mortality, Advanced Topics in Economic Demography—Marriage and Fertility, Causes of Demographic Change, Consequences of Demographic Change  
+- Included three-month internship at the Estonian Institute for Population Studies
 
 <hr class="thick">
 
-
 #### Grants
 
-**Jan Wallanders and Tom Hedelius Foundation**, December 2020  
+**Jan Wallander and Tom Hedelius Foundation**, December 2020  
 Wallander Scholarship (three-year postdoctoral scholarship)
 
 **Swedish Research Council**, December 2019  
 International Postdoc (three-year postdoctoral funding)
 
-**Jan Wallanders and Tom Hedelius Foundation**, March 2016  
+**Jan Wallander and Tom Hedelius Foundation**, March 2016  
 Hedelius Scholarship (one-year visiting student scholarship)
 
 <hr class="thick">
 
-
 #### Mentorship
-Assisted in supervising three MSc students in Economic Demography at Lund University, 2016–2018. Advised on the thesis topics, and provided feedback on research design, data analysis, and written drafts.
-<hr class="thick">
-
-
-
+Co-supervised three MSc students in Economic Demography at Lund University, 2016–2018. Advised on thesis topics and provided feedback on research design, data analysis, and written drafts. Two theses received the highest grade.
