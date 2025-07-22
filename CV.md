@@ -73,7 +73,7 @@ Center for Policy Impact in Global Health, Duke Global Health Institute, USA
 **Postdoctoral Fellow**, January 2020–present  
 Centre for Economic Demography, Lund University, Sweden
 
-**Takemi Research Fellow**, September 2019–August 2022  
+**Takemi Research Fellow**, August 2019–August 2022  
 Department of Global Health and Population, Harvard T.H. Chan School of Public Health, USA
 
 <hr class="thick">
@@ -83,7 +83,7 @@ Department of Global Health and Population, Harvard T.H. Chan School of Public H
 **External Consultant**, October 2020–September 2021  
 UNICEF, Programme Division, Nutrition Section, USA
 
-**Researcher**, October 2018–August 2019  
+**Researcher**, October 2018–February 2019  
 Centre for Economic Demography, Lund University, Sweden
 
 <hr class="thick">
