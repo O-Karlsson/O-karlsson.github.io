@@ -106,13 +106,13 @@ Lund University, School of Economics and Management, Sweden
 
 #### Grants
 
-**Jan Wallander and Tom Hedelius Foundation**, December 2020  
+**Jan Wallanders och Tom Hedelius stiftelse samt Tore Browaldhs stiftelse**, December 2020  
 Wallander Scholarship (three-year postdoctoral scholarship)
 
 **Swedish Research Council**, December 2019  
 International Postdoc (three-year postdoctoral funding)
 
-**Jan Wallander and Tom Hedelius Foundation**, March 2016  
+**Jan Wallanders och Tom Hedelius stiftelse samt Tore Browaldhs stiftelse**, March 2016  
 Hedelius Scholarship (one-year visiting student scholarship)
 
 <hr class="thick">
