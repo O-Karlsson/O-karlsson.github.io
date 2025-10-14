@@ -70,7 +70,7 @@ h4 {
 Duke University Population Research Institute, USA  
 Center for Policy Impact in Global Health, Duke Global Health Institute, USA
 
-**Postdoctoral Fellow**, January 2020–present  
+**Postdoctoral Fellow**, January 2020–August 2025  
 Centre for Economic Demography, Lund University, Sweden
 
 **Takemi Research Fellow**, August 2019–August 2022  
@@ -99,7 +99,7 @@ Lund University, School of Economics and Management, Sweden
 
 **MSc in Economic Demography**, September 2012–July 2014  
 Lund University, School of Economics and Management, Sweden  
-- Selected coursework: Epidemiology and Biostatistics, Econometrics, Applied Microeconometrics, Advanced Time Series Analysis, Population and Living Standards, Advanced Topics in Economic Demography—Health and Mortality, Advanced Topics in Economic Demography—Marriage and Fertility, Causes of Demographic Change, Consequences of Demographic Change  
+- Selected coursework: Population and Living Standards, Advanced Topics in Economic Demography (Health and Mortality and Marriage and Fertility), Causes of Demographic Change, Consequences of Demographic Change, Epidemiology and Biostatistics, Econometrics, Applied Microeconometrics, Advanced Time Series Analysis  
 - Included three-month internship at the Estonian Institute for Population Studies
 
 <hr class="thick">
