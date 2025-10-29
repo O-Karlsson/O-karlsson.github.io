@@ -99,7 +99,7 @@ h3 {
 
 p {margin-top: 15px; margin-bottom: 15px;}
 
-li {margin-bottom: 25px;}
+li {margin-top: 10px; margin-bottom: 10px;}
 
 @media (prefers-color-scheme: dark) {
     h2 {
