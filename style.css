@@ -97,9 +97,9 @@ h3 {
 
 .openFullView:hover {background-color: #a45e4aa1;}
 
-p {margin-top: 15px; margin-bottom: 15px;}
+p {margin-top: 20px; margin-bottom: 15px;}
 
-li {margin-top: 10px; margin-bottom: 10px;}
+li {margin-top: 15px; margin-bottom: 10px;}
 
 @media (prefers-color-scheme: dark) {
     h2 {
