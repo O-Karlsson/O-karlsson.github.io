@@ -140,7 +140,9 @@ reshape long e , i(heading1 heading2 loc year sex) j(var) string
 drop if var =="unnmr" & year<1989
 keep if inlist(heading1,"Countries","Subnational regions")
 replace subregion = heading2 if heading1=="Subnational regions"
+drop if strpos(loc,"Total ") & heading1=="Subnational regions" 
 save temp2, replace
+
 
 bys heading1 subregion sex year var: gen count = string(_N)
 bys heading1 subregion sex year var (e): keep if inlist(_n,1,_N)
@@ -219,8 +221,10 @@ keep year sex loc heading1 heading2 imr cmr q5_10 q10_15 q15_19 u5m nmr pnm unnm
 replace heading2 = "World Bank Income groups" if heading2 == "incomegr"
 replace heading2 = "UN regions" if heading2 == "region"
 replace heading2 = "UN subregions" if heading2 == "subregion"
+replace loc = "Northern America " if loc == "Northern America" & heading2=="UN subregions"
+
 compress
-sort heading1 heading2 loc sex year
+sort sex heading1 heading2 loc  year
 save yeardata, replace
 export delimited using "$output_dir\yearlydata" , replace
 
@@ -235,7 +239,7 @@ compress
 export delimited using "$output_dir\location_select" , replace
 
 
-twoway (line q15_19 year if sex == 1 & loc == "Northern America"  & heading2=="UN region")(line q15_19 year if sex == 1 & loc == "Northern America" & heading2=="UN subregion")
+twoway (line q15_19 year if sex == 1 & loc == "Northern America"  & heading2=="UN regions")(line q10_15 year if sex == 1 & loc == "Northern America" & heading2=="UN subregions")
 
 twoway (line q15_19 year if sex == 1 & loc == "Japan", sort)(line q15_19 year if sex == 1 & loc == "United States", sort)
 
