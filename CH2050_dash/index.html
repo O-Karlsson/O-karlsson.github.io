@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Data Dashboard for Child Health 2050</title>
+
+    <link rel="icon" href="media/GH2050-circle.png" type="image/pngn">
+    <link rel="stylesheet" href="style_main.css">
+
+<link rel="stylesheet" href="offlineLib/nouislider.min.css">
+<script src="offlineLib/d3.v7.min.js"></script>
+<script src="offlineLib/nouislider.min.js"></script>
+<script src="offlineLib/html2canvas.min.js"></script>
+
+
+</head>
+<body>
+
+<div class="header">
+    <img src="media/GH2050-Logo.jpg" alt="CIHlogo" class="logo-image">
+
+</div>
+
+<h1>Child Health 2050<br>Data Dashboard</h1>
+
+<div class="container">
+
+    <hr class="top"><h1 class="sect">Select locations and sex</h1>
+    <hr class="bottom">
+
+    <div class="section" height="20000px"><button id="clearSelection">Clear Selection</button></div>
+
+    <!-- Select sex -->
+    <div class="section checkboxes">
+            <div>
+                <label><input type="checkbox" name="sex" value="both" checked> Both</label>
+                <label><input type="checkbox" name="sex" value="female"> Female</label>
+                <label><input type="checkbox" name="sex" value="male"> Male</label>
+            </div>
+
+    <!-- Select location -->
+        <div class="section" id="treeContainer"></div>
+    </div>
+
+    <hr class="top"><h1 class="sect">All cause mortality</h1>
+    <hr class="bottom">
+
+    <h2 class="expandable">Infant mortality</h2>
+    <div class="content" data-height="3500" style="max-height: 0; overflow: hidden;">
+        <div class="figure-placeholder">[Add brief explanation for this figure.]</div>
+        <div id="line-imr" class="line-chart-container" style="width: 100%; height: auto;" y-var='imr' data-file="data/yearlydata.csv" y-title="Infant mortality (per 1000 live births)" x-var="year" x-title="Year" x-range="[1901,2023]" data-rendered="false"></div>
+    </div>
+
+    <h2 class="expandable">Child mortality (1-4 years)</h2>
+    <div class="content" data-height="3500" style="max-height: 0; overflow: hidden;">
+        <div class="figure-placeholder">[Add brief explanation for this figure.]</div>
+        <div id="line-cmr" class="line-chart-container" style="width: 100%; height: auto;" y-var='cmr' data-file="data/yearlydata.csv" y-title="Child mortality age 1-4 (per 1000)" x-var="year" x-title="Year" x-range="[1901,2023]" data-rendered="false"></div>
+    </div>
+
+    <h2 class="expandable">Mortality age 5-9 years</h2>
+    <div class="content" data-height="3500" style="max-height: 0; overflow: hidden;">
+        <div class="figure-placeholder">[Add brief explanation for this figure.]</div>
+        <div id="line-q5_10" class="line-chart-container" style="width: 100%; height: auto;" y-var='q5_10' data-file="data/yearlydata.csv" y-title="Mortality age 5-9 (per 1000)" x-var="year" x-title="Year" x-range="[1901,2023]" data-rendered="false"></div>
+    </div>
+
+    <h2 class="expandable">Mortality age 10-15 years</h2>
+    <div class="content" data-height="3500" style="max-height: 0; overflow: hidden;">
+        <div class="figure-placeholder">[Add brief explanation for this figure.]</div>
+        <div id="line-q10_15" class="line-chart-container" style="width: 100%; height: auto;" y-var='q10_15' data-file="data/yearlydata.csv" y-title="Mortality age 10-15 (per 1000)" x-var="year" x-title="Year" x-range="[1901,2023]" data-rendered="false"></div>
+    </div>
+
+    <h2 class="expandable">Mortality age 15-19 years</h2>
+    <div class="content" data-height="3500" style="max-height: 0; overflow: hidden;">
+        <div class="figure-placeholder">[Add brief explanation for this figure.]</div>
+        <div id="line-q15_19" class="line-chart-container" style="width: 100%; height: auto;" y-var='q15_19' data-file="data/yearlydata.csv" y-title="Mortality age 15-19 (per 1000)" x-var="year" x-title="Year" x-range="[1901,2023]" data-rendered="false"></div>
+    </div>
+
+    <h2 class="expandable">Under-5 mortality</h2>
+    <div class="content" data-height="3500" style="max-height: 0; overflow: hidden;">
+        <div class="figure-placeholder">[Add brief explanation for this figure.]</div>
+        <div id="line-u5m" class="line-chart-container" style="width: 100%; height: auto;" y-var='u5m' data-file="data/yearlydata.csv" y-title="Under-5 mortality (per 1000)" x-var="year" x-title="Year" x-range="[1901,2023]" data-rendered="false"></div>
+    </div>
+
+    <h2 class="expandable">Neonatal mortality</h2>
+    <div class="content" data-height="3500" style="max-height: 0; overflow: hidden;">
+        <div class="figure-placeholder">[Add brief explanation for this figure.]</div>
+        <div id="line-nmr" class="line-chart-container" style="width: 100%; height: auto;" y-var='nmr' data-file="data/yearlydata.csv" y-title="Neonatal mortality (per 1000 live births)" x-var="year" x-title="Year" x-range="[1901,2023]" data-rendered="false"></div>
+    </div>
+
+    <h2 class="expandable">Postneonatal mortality</h2>
+    <div class="content" data-height="3500" style="max-height: 0; overflow: hidden;">
+        <div class="figure-placeholder">[Add brief explanation for this figure.]</div>
+        <div id="line-pnm" class="line-chart-container" style="width: 100%; height: auto;" y-var='pnm' data-file="data/yearlydata.csv" y-title="Postneonatal mortality (per 1000 live births)" x-var="year" x-title="Year" x-range="[1901,2023]" data-rendered="false"></div>
+    </div>
+
+    <h2 class="expandable">Neonatal mortality (UN-IGME)</h2>
+    <div class="content" data-height="3500" style="max-height: 0; overflow: hidden;">
+        <div class="figure-placeholder">[Add brief explanation for this figure.]</div>
+        <div id="line-unnmr" class="line-chart-container" style="width: 100%; height: auto;" y-var='unnmr' data-file="data/yearlydata.csv" y-title="Neonatal mortality (UN-IGME, per 1000 live births)" x-var="year" x-title="Year" x-range="[1901,2023]" data-rendered="false"></div>
+    </div>
+
+    <h2 class="expandable">Neonatal mortality (GBD)</h2>
+    <div class="content" data-height="3500" style="max-height: 0; overflow: hidden;">
+        <div class="figure-placeholder">[Add brief explanation for this figure.]</div>
+        <div id="line-gbdnmr" class="line-chart-container" style="width: 100%; height: auto;" y-var='gbdnmr' data-file="data/yearlydata.csv" y-title="Neonatal mortality (GBD, per 1000 live births)" x-var="year" x-title="Year" x-range="[1901,2023]" data-rendered="false"></div>
+    </div>
+
+    <h2 class="expandable">Multiple outcomes per figure</h2>
+    <div class="content" data-height="100000" style="max-height: 0; overflow: hidden;">
+        <div class="figure-placeholder">[Add brief explanation for this figure.]</div>
+        <div class="figure-note">Select outcomes below. Infant mortality, neonatal mortality, postneonatal mortality, neonatal mortality (UN-IGME), and neonatal mortality (GBD) are per 1000 live births. Child mortality (1-4 years), mortality age 5-9 years, mortality age 10-15 years, mortality age 15-19 years, and under-5 mortality are per 1000.</div>
+        <div id="multi-outcome-1" class="multi-outcome-container" data-file="data/yearlydata.csv" data-x-var="year" data-rendered="false"></div>
+    </div>
+
+    <hr class="top"><h1 class="sect">Other outcomes</h1>
+    <hr class="bottom">
+
+    <h2 class="expandable">Female height (DHS)</h2>
+    <div class="content" data-height="3500" style="max-height: 0; overflow: hidden;">
+        <div class="figure-placeholder">[Add brief explanation for this figure.]</div>
+        <div id="line-cms" class="line-chart-container" style="width: 100%; height: auto;" y-var='cms' data-file="data/yearlydata.csv" y-title="Female height (cm)" x-var="year" x-title="Birth year" x-range="[1901,2023]" data-auto-range="selection" data-rendered="false"></div>
+    </div>
+
+</div>
+<button id="backToMenu">Back to Menu</button>
+<script src="script_selections.js"></script>
+<script src="script_main.js"></script>
+<script src="script_line_figs.js"></script>
+<script src="script_multi_outcomes.js"></script>
+</body>
+</html>

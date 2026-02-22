@@ -1,0 +1,141 @@
+/*********************************************************************************
+**********************************************************************************
+*** In many
+**********************************************************************************
+**********************************************************************************/
+
+button {margin-top: 20px; margin-left: 20px; padding: 10px 10px;background-color: #007bff;color: white;border: none;cursor: pointer;font-size: 16px;}
+button:hover {background-color: #0056b3;}
+
+
+.no-data-message-box {display: flex; justify-content:center;align-items:center; height: 200px; background-color: #f9f9f9; border: 1px solid #ccc ; margin:10px;}
+.no-data-message-text {font-size: 16px; font-weight: bold; color:#333;margin:10px;}
+
+/*********************************************************************************
+**********************************************************************************
+*** Decomposition figure only 
+**********************************************************************************
+**********************************************************************************/
+
+.tooltip {
+    position: absolute;
+    text-align: center;
+    padding: 6px;
+    background: lightgray;
+    border-radius: 4px;
+    pointer-events: none;
+}
+
+/*********************************************************************************
+**********************************************************************************
+*** Line Figures only
+**********************************************************************************
+**********************************************************************************/
+
+.line-year-slider {justify-content: space-between; margin: 60px 20px 10px 20px;}
+.noUi-tooltip {font-size: 16px; font-family: Arial, sans-serif;}
+
+@media (max-width: 600px) {
+    .noUi-tooltip {font-size: 0.8em;} 
+}
+
+
+/*********************************************************************************
+**********************************************************************************
+*** Used in selection file only
+**********************************************************************************
+**********************************************************************************/
+
+.countries-heading {font-weight: bold;font-size: 1.2em;margin-top: 10px;}
+li {line-height: 1.5;}
+ul {list-style-type: none;}
+
+.node--internal > ul {padding-left: 5px;}
+.node {cursor: pointer;}
+.node--leaf {font-weight: normal;}
+.node--internal {font-weight: bold;}
+.node-checkbox {margin-left: 10px;}
+
+.variable-filters {margin: 10px 0 15px 0; padding: 10px; background: #f8fbff; border: 1px solid #d9e7f4; border-radius: 6px;}
+.variable-filters-title {font-size: 0.95em; font-weight: bold; margin-bottom: 8px;}
+.variable-filters-list {display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 6px 14px;}
+.variable-filter-item {display: grid; grid-template-columns: 18px 1fr; align-items: start; column-gap: 8px; margin: 0; font-weight: normal;}
+.variable-filter-item input {margin: 0; margin-top: 3px;}
+.variable-filter-item input:disabled + span {color: #8f8f8f;}
+.heading1-label {display: inline-block; margin: 8px 0 4px 0; font-weight: bold;}
+
+.multi-outcome-filters {margin: 10px 0 16px 0; padding: 10px; background: #f8fbff; border: 1px solid #d9e7f4; border-radius: 6px;}
+.multi-outcome-filters-title {font-size: 0.95em; font-weight: bold; margin-bottom: 8px;}
+.multi-outcome-filters-list {display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 6px 14px;}
+.multi-outcome-filter-item {display: grid; grid-template-columns: 18px 1fr; align-items: start; column-gap: 8px; margin: 0;}
+.multi-outcome-filter-item input {margin: 0; margin-top: 3px;}
+.multi-outcome-slider-wrap {margin: 0 0 14px 0; padding: 0 10px;}
+.multi-outcome-slider-title {font-size: 0.95em; font-weight: bold; margin-bottom: 6px;}
+.multi-outcome-slider-wrap .line-year-slider {margin: 8px 6px 8px 6px;}
+.multi-outcome-chart {padding: 12px 0; border-top: 1px solid #e6e6e6;}
+.multi-outcome-title {margin: 0 0 8px 0; font-size: 1em;}
+.multi-outcome-legend {display: flex; flex-wrap: wrap; gap: 6px 12px; margin-top: 8px; margin-left: 10px;}
+.multi-outcome-legend-item {display: inline-flex; align-items: center; gap: 6px; font-size: 14px;}
+.multi-outcome-legend-swatch {display: inline-block; width: 18px; height: 4px; border-radius: 2px;}
+
+
+/*********************************************************************************
+**********************************************************************************
+*** Index only / script_main.js
+**********************************************************************************
+**********************************************************************************/
+
+.figure-note { font-size: 16px; text-align: left; margin-bottom: 20px; margin-top: 20px; margin-left: 10px; width: 90%;}
+.figure-placeholder {font-size: 15px; color: #555; margin: 8px 10px 12px 10px; font-style: italic;}
+
+body {font-family: Arial, sans-serif; margin: 20px; display: flex; flex-direction: column; align-items: center; line-height: 1.5; font-size: 18px; padding-bottom: 100px;}
+
+.header {display: flex; align-items: center; margin: 0px 0;}
+
+.logo-image {max-width: 250px; height: auto; border-radius: 0; margin-right: 20px;}
+
+h1 {font-size: 1.4em; margin:  20px 0 0px 0px;text-align: center; }
+h1.sect {font-size: 1.4em; text-align: left; margin:  0px 0 0px 50px;}
+h2 {font-size: 1.0em; cursor: pointer; background-color: #f0f0f0; padding: 10px; margin: 20px; border-radius: 5px; transition: background-color 0.2s;}
+h2:hover  {background-color: #e0e0e0;}
+
+hr.top {border: none; border-top: 2px solid #000; margin: 60px 0px 5px 40px;}
+hr.bottom {border: none; border-top: 2px solid #000; margin: 0px 0px 5px 40px;}
+
+.container  {max-width: 800px; width: 100%; padding: 20px; box-sizing: border-box;}
+
+.content {max-height: 0; overflow: hidden; transition: max-height 0.1s ease-in-out, padding 0.1s ease-in-out;}
+.active + .content {max-height: 1000px; padding: 0px;}
+
+/* .decomp-container {padding-left: 5px; margin:0px;} */
+
+.expandable, .subheading {cursor: pointer; background-color: #96D3F1; color: #000000; padding: 10px; margin: 10px 0; border-radius: 5px; transition: background-color 0.2s ease-out;}
+.expandable:hover {background-color: #e0e0e0;}
+
+#backToMenu {display: none; position: fixed; bottom: 10px; left: 10px; background-color: #007bff; color: white; border: none; padding: 10px; cursor: pointer; border-radius: 5px;}
+#backToMenu:hover {background-color: #0056b3;}
+
+.section {margin-bottom: 20px;}
+
+.checkboxes label {margin-left: 20px; margin-right: 10px;}
+.variable-filters label {margin-left: 0; margin-right: 0;}
+
+@media (max-width: 600px) {
+
+    body {
+        margin-left: 0px;
+        margin-right: 0px;
+        padding-left: 1px;
+        padding-right: 2px;
+    }
+
+
+ .container {
+    margin-left: 0px;
+    margin-right: 0px;
+    padding-left: 1px;
+    padding-right: 1px;
+} 
+}
+
+
