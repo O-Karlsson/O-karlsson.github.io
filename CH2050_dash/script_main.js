@@ -13,13 +13,25 @@ async function loadFullData(csvFilePath) {
             for (const key in d) {
                 const trimmedValue = (d[key] ?? "").trim();
 
-                if (key === "country" || key === "loc" || key === "type" || key === "causename" || key === "heading1" || key === "heading2" || key.startsWith("note_")) {
+                if (
+                    key === 'country' ||
+                    key === 'loc' ||
+                    key === 'type' ||
+                    key === 'causename' ||
+                    key === 'heading1' ||
+                    key === 'heading2' ||
+                    key === 'outcome' ||
+                    key === 'note' ||
+                    key === 'source' ||
+                    key === 'weights' ||
+                    key.startsWith('note_')
+                ) {
                     processedRow[key] = trimmedValue;
-                } else if (key === "sex") {
+                } else if (key === 'sex') {
                     const normalized = trimmedValue.toLowerCase();
                     processedRow[key] = sexMap[trimmedValue] || normalized || trimmedValue;
-                } else { // convert others to numbers
-                    processedRow[key] = (trimmedValue === "" || isNaN(Number(trimmedValue))) ? null : +trimmedValue;
+                } else {
+                    processedRow[key] = (trimmedValue === '' || isNaN(Number(trimmedValue))) ? null : +trimmedValue;
                 }
             }
             if (!processedRow.country && processedRow.loc) {
@@ -27,7 +39,37 @@ async function loadFullData(csvFilePath) {
             }
             return processedRow;
         });
-        fullData[csvFilePath] = data; // Cache the entire dataset
+
+        const usesLongFormat = data.length > 0 && Object.prototype.hasOwnProperty.call(data[0], 'outcome') && Object.prototype.hasOwnProperty.call(data[0], 'value');
+
+        if (usesLongFormat) {
+            const groupedRows = new Map();
+
+            data.forEach((row) => {
+                const key = [row.country, row.loc, row.heading1, row.heading2, row.year, row.sex].join('||');
+
+                if (!groupedRows.has(key)) {
+                    groupedRows.set(key, {
+                        country: row.country,
+                        loc: row.loc,
+                        heading1: row.heading1,
+                        heading2: row.heading2,
+                        year: row.year,
+                        sex: row.sex
+                    });
+                }
+
+                const wideRow = groupedRows.get(key);
+                if (row.outcome) {
+                    wideRow[row.outcome] = row.value;
+                    wideRow[`note_${row.outcome}`] = row.note || '';
+                }
+            });
+
+            fullData[csvFilePath] = Array.from(groupedRows.values());
+        } else {
+            fullData[csvFilePath] = data;
+        }
     }
 }
 
