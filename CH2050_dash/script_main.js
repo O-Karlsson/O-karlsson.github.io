@@ -5,8 +5,69 @@
 *************************************************************************************/
 
 let fullData = {};
+let fullDataIndex = {};
+
+function buildDataIndex(csvFilePath, sourceRows = null) {
+    const rows = sourceRows || fullData[csvFilePath] || [];
+    const byCountrySex = new Map();
+    const byOutcomeCountrySex = new Map();
+    const byOutcomeCountrySexYear = new Map();
+
+    rows.forEach((row) => {
+        const key = `${row.country}||${row.sex}`;
+        if (!byCountrySex.has(key)) {
+            byCountrySex.set(key, []);
+        }
+        byCountrySex.get(key).push(row);
+
+        if (row.outcome && Number.isFinite(row.value)) {
+            if (!byOutcomeCountrySex.has(row.outcome)) {
+                byOutcomeCountrySex.set(row.outcome, new Map());
+            }
+            const byCountry = byOutcomeCountrySex.get(row.outcome);
+            if (!byCountry.has(row.country)) {
+                byCountry.set(row.country, new Map());
+            }
+            const bySex = byCountry.get(row.country);
+            if (!bySex.has(row.sex)) {
+                bySex.set(row.sex, []);
+            }
+            bySex.get(row.sex).push(row);
+
+            if (!byOutcomeCountrySexYear.has(row.outcome)) {
+                byOutcomeCountrySexYear.set(row.outcome, new Map());
+            }
+            const byCountryYear = byOutcomeCountrySexYear.get(row.outcome);
+            if (!byCountryYear.has(row.country)) {
+                byCountryYear.set(row.country, new Map());
+            }
+            const bySexYear = byCountryYear.get(row.country);
+            if (!bySexYear.has(row.sex)) {
+                bySexYear.set(row.sex, new Map());
+            }
+            bySexYear.get(row.sex).set(row.year, row);
+        }
+    });
+
+    // Keep each country/sex series sorted once, so consumers avoid repeated sorts.
+    byCountrySex.forEach((series) => {
+        series.sort((a, b) => (a.year ?? 0) - (b.year ?? 0));
+    });
+    byOutcomeCountrySex.forEach((byCountry) => {
+        byCountry.forEach((bySex) => {
+            bySex.forEach((series) => {
+                series.sort((a, b) => (a.year ?? 0) - (b.year ?? 0));
+            });
+        });
+    });
+
+    fullDataIndex[csvFilePath] = { byCountrySex, byOutcomeCountrySex, byOutcomeCountrySexYear };
+}
+
 async function loadFullData(csvFilePath) {
     if (!fullData[csvFilePath] || fullData[csvFilePath].length === 0) {
+        const fileName = csvFilePath.split('/').pop() || '';
+        const inferredOutcome = fileName.endsWith('.csv') ? fileName.slice(0, -4) : fileName;
         const data = await d3.csv(csvFilePath, (d) => {
             const processedRow = {};
             const sexMap = { '1': 'male', '2': 'female', '3': 'both' };
@@ -16,6 +77,7 @@ async function loadFullData(csvFilePath) {
                 if (
                     key === 'country' ||
                     key === 'loc' ||
+                    key === 'lid' ||
                     key === 'type' ||
                     key === 'causename' ||
                     key === 'heading1' ||
@@ -24,6 +86,8 @@ async function loadFullData(csvFilePath) {
                     key === 'note' ||
                     key === 'source' ||
                     key === 'weights' ||
+                    key === 'weight_source' ||
+                    key === 'derived' ||
                     key.startsWith('note_')
                 ) {
                     processedRow[key] = trimmedValue;
@@ -37,14 +101,21 @@ async function loadFullData(csvFilePath) {
             if (!processedRow.country && processedRow.loc) {
                 processedRow.country = processedRow.loc;
             }
+            if (!processedRow.country && processedRow.lid !== undefined && processedRow.lid !== '') {
+                processedRow.country = String(processedRow.lid);
+            }
+            if (!processedRow.outcome && processedRow.value !== null && inferredOutcome && inferredOutcome !== 'yearlydata2' && inferredOutcome !== 'yearlydata') {
+                processedRow.outcome = inferredOutcome;
+            }
             return processedRow;
         });
 
         const usesLongFormat = data.length > 0 && Object.prototype.hasOwnProperty.call(data[0], 'outcome') && Object.prototype.hasOwnProperty.call(data[0], 'value');
 
         if (usesLongFormat) {
-            const groupedRows = new Map();
+            buildDataIndex(csvFilePath, data);
 
+            const groupedRows = new Map();
             data.forEach((row) => {
                 const key = [row.country, row.loc, row.heading1, row.heading2, row.year, row.sex].join('||');
 
@@ -69,6 +140,7 @@ async function loadFullData(csvFilePath) {
             fullData[csvFilePath] = Array.from(groupedRows.values());
         } else {
             fullData[csvFilePath] = data;
+            buildDataIndex(csvFilePath);
         }
     }
 }

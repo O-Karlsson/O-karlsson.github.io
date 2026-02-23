@@ -7,6 +7,12 @@
 // Initialize global arrays to store selected locations and selected sex
 let selectedCountries = [];
 let selectedSex = ['both'];
+let locationNameByLid = new Map();
+
+function getLocationDisplay(lid) {
+    const key = String(lid);
+    return locationNameByLid.get(key) || key;
+}
 
 function isAvailableFlag(value) {
     return String(value).trim() === '1';
@@ -49,7 +55,7 @@ function loadLocationSelectionData() {
     return d3.csv('data/location_selection.csv').catch(() => d3.csv('data/location_select.csv'));
 }
 
-function getDefaultLocations(availableLocs) {
+function getDefaultLocationIds(locationIdByName) {
     const preferredGroups = [
         ['Africa'],
         ['Europe'],
@@ -58,9 +64,9 @@ function getDefaultLocations(availableLocs) {
 
     const chosen = [];
     preferredGroups.forEach(group => {
-        const match = group.find(name => availableLocs.has(name));
+        const match = group.find(name => locationIdByName.has(name));
         if (match) {
-            chosen.push(match);
+            chosen.push(String(locationIdByName.get(match)));
         }
     });
     return chosen;
@@ -73,9 +79,10 @@ loadLocationSelectionData().then(function(data) {
     const hasColumns = (data.columns || []).filter(col => col.startsWith('has_'));
     const activeVarFilters = new Set();
 
-    const availableLocs = new Set(data.map(d => d.loc));
-    const fallbackDefaults = data.slice(0, 3).map(d => d.loc);
-    selectedCountries = getDefaultLocations(availableLocs);
+    locationNameByLid = new Map(data.map(d => [String(d.lid), d.loc]));
+    const locationIdByName = new Map(data.map(d => [d.loc, String(d.lid)]));
+    const fallbackDefaults = data.slice(0, 3).map(d => String(d.lid));
+    selectedCountries = getDefaultLocationIds(locationIdByName);
     if (selectedCountries.length === 0) {
         selectedCountries = fallbackDefaults;
     }
@@ -110,7 +117,7 @@ loadLocationSelectionData().then(function(data) {
         name: heading1,
         children: Array.from(heading2Map, ([heading2, rows]) => ({
             name: heading2,
-            children: rows.map(d => ({ ...d, name: d.loc }))
+            children: rows.map(d => ({ ...d, name: d.loc, id: String(d.lid) }))
         }))
     }));
 
@@ -157,11 +164,11 @@ loadLocationSelectionData().then(function(data) {
         hasColumns.forEach(col => row.attr(`data-${col}`, isAvailableFlag(d[col]) ? '1' : '0'));
 
         const label = row.append('label').attr('class', 'node-checkbox');
-        const isChecked = selectedCountries.includes(d.name);
+        const isChecked = selectedCountries.includes(d.id);
 
         label.append('input')
             .attr('type', 'checkbox')
-            .attr('value', d.name)
+            .attr('value', d.id)
             .property('checked', isChecked)
             .on('change', function(event) {
                 const value = event.target.value;

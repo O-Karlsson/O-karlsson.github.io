@@ -1,454 +1,454 @@
-loc,heading1,heading2,has_imr,has_cmr,has_q5_10,has_q10_15,has_q15_19,has_u5m,has_nmr,has_pnm,has_unnmr,has_cms,has_gbdnmr,has_ncdcm5,has_ncdcm10,has_ncdcm15,has_ncdcm19
-Africa,Aggregates,UN regions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Asia,Aggregates,UN regions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Europe,Aggregates,UN regions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Latin America and the Caribbean,Aggregates,UN regions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Northern America,Aggregates,UN regions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Oceania,Aggregates,UN regions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Australia/New Zealand,Aggregates,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Caribbean,Aggregates,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Central America,Aggregates,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Central Asia,Aggregates,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Eastern Africa,Aggregates,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Eastern Asia,Aggregates,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Eastern Europe,Aggregates,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Melanesia,Aggregates,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Micronesia,Aggregates,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Middle Africa,Aggregates,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Northern Africa,Aggregates,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Northern America ,Aggregates,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Northern Europe,Aggregates,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Polynesia,Aggregates,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-South America,Aggregates,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-South-Eastern Asia,Aggregates,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Southern Africa,Aggregates,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Southern Asia,Aggregates,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Southern Europe,Aggregates,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Western Africa,Aggregates,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Western Asia,Aggregates,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Western Europe,Aggregates,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-High-income countries,Aggregates,World Bank Income groups,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Low-income countries,Aggregates,World Bank Income groups,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Lower-middle-income countries,Aggregates,World Bank Income groups,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-No income group available,Aggregates,World Bank Income groups,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Upper-middle-income countries,Aggregates,World Bank Income groups,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Algeria,Countries,Africa,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Angola,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-Benin,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-Botswana,Countries,Africa,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Burkina Faso,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-Burundi,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-Cabo Verde,Countries,Africa,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Cameroon,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-Central African Republic,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-Chad,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-Comoros,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-Congo,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-Congo DR,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-Côte d'Ivoire,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-Djibouti,Countries,Africa,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Egypt,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-Equatorial Guinea,Countries,Africa,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Eritrea,Countries,Africa,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Eswatini,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-Ethiopia,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-Gabon,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-Gambia,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-Ghana,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-Guinea,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-Guinea-Bissau,Countries,Africa,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Kenya,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-Lesotho,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-Liberia,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-Libya,Countries,Africa,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Madagascar,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-Malawi,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-Mali,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-Mauritania,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-Mauritius,Countries,Africa,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Mayotte,Countries,Africa,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Morocco,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-Mozambique,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-Namibia,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-Niger,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-Nigeria,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-Rwanda,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-Réunion,Countries,Africa,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Saint Helena,Countries,Africa,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Sao Tome and Principe,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-Senegal,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-Seychelles,Countries,Africa,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Sierra Leone,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-Somalia,Countries,Africa,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-South Africa,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-South Sudan,Countries,Africa,1,1,1,1,1,1,1,1,1,0,1,0,0,0,0
-Sudan,Countries,Africa,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Tanzania,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-Togo,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-Tunisia,Countries,Africa,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Uganda,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-Western Sahara,Countries,Africa,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Zambia,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-Zimbabwe,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-Afghanistan,Countries,Asia,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Armenia,Countries,Asia,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-Azerbaijan,Countries,Asia,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-Bahrain,Countries,Asia,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Bangladesh,Countries,Asia,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-Bhutan,Countries,Asia,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Brunei Darussalam,Countries,Asia,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Cambodia,Countries,Asia,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-China,Countries,Asia,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Cyprus,Countries,Asia,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Georgia,Countries,Asia,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Hong Kong,Countries,Asia,1,1,1,1,1,1,0,0,0,0,0,1,1,1,1
-India,Countries,Asia,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-Indonesia,Countries,Asia,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Iran,Countries,Asia,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Iraq,Countries,Asia,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Israel,Countries,Asia,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Japan,Countries,Asia,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Jordan,Countries,Asia,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-Kazakhstan,Countries,Asia,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-Kuwait,Countries,Asia,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Kyrgyzstan,Countries,Asia,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-Lao,Countries,Asia,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Lebanon,Countries,Asia,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Macao,Countries,Asia,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Malaysia,Countries,Asia,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Maldives,Countries,Asia,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-Mongolia,Countries,Asia,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Myanmar,Countries,Asia,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-Nepal,Countries,Asia,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-North Korea,Countries,Asia,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Oman,Countries,Asia,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Pakistan,Countries,Asia,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-Palestine,Countries,Asia,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Philippines,Countries,Asia,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Qatar,Countries,Asia,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Saudi Arabia,Countries,Asia,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Singapore,Countries,Asia,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-South Korea,Countries,Asia,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Sri Lanka,Countries,Asia,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Syria,Countries,Asia,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Taiwan,Countries,Asia,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1
-Tajikistan,Countries,Asia,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-Thailand,Countries,Asia,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Timor-Leste,Countries,Asia,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-Turkmenistan,Countries,Asia,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Türkiye,Countries,Asia,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-United Arab Emirates,Countries,Asia,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Uzbekistan,Countries,Asia,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-Viet Nam,Countries,Asia,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Yemen,Countries,Asia,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-Albania,Countries,Europe,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-Andorra,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Austria,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Belarus,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Belgium,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Bosnia and Herzegovina,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Bulgaria,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Croatia,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Czechia,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Denmark,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Estonia,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Faroe Islands,Countries,Europe,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Finland,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-France,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Germany,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Gibraltar,Countries,Europe,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Greece,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Guernsey,Countries,Europe,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Holy See,Countries,Europe,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Hungary,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Iceland,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Ireland,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Isle of Man,Countries,Europe,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Italy,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Jersey,Countries,Europe,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Kosovo,Countries,Europe,1,1,1,1,1,1,0,0,1,0,0,0,0,0,0
-Latvia,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Liechtenstein,Countries,Europe,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Lithuania,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Luxembourg,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Malta,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Moldova,Countries,Europe,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-Monaco,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,0,0,0,0
-Montenegro,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Netherlands,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-North Macedonia,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Norway,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Poland,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Portugal,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Romania,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Russia,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-San Marino,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,0,0,0,0
-Serbia,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Slovakia,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Slovenia,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Spain,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Sweden,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Switzerland,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Ukraine,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-United Kingdom,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Anguilla,Countries,Latin America and the Caribbean,1,1,1,1,1,1,0,0,1,0,0,0,0,0,0
-Antigua and Barbuda,Countries,Latin America and the Caribbean,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Argentina,Countries,Latin America and the Caribbean,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Aruba,Countries,Latin America and the Caribbean,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Bahamas,Countries,Latin America and the Caribbean,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Barbados,Countries,Latin America and the Caribbean,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Belize,Countries,Latin America and the Caribbean,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Bolivia,Countries,Latin America and the Caribbean,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-"Bonaire, Sint Eustatius and Saba",Countries,Latin America and the Caribbean,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Brazil,Countries,Latin America and the Caribbean,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-British Virgin Islands,Countries,Latin America and the Caribbean,1,1,1,1,1,1,0,0,1,0,0,0,0,0,0
-Cayman Islands,Countries,Latin America and the Caribbean,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Chile,Countries,Latin America and the Caribbean,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Colombia,Countries,Latin America and the Caribbean,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-Costa Rica,Countries,Latin America and the Caribbean,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Cuba,Countries,Latin America and the Caribbean,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Curaçao,Countries,Latin America and the Caribbean,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Dominica,Countries,Latin America and the Caribbean,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Dominican Republic,Countries,Latin America and the Caribbean,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-Ecuador,Countries,Latin America and the Caribbean,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-El Salvador,Countries,Latin America and the Caribbean,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Falkland Islands,Countries,Latin America and the Caribbean,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-French Guiana,Countries,Latin America and the Caribbean,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Grenada,Countries,Latin America and the Caribbean,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Guadeloupe,Countries,Latin America and the Caribbean,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Guatemala,Countries,Latin America and the Caribbean,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-Guyana,Countries,Latin America and the Caribbean,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-Haiti,Countries,Latin America and the Caribbean,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-Honduras,Countries,Latin America and the Caribbean,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-Jamaica,Countries,Latin America and the Caribbean,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Martinique,Countries,Latin America and the Caribbean,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Mexico,Countries,Latin America and the Caribbean,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Montserrat,Countries,Latin America and the Caribbean,1,1,1,1,1,1,0,0,1,0,0,0,0,0,0
-Nicaragua,Countries,Latin America and the Caribbean,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-Panama,Countries,Latin America and the Caribbean,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Paraguay,Countries,Latin America and the Caribbean,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Peru,Countries,Latin America and the Caribbean,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-Puerto Rico,Countries,Latin America and the Caribbean,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1
-Saint Barthélemy,Countries,Latin America and the Caribbean,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Saint Kitts and Nevis,Countries,Latin America and the Caribbean,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Saint Lucia,Countries,Latin America and the Caribbean,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Saint Martin (French),Countries,Latin America and the Caribbean,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Saint Vincent and the Grenadines,Countries,Latin America and the Caribbean,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Sint Maarten (Dutch),Countries,Latin America and the Caribbean,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Suriname,Countries,Latin America and the Caribbean,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Trinidad and Tobago,Countries,Latin America and the Caribbean,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Turks and Caicos Islands,Countries,Latin America and the Caribbean,1,1,1,1,1,1,0,0,1,0,0,0,0,0,0
-US Virgin Islands,Countries,Latin America and the Caribbean,1,1,1,1,1,1,1,1,0,0,1,0,0,0,0
-Uruguay,Countries,Latin America and the Caribbean,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Venezuela,Countries,Latin America and the Caribbean,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Bermuda,Countries,Northern America,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1
-Canada,Countries,Northern America,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Greenland,Countries,Northern America,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1
-Saint Pierre and Miquelon,Countries,Northern America,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-United States,Countries,Northern America,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-American Samoa,Countries,Oceania,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1
-Australia,Countries,Oceania,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Cook Islands,Countries,Oceania,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Fiji,Countries,Oceania,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-French Polynesia,Countries,Oceania,1,1,1,1,1,1,0,0,0,0,0,1,1,1,1
-Guam,Countries,Oceania,1,1,1,1,1,1,1,1,0,0,1,0,0,0,0
-Kiribati,Countries,Oceania,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Marshall Islands,Countries,Oceania,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Micronesia,Countries,Oceania,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Nauru,Countries,Oceania,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-New Caledonia,Countries,Oceania,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-New Zealand,Countries,Oceania,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Niue,Countries,Oceania,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Northern Mariana Islands,Countries,Oceania,1,1,1,1,1,1,1,1,0,0,1,0,0,0,0
-Palau,Countries,Oceania,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Papua New Guinea,Countries,Oceania,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Samoa,Countries,Oceania,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Solomon Islands,Countries,Oceania,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Tokelau,Countries,Oceania,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1
-Tonga,Countries,Oceania,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Tuvalu,Countries,Oceania,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Vanuatu,Countries,Oceania,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Wallis and Futuna Islands,Countries,Oceania,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-"All countries, highest each year",Lowest or highest mortality,Global,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-"All countries, lowest each year",Lowest or highest mortality,Global,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-"All subnational regions, highest each year",Lowest or highest mortality,Subnational regions,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-"All subnational regions, lowest each year",Lowest or highest mortality,Subnational regions,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-"Canada, highest each year",Lowest or highest mortality,Subnational regions,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-"Canada, lowest each year",Lowest or highest mortality,Subnational regions,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-"France, highest each year",Lowest or highest mortality,Subnational regions,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-"France, lowest each year",Lowest or highest mortality,Subnational regions,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-"Japan, highest each year",Lowest or highest mortality,Subnational regions,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-"Japan, lowest each year",Lowest or highest mortality,Subnational regions,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-"USA, highest each year",Lowest or highest mortality,Subnational regions,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-"USA, lowest each year",Lowest or highest mortality,Subnational regions,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-"Australia/New Zealand, highest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-"Australia/New Zealand, lowest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-"Caribbean, highest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-"Caribbean, lowest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-"Central America, highest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-"Central America, lowest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-"Central Asia, highest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-"Central Asia, lowest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-"Eastern Africa, highest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-"Eastern Africa, lowest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-"Eastern Asia, highest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-"Eastern Asia, lowest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-"Eastern Europe, highest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-"Eastern Europe, lowest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-"Melanesia, highest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-"Melanesia, lowest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-"Micronesia, highest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-"Micronesia, lowest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-"Middle Africa, highest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-"Middle Africa, lowest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-"Northern Africa, highest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-"Northern Africa, lowest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-"Northern America, highest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-"Northern America, lowest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-"Northern Europe, highest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-"Northern Europe, lowest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-"Polynesia, highest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-"Polynesia, lowest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-"South America, highest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-"South America, lowest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-"South-Eastern Asia, highest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-"South-Eastern Asia, lowest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-"Southern Africa, highest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-"Southern Africa, lowest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-"Southern Asia, highest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-"Southern Asia, lowest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-"Southern Europe, highest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-"Southern Europe, lowest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-"Western Africa, highest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-"Western Africa, lowest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-"Western Asia, highest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-"Western Asia, lowest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-"Western Europe, highest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-"Western Europe, lowest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Alberta,Subnational regions,Canada,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-British Columbia,Subnational regions,Canada,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Manitoba,Subnational regions,Canada,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-New Brunswick,Subnational regions,Canada,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Newfoundland,Subnational regions,Canada,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Northwest Territories,Subnational regions,Canada,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Nova Scotia,Subnational regions,Canada,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Ontario,Subnational regions,Canada,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Prince Edward Island,Subnational regions,Canada,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Quebec,Subnational regions,Canada,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Saskatchewan,Subnational regions,Canada,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Total Canada,Subnational regions,Canada,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Yukon,Subnational regions,Canada,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Auvergne-Rhône-Alpes,Subnational regions,France,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Bourgogne-Franche-Comté,Subnational regions,France,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Bretagne,Subnational regions,France,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Centre-Val de Loire,Subnational regions,France,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Corse,Subnational regions,France,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Grand Est,Subnational regions,France,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Hauts-de-France,Subnational regions,France,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Normandie,Subnational regions,France,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Nouvelle-Aquitaine,Subnational regions,France,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Occitanie,Subnational regions,France,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Pays de la Loire,Subnational regions,France,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Provence-Alpes-Côte d’Azur,Subnational regions,France,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Total France,Subnational regions,France,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1
-Île de France,Subnational regions,France,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Aichi,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Akita,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Aomori,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Chiba,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Ehime,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Fukui,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Fukuoka,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Fukushima,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Gifu,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Gumma,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Hiroshima,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Hokkaido,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Hyogo,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Ibaraki,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Ishikawa,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Iwate,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Kagawa,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Kagoshima,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Kanagawa,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Kochi,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Kumamoto,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Kyoto,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Mie,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Miyagi,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Miyazaki,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Nagano,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Nagasaki,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Nara,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Niigata,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Oita,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Okayama,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Okinawa,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Osaka,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Saga,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Saitama,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Shiga,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Shimane,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Shizuoka,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Tochigi,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Tokushima,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Tokyo,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Total Japan,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Tottori,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Toyama,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Wakayama,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Yamagata,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Yamaguchi,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Yamanashi,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Alabama,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Alaska,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Arizona,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Arkansas,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-California,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Colorado,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Connecticut,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Delaware,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-District of Columbia,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Florida,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Georgia,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Hawaii,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Idaho,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Illinois,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Indiana,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Iowa,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Kansas,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Kentucky,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Louisiana,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Maine,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Maryland,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Massachusetts,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Michigan,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Minnesota,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Mississippi,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Missouri,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Montana,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Nebraska,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Nevada,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-New Hampshire,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-New Jersey,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-New Mexico,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-New York,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-North Carolina,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-North Dakota,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Ohio,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Oklahoma,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Oregon,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Pennsylvania,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Rhode Island,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-South Carolina,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-South Dakota,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Tennessee,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Texas,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Total United States,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Utah,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Vermont,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Virginia,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Washington,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-West Virginia,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Wisconsin,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
-Wyoming,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0
+loc,heading1,heading2,has_imr,has_cmr,has_q5_10,has_q10_15,has_q15_19,has_u5m,has_nmr,has_pnm,has_unnmr,has_cms,has_gbdnmr,has_ncdcm5,has_ncdcm10,has_ncdcm15,has_ncdcm19,lid
+Africa,Aggregates,UN regions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1
+Asia,Aggregates,UN regions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,2
+Europe,Aggregates,UN regions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,3
+Latin America and the Caribbean,Aggregates,UN regions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,4
+Northern America,Aggregates,UN regions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,5
+Oceania,Aggregates,UN regions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,6
+Australia/New Zealand,Aggregates,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,7
+Caribbean,Aggregates,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,8
+Central America,Aggregates,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,9
+Central Asia,Aggregates,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,10
+Eastern Africa,Aggregates,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,11
+Eastern Asia,Aggregates,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,12
+Eastern Europe,Aggregates,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,13
+Melanesia,Aggregates,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,14
+Micronesia,Aggregates,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,15
+Middle Africa,Aggregates,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,16
+Northern Africa,Aggregates,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,17
+Northern America ,Aggregates,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,18
+Northern Europe,Aggregates,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,19
+Polynesia,Aggregates,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,20
+South America,Aggregates,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,21
+South-Eastern Asia,Aggregates,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,22
+Southern Africa,Aggregates,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,23
+Southern Asia,Aggregates,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,24
+Southern Europe,Aggregates,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,25
+Western Africa,Aggregates,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,26
+Western Asia,Aggregates,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,27
+Western Europe,Aggregates,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,28
+High-income countries,Aggregates,World Bank Income groups,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,29
+Low-income countries,Aggregates,World Bank Income groups,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,30
+Lower-middle-income countries,Aggregates,World Bank Income groups,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,31
+No income group available,Aggregates,World Bank Income groups,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,32
+Upper-middle-income countries,Aggregates,World Bank Income groups,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,33
+Algeria,Countries,Africa,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,34
+Angola,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,35
+Benin,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,36
+Botswana,Countries,Africa,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,37
+Burkina Faso,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,38
+Burundi,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,39
+Cabo Verde,Countries,Africa,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,40
+Cameroon,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,41
+Central African Republic,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,42
+Chad,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,43
+Comoros,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,44
+Congo,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,45
+Congo DR,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,46
+Côte d'Ivoire,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,47
+Djibouti,Countries,Africa,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,48
+Egypt,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,49
+Equatorial Guinea,Countries,Africa,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,50
+Eritrea,Countries,Africa,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,51
+Eswatini,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,52
+Ethiopia,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,53
+Gabon,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,54
+Gambia,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,55
+Ghana,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,56
+Guinea,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,57
+Guinea-Bissau,Countries,Africa,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,58
+Kenya,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,59
+Lesotho,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,60
+Liberia,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,61
+Libya,Countries,Africa,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,62
+Madagascar,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,63
+Malawi,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,64
+Mali,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,65
+Mauritania,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,66
+Mauritius,Countries,Africa,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,67
+Mayotte,Countries,Africa,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,68
+Morocco,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,69
+Mozambique,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,70
+Namibia,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,71
+Niger,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,72
+Nigeria,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,73
+Rwanda,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,74
+Réunion,Countries,Africa,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,75
+Saint Helena,Countries,Africa,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,76
+Sao Tome and Principe,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,77
+Senegal,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,78
+Seychelles,Countries,Africa,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,79
+Sierra Leone,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,80
+Somalia,Countries,Africa,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,81
+South Africa,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,82
+South Sudan,Countries,Africa,1,1,1,1,1,1,1,1,1,0,1,0,0,0,0,83
+Sudan,Countries,Africa,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,84
+Tanzania,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,85
+Togo,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,86
+Tunisia,Countries,Africa,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,87
+Uganda,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,88
+Western Sahara,Countries,Africa,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,89
+Zambia,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,90
+Zimbabwe,Countries,Africa,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,91
+Afghanistan,Countries,Asia,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,92
+Armenia,Countries,Asia,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,93
+Azerbaijan,Countries,Asia,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,94
+Bahrain,Countries,Asia,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,95
+Bangladesh,Countries,Asia,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,96
+Bhutan,Countries,Asia,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,97
+Brunei Darussalam,Countries,Asia,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,98
+Cambodia,Countries,Asia,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,99
+China,Countries,Asia,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,100
+Cyprus,Countries,Asia,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,101
+Georgia,Countries,Asia,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,102
+Hong Kong,Countries,Asia,1,1,1,1,1,1,0,0,0,0,0,1,1,1,1,103
+India,Countries,Asia,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,104
+Indonesia,Countries,Asia,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,105
+Iran,Countries,Asia,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,106
+Iraq,Countries,Asia,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,107
+Israel,Countries,Asia,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,108
+Japan,Countries,Asia,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,109
+Jordan,Countries,Asia,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,110
+Kazakhstan,Countries,Asia,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,111
+Kuwait,Countries,Asia,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,112
+Kyrgyzstan,Countries,Asia,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,113
+Lao,Countries,Asia,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,114
+Lebanon,Countries,Asia,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,115
+Macao,Countries,Asia,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,116
+Malaysia,Countries,Asia,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,117
+Maldives,Countries,Asia,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,118
+Mongolia,Countries,Asia,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,119
+Myanmar,Countries,Asia,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,120
+Nepal,Countries,Asia,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,121
+North Korea,Countries,Asia,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,122
+Oman,Countries,Asia,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,123
+Pakistan,Countries,Asia,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,124
+Palestine,Countries,Asia,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,125
+Philippines,Countries,Asia,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,126
+Qatar,Countries,Asia,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,127
+Saudi Arabia,Countries,Asia,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,128
+Singapore,Countries,Asia,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,129
+South Korea,Countries,Asia,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,130
+Sri Lanka,Countries,Asia,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,131
+Syria,Countries,Asia,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,132
+Taiwan,Countries,Asia,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,133
+Tajikistan,Countries,Asia,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,134
+Thailand,Countries,Asia,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,135
+Timor-Leste,Countries,Asia,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,136
+Turkmenistan,Countries,Asia,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,137
+Türkiye,Countries,Asia,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,138
+United Arab Emirates,Countries,Asia,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,139
+Uzbekistan,Countries,Asia,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,140
+Viet Nam,Countries,Asia,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,141
+Yemen,Countries,Asia,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,142
+Albania,Countries,Europe,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,143
+Andorra,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,144
+Austria,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,145
+Belarus,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,146
+Belgium,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,147
+Bosnia and Herzegovina,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,148
+Bulgaria,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,149
+Croatia,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,150
+Czechia,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,151
+Denmark,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,152
+Estonia,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,153
+Faroe Islands,Countries,Europe,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,154
+Finland,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,155
+France,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,156
+Germany,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,157
+Gibraltar,Countries,Europe,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,158
+Greece,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,159
+Guernsey,Countries,Europe,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,160
+Holy See,Countries,Europe,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,161
+Hungary,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,162
+Iceland,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,163
+Ireland,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,164
+Isle of Man,Countries,Europe,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,165
+Italy,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,166
+Jersey,Countries,Europe,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,167
+Kosovo,Countries,Europe,1,1,1,1,1,1,0,0,1,0,0,0,0,0,0,168
+Latvia,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,169
+Liechtenstein,Countries,Europe,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,170
+Lithuania,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,171
+Luxembourg,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,172
+Malta,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,173
+Moldova,Countries,Europe,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,174
+Monaco,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,0,0,0,0,175
+Montenegro,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,176
+Netherlands,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,177
+North Macedonia,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,178
+Norway,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,179
+Poland,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,180
+Portugal,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,181
+Romania,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,182
+Russia,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,183
+San Marino,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,0,0,0,0,184
+Serbia,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,185
+Slovakia,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,186
+Slovenia,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,187
+Spain,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,188
+Sweden,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,189
+Switzerland,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,190
+Ukraine,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,191
+United Kingdom,Countries,Europe,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,192
+Anguilla,Countries,Latin America and the Caribbean,1,1,1,1,1,1,0,0,1,0,0,0,0,0,0,193
+Antigua and Barbuda,Countries,Latin America and the Caribbean,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,194
+Argentina,Countries,Latin America and the Caribbean,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,195
+Aruba,Countries,Latin America and the Caribbean,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,196
+Bahamas,Countries,Latin America and the Caribbean,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,197
+Barbados,Countries,Latin America and the Caribbean,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,198
+Belize,Countries,Latin America and the Caribbean,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,199
+Bolivia,Countries,Latin America and the Caribbean,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,200
+"Bonaire, Sint Eustatius and Saba",Countries,Latin America and the Caribbean,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,201
+Brazil,Countries,Latin America and the Caribbean,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,202
+British Virgin Islands,Countries,Latin America and the Caribbean,1,1,1,1,1,1,0,0,1,0,0,0,0,0,0,203
+Cayman Islands,Countries,Latin America and the Caribbean,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,204
+Chile,Countries,Latin America and the Caribbean,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,205
+Colombia,Countries,Latin America and the Caribbean,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,206
+Costa Rica,Countries,Latin America and the Caribbean,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,207
+Cuba,Countries,Latin America and the Caribbean,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,208
+Curaçao,Countries,Latin America and the Caribbean,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,209
+Dominica,Countries,Latin America and the Caribbean,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,210
+Dominican Republic,Countries,Latin America and the Caribbean,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,211
+Ecuador,Countries,Latin America and the Caribbean,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,212
+El Salvador,Countries,Latin America and the Caribbean,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,213
+Falkland Islands,Countries,Latin America and the Caribbean,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,214
+French Guiana,Countries,Latin America and the Caribbean,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,215
+Grenada,Countries,Latin America and the Caribbean,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,216
+Guadeloupe,Countries,Latin America and the Caribbean,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,217
+Guatemala,Countries,Latin America and the Caribbean,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,218
+Guyana,Countries,Latin America and the Caribbean,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,219
+Haiti,Countries,Latin America and the Caribbean,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,220
+Honduras,Countries,Latin America and the Caribbean,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,221
+Jamaica,Countries,Latin America and the Caribbean,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,222
+Martinique,Countries,Latin America and the Caribbean,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,223
+Mexico,Countries,Latin America and the Caribbean,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,224
+Montserrat,Countries,Latin America and the Caribbean,1,1,1,1,1,1,0,0,1,0,0,0,0,0,0,225
+Nicaragua,Countries,Latin America and the Caribbean,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,226
+Panama,Countries,Latin America and the Caribbean,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,227
+Paraguay,Countries,Latin America and the Caribbean,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,228
+Peru,Countries,Latin America and the Caribbean,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,229
+Puerto Rico,Countries,Latin America and the Caribbean,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,230
+Saint Barthélemy,Countries,Latin America and the Caribbean,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,231
+Saint Kitts and Nevis,Countries,Latin America and the Caribbean,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,232
+Saint Lucia,Countries,Latin America and the Caribbean,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,233
+Saint Martin (French),Countries,Latin America and the Caribbean,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,234
+Saint Vincent and the Grenadines,Countries,Latin America and the Caribbean,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,235
+Sint Maarten (Dutch),Countries,Latin America and the Caribbean,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,236
+Suriname,Countries,Latin America and the Caribbean,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,237
+Trinidad and Tobago,Countries,Latin America and the Caribbean,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,238
+Turks and Caicos Islands,Countries,Latin America and the Caribbean,1,1,1,1,1,1,0,0,1,0,0,0,0,0,0,239
+US Virgin Islands,Countries,Latin America and the Caribbean,1,1,1,1,1,1,1,1,0,0,1,0,0,0,0,240
+Uruguay,Countries,Latin America and the Caribbean,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,241
+Venezuela,Countries,Latin America and the Caribbean,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,242
+Bermuda,Countries,Northern America,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,243
+Canada,Countries,Northern America,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,244
+Greenland,Countries,Northern America,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,245
+Saint Pierre and Miquelon,Countries,Northern America,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,246
+United States,Countries,Northern America,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,247
+American Samoa,Countries,Oceania,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,248
+Australia,Countries,Oceania,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,249
+Cook Islands,Countries,Oceania,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,250
+Fiji,Countries,Oceania,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,251
+French Polynesia,Countries,Oceania,1,1,1,1,1,1,0,0,0,0,0,1,1,1,1,252
+Guam,Countries,Oceania,1,1,1,1,1,1,1,1,0,0,1,0,0,0,0,253
+Kiribati,Countries,Oceania,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,254
+Marshall Islands,Countries,Oceania,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,255
+Micronesia,Countries,Oceania,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,256
+Nauru,Countries,Oceania,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,257
+New Caledonia,Countries,Oceania,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,258
+New Zealand,Countries,Oceania,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,259
+Niue,Countries,Oceania,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,260
+Northern Mariana Islands,Countries,Oceania,1,1,1,1,1,1,1,1,0,0,1,0,0,0,0,261
+Palau,Countries,Oceania,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,262
+Papua New Guinea,Countries,Oceania,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,263
+Samoa,Countries,Oceania,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,264
+Solomon Islands,Countries,Oceania,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,265
+Tokelau,Countries,Oceania,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,266
+Tonga,Countries,Oceania,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,267
+Tuvalu,Countries,Oceania,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,268
+Vanuatu,Countries,Oceania,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,269
+Wallis and Futuna Islands,Countries,Oceania,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,270
+Total Canada,Subnational regions,Canada,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,271
+Alberta,Subnational regions,Canada,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,272
+British Columbia,Subnational regions,Canada,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,273
+Manitoba,Subnational regions,Canada,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,274
+New Brunswick,Subnational regions,Canada,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,275
+Newfoundland,Subnational regions,Canada,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,276
+Northwest Territories,Subnational regions,Canada,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,277
+Nova Scotia,Subnational regions,Canada,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,278
+Ontario,Subnational regions,Canada,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,279
+Prince Edward Island,Subnational regions,Canada,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,280
+Quebec,Subnational regions,Canada,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,281
+Saskatchewan,Subnational regions,Canada,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,282
+Yukon,Subnational regions,Canada,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,283
+Total France,Subnational regions,France,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,284
+Auvergne-Rhône-Alpes,Subnational regions,France,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,285
+Bourgogne-Franche-Comté,Subnational regions,France,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,286
+Bretagne,Subnational regions,France,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,287
+Centre-Val de Loire,Subnational regions,France,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,288
+Corse,Subnational regions,France,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,289
+Grand Est,Subnational regions,France,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,290
+Hauts-de-France,Subnational regions,France,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,291
+Normandie,Subnational regions,France,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,292
+Nouvelle-Aquitaine,Subnational regions,France,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,293
+Occitanie,Subnational regions,France,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,294
+Pays de la Loire,Subnational regions,France,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,295
+Provence-Alpes-Côte d’Azur,Subnational regions,France,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,296
+Île de France,Subnational regions,France,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,297
+Total Japan,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,298
+Aichi,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,299
+Akita,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,300
+Aomori,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,301
+Chiba,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,302
+Ehime,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,303
+Fukui,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,304
+Fukuoka,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,305
+Fukushima,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,306
+Gifu,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,307
+Gumma,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,308
+Hiroshima,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,309
+Hokkaido,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,310
+Hyogo,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,311
+Ibaraki,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,312
+Ishikawa,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,313
+Iwate,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,314
+Kagawa,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,315
+Kagoshima,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,316
+Kanagawa,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,317
+Kochi,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,318
+Kumamoto,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,319
+Kyoto,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,320
+Mie,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,321
+Miyagi,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,322
+Miyazaki,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,323
+Nagano,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,324
+Nagasaki,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,325
+Nara,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,326
+Niigata,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,327
+Oita,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,328
+Okayama,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,329
+Okinawa,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,330
+Osaka,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,331
+Saga,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,332
+Saitama,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,333
+Shiga,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,334
+Shimane,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,335
+Shizuoka,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,336
+Tochigi,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,337
+Tokushima,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,338
+Tokyo,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,339
+Tottori,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,340
+Toyama,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,341
+Wakayama,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,342
+Yamagata,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,343
+Yamaguchi,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,344
+Yamanashi,Subnational regions,Japan,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,345
+Total United States,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,346
+Alabama,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,347
+Alaska,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,348
+Arizona,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,349
+Arkansas,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,350
+California,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,351
+Colorado,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,352
+Connecticut,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,353
+Delaware,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,354
+District of Columbia,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,355
+Florida,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,356
+Georgia,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,357
+Hawaii,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,358
+Idaho,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,359
+Illinois,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,360
+Indiana,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,361
+Iowa,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,362
+Kansas,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,363
+Kentucky,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,364
+Louisiana,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,365
+Maine,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,366
+Maryland,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,367
+Massachusetts,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,368
+Michigan,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,369
+Minnesota,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,370
+Mississippi,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,371
+Missouri,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,372
+Montana,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,373
+Nebraska,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,374
+Nevada,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,375
+New Hampshire,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,376
+New Jersey,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,377
+New Mexico,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,378
+New York,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,379
+North Carolina,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,380
+North Dakota,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,381
+Ohio,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,382
+Oklahoma,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,383
+Oregon,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,384
+Pennsylvania,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,385
+Rhode Island,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,386
+South Carolina,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,387
+South Dakota,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,388
+Tennessee,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,389
+Texas,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,390
+Utah,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,391
+Vermont,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,392
+Virginia,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,393
+Washington,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,394
+West Virginia,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,395
+Wisconsin,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,396
+Wyoming,Subnational regions,USA,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,397
+"All countries, highest each year",Lowest or highest mortality,Global,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,398
+"All countries, lowest each year",Lowest or highest mortality,Global,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,399
+"All subnational regions, highest each year",Lowest or highest mortality,Subnational regions,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,400
+"All subnational regions, lowest each year",Lowest or highest mortality,Subnational regions,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,401
+"Canada, highest each year",Lowest or highest mortality,Subnational regions,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,402
+"Canada, lowest each year",Lowest or highest mortality,Subnational regions,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,403
+"France, highest each year",Lowest or highest mortality,Subnational regions,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,404
+"France, lowest each year",Lowest or highest mortality,Subnational regions,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,405
+"Japan, highest each year",Lowest or highest mortality,Subnational regions,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,406
+"Japan, lowest each year",Lowest or highest mortality,Subnational regions,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,407
+"USA, highest each year",Lowest or highest mortality,Subnational regions,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,408
+"USA, lowest each year",Lowest or highest mortality,Subnational regions,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,409
+"Australia/New Zealand, highest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,410
+"Australia/New Zealand, lowest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,411
+"Caribbean, highest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,412
+"Caribbean, lowest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,413
+"Central America, highest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,414
+"Central America, lowest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,415
+"Central Asia, highest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,416
+"Central Asia, lowest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,417
+"Eastern Africa, highest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,418
+"Eastern Africa, lowest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,419
+"Eastern Asia, highest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,420
+"Eastern Asia, lowest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,421
+"Eastern Europe, highest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,422
+"Eastern Europe, lowest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,423
+"Melanesia, highest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,424
+"Melanesia, lowest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,425
+"Micronesia, highest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,426
+"Micronesia, lowest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,427
+"Middle Africa, highest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,428
+"Middle Africa, lowest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,429
+"Northern Africa, highest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,430
+"Northern Africa, lowest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,431
+"Northern America, highest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,432
+"Northern America, lowest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,433
+"Northern Europe, highest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,434
+"Northern Europe, lowest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,435
+"Polynesia, highest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,436
+"Polynesia, lowest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,437
+"South America, highest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,438
+"South America, lowest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,439
+"South-Eastern Asia, highest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,440
+"South-Eastern Asia, lowest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,441
+"Southern Africa, highest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,442
+"Southern Africa, lowest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,443
+"Southern Asia, highest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,444
+"Southern Asia, lowest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,445
+"Southern Europe, highest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,446
+"Southern Europe, lowest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,447
+"Western Africa, highest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,448
+"Western Africa, lowest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,449
+"Western Asia, highest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,450
+"Western Asia, lowest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,451
+"Western Europe, highest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,452
+"Western Europe, lowest each year",Lowest or highest mortality,UN subregions,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,453

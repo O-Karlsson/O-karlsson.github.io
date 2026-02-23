@@ -284,28 +284,42 @@ sort sex heading1 heading2 loc  year
 save yeardata, replace
 export delimited using "$output_dir\yearlydata" , replace
 
-gen source = "UN WPP 2024" if inlist(outcome,"imr","cmr","q5_10","q10_15","q15_19","u5m")
-replace source = "UN WPP 2024; GBD 2023" if inlist(ouctome, "nmr","pnm")
-replace source = "UN-IGME 2024" if inlist(ouctome, "unnmr")
-replace source = "DHS 2026" if inlist(ouctome, "cms")
-replace source = "GBD 2023" if inlist(ouctome, "gbdnmr")
-replace source = "NCD-Risc 2020" if inlist(ouctome,"ncdcm5","ncdcm10","ncdcm15","ncdcm19")
+use yeardata , clear
 
-gen weights = "UN WPP 2024"  if  inlist(heading1, "Aggregates")
-replace weights = "UN WPP 2024"  if inlist(outcome,"ncdcm5","ncdcm10","ncdcm15","ncdcm19") & sex == 3
-
-foreaech var of varlist imr cmr q5_10 q10_15 q15_19 u5m nmr pnm unnmr cms gbdnmr ncdcm5 ncdcm10 ncdcm15 ncdcm19  {
+foreach var of varlist imr cmr q5_10 q10_15 q15_19 u5m nmr pnm unnmr cms gbdnmr ncdcm5 ncdcm10 ncdcm15 ncdcm19  {
 rename `var' value`var'
 }
 
-reshape long value , i(heading1 heading2 loc year sex) j(outcome) string 
-x
-export delimited using "$output_dir\yearlydata" , replace
+reshape long value note_ , i(heading1 heading2 loc year sex) j(outcome) string
+
+drop if value == .
+/*
+gen source = "UN WPP 2024" if inlist(outcome,"imr","cmr","q5_10","q10_15","q15_19","u5m")
+replace source = "UN WPP 2024; GBD 2023" if inlist(outcome, "nmr","pnm")
+replace source = "UN-IGME 2024" if inlist(outcome, "unnmr")
+replace source = "DHS 2026" if inlist(outcome, "cms")
+replace source = "GBD 2023" if inlist(outcome, "gbdnmr")
+replace source = "NCD-Risc 2020" if inlist(outcome,"ncdcm5","ncdcm10","ncdcm15","ncdcm19")
+gen weights = "UN WPP 2024"  if  inlist(heading1, "Aggregates")
+replace weights = "UN WPP 2024"  if inlist(outcome,"ncdcm5","ncdcm10","ncdcm15","ncdcm19") & sex == 3
+*/
+rename note_ note
+compress
+export delimited using "$output_dir\yearlydata2" , replace
+
+levelsof outcome, local(olvl)
+foreach o in `olvl' {
+preserve
+keep if outcome == "`o'"
+
+
+}
 
 use yeardata , clear
 foreach var in imr cmr q5_10 q10_15 q15_19 u5m nmr pnm unnmr cms gbdnmr ncdcm5 ncdcm10 ncdcm15 ncdcm19 {
 bys heading1 heading2 loc: egen has_`var' = max(`var'!=.)
 }
+
 
 duplicates drop heading1 heading2 loc, force
 keep heading1 heading2 loc has_*

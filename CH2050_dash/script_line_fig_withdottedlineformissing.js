@@ -401,7 +401,10 @@ flattenedData.forEach(series => {
 
 // Initial setup for SVG container
 const padding = 15; // Padding around items
-const itemHeight = 30; // Height of each legend row
+const legendFontSize = Math.max(14, width * 0.028);
+const itemHeight = Math.max(30, legendFontSize + 14); // Height of each legend row
+const lineWidth = 40;
+const textOffsetX = 50;
 const containerWidth = Math.min(window.innerWidth, 600); 
 ; // Total width of the SVG container
 
@@ -410,17 +413,29 @@ const legendSvg = d3.select(`#${containerId}`)
     .attr("id", `theLegend-${containerId}`)
     .attr('width', containerWidth);
 
+const legendLabels = flattenedData.map(d => `${d.country}${d.sLabel}`);
+const measureGroup = legendSvg.append('g').style('visibility', 'hidden');
+const itemWidths = legendLabels.map(label => {
+    const textNode = measureGroup.append('text')
+        .attr('font-family', 'Arial')
+        .style('font-size', `${legendFontSize}px`)
+        .text(label);
+    const widthPx = textNode.node().getComputedTextLength();
+    textNode.remove();
+    return textOffsetX + widthPx + padding;
+});
+measureGroup.remove();
+
 // Function to calculate row and column positions
 let currentX = 0, currentY = 0;
 const positions = flattenedData.map((d, i) => {
-    const text = `${d.country}${d.sLabel}`;
-    const textLength = text.length * 10 + 60; // Approximate text length (adjust according to font size) + marker width
-    if (currentX + textLength > containerWidth) { // Check if it exceeds the row width
+    const itemWidth = itemWidths[i];
+    if (currentX + itemWidth > containerWidth && currentX > 0) { // Check if it exceeds the row width
         currentX = 0; // Reset to start of next row
         currentY += itemHeight; // Move down to next row
     }
     const pos = { x: currentX, y: currentY }; // Current item position
-    currentX += textLength + padding; // Update x to next item's start
+    currentX += itemWidth; // Update x to next item's start
     return pos;
 });
 
@@ -438,7 +453,7 @@ const legendEntries = legendSvg.selectAll(".legend-entry")
 // Add line markers to the legend entries
 legendEntries.append("line")
     .attr("x1", 0)
-    .attr("x2", 40)
+    .attr("x2", lineWidth)
     .attr("y1", itemHeight / 2)
     .attr("y2", itemHeight / 2)
     .attr("stroke", d => d.color)
@@ -447,11 +462,11 @@ legendEntries.append("line")
 
 // Add text to the legend entries
 legendEntries.append("text")
-    .attr("x", 50)
+    .attr("x", textOffsetX)
     .attr("y", itemHeight / 2 + 4)
     .text(d => `${d.country}${d.sLabel}`)
     .attr("font-family", "Arial")
-    .style('font-size', `${Math.max(14, width * 0.028)}px`)
+    .style('font-size', `${legendFontSize}px`)
     .attr("alignment-baseline", "middle");
 
 

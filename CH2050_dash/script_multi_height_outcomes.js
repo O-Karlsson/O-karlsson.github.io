@@ -5,6 +5,13 @@ const heightOutcomeConfig = [
     { key: 'ncdcm19', label: 'Height at age 19' }
 ];
 
+function getCountryLabel(countryId) {
+    if (typeof getLocationDisplay === 'function') {
+        return getLocationDisplay(countryId);
+    }
+    return String(countryId);
+}
+
 function defaultHeightRange(extent) {
     const preferred = [1970, 2023];
     if (!extent || extent[0] === undefined || extent[1] === undefined) {
@@ -18,7 +25,8 @@ function defaultHeightRange(extent) {
 
 function drawMultiHeightFigures(containerId) {
     const container = document.getElementById(containerId);
-    const dataFile = container.getAttribute('data-file');
+    const dataPath = container.getAttribute('data-file') || 'data';
+    const dataDir = dataPath.endsWith('.csv') ? dataPath.split('/').slice(0, -1).join('/') : dataPath;
     const xVar = container.getAttribute('data-x-var') || 'year';
 
     container.innerHTML = '';
@@ -79,35 +87,56 @@ function drawMultiHeightFigures(containerId) {
         return heightOutcomeConfig.filter(d => selectedOutcomes.has(d.key));
     }
 
-    function getRowsForCountry(country) {
-        const countryRows = fullData[dataFile].filter(d => d.country === country);
-        if (countryRows.length === 0) {
-            return [];
-        }
+    function getOutcomeFile(outcomeKey) {
+        return `${dataDir}/${outcomeKey}.csv`;
+    }
 
-        // One figure per country: choose one sex series based on current selection and availability.
+    function getSeriesRows(country, sex, outcomeKey) {
+        const dataFile = getOutcomeFile(outcomeKey);
+        const index = fullDataIndex[dataFile];
+        return index?.byOutcomeCountrySex?.get(outcomeKey)?.get(country)?.get(sex) || [];
+    }
+
+    async function ensureOutcomeData(selectedOutcomeConfig) {
+        const files = selectedOutcomeConfig.map(o => getOutcomeFile(o.key));
+        await Promise.all(files.map(file => loadFullData(file)));
+    }
+
+    function getRowsForCountry(country, selectedOutcomeConfig) {
         const preferredSexOrder = selectedSex.includes('both')
             ? ['both', ...selectedSex.filter(s => s !== 'both')]
             : [...selectedSex];
 
         for (const sex of preferredSexOrder) {
-            const rows = countryRows.filter(d => d.sex === sex);
+            const rows = [];
+            selectedOutcomeConfig.forEach(outcome => {
+                const series = getSeriesRows(country, sex, outcome.key);
+                series.forEach(row => {
+                    rows.push({
+                        country,
+                        sex,
+                        year: row[xVar],
+                        outcomeKey: outcome.key,
+                        outcomeLabel: outcome.label,
+                        value: row.value,
+                        note: row.note || ''
+                    });
+                });
+            });
             if (rows.length > 0) {
                 return rows;
             }
         }
-
         return [];
     }
 
     function getYearExtent(selectedOutcomeConfig) {
         const years = [];
         selectedCountries.forEach(country => {
-            const rows = getRowsForCountry(country);
+            const rows = getRowsForCountry(country, selectedOutcomeConfig);
             rows.forEach(row => {
-                const hasAnyOutcome = selectedOutcomeConfig.some(outcome => row[outcome.key] !== null && !isNaN(row[outcome.key]));
-                if (hasAnyOutcome) {
-                    years.push(row[xVar]);
+                if (Number.isFinite(row.value)) {
+                    years.push(row.year);
                 }
             });
         });
@@ -166,13 +195,9 @@ function drawMultiHeightFigures(containerId) {
 
         let chartCount = 0;
         selectedCountries.forEach(country => {
-            const rows = getRowsForCountry(country);
-            const hasDataInRange = selectedOutcomeConfig.some(outcome =>
-                rows.some(d => d[xVar] >= selectedRange[0] && d[xVar] <= selectedRange[1] && d[outcome.key] !== null && !isNaN(d[outcome.key]))
-            );
-
-            if (hasDataInRange) {
-                renderMultiHeightChart(chartHost, containerId, country, rows, selectedOutcomeConfig, xVar, selectedRange, createHalfwayTicks);
+            const rows = getRowsForCountry(country, selectedOutcomeConfig).filter(d => d.year >= selectedRange[0] && d.year <= selectedRange[1] && Number.isFinite(d.value));
+            if (rows.length > 0) {
+                renderMultiHeightChart(chartHost, containerId, country, rows, selectedOutcomeConfig, createHalfwayTicks);
                 chartCount += 1;
             }
         });
@@ -183,8 +208,6 @@ function drawMultiHeightFigures(containerId) {
     }
 
     async function renderAll(resetRange) {
-        await loadFullData(dataFile);
-
         const selectedOutcomeConfig = getSelectedOutcomeConfig();
         if (selectedCountries.length === 0 || selectedSex.length === 0 || selectedOutcomeConfig.length === 0) {
             sliderWrap.style('display', selectedOutcomeConfig.length === 0 ? null : 'none');
@@ -193,6 +216,7 @@ function drawMultiHeightFigures(containerId) {
             return;
         }
 
+        await ensureOutcomeData(selectedOutcomeConfig);
         const extent = getYearExtent(selectedOutcomeConfig);
         if (!extent || extent[0] === undefined || extent[1] === undefined) {
             sliderWrap.style('display', 'none');
@@ -226,37 +250,11 @@ function drawMultiHeightFigures(containerId) {
     renderAll(true);
 }
 
-function renderMultiHeightChart(chartHost, containerId, country, rows, selectedOutcomeConfig, xVar, selectedRange, createHalfwayTicks) {
-    const longData = [];
-
-    selectedOutcomeConfig.forEach(outcome => {
-        rows.forEach(row => {
-            if (
-                row[xVar] >= selectedRange[0] &&
-                row[xVar] <= selectedRange[1] &&
-                row[outcome.key] !== null &&
-                !isNaN(row[outcome.key])
-            ) {
-                longData.push({
-                    country,
-                    year: row[xVar],
-                    outcomeKey: outcome.key,
-                    outcomeLabel: outcome.label,
-                    value: row[outcome.key],
-                    note: row[`note_${outcome.key}`]
-                });
-            }
-        });
-    });
-
-    if (longData.length === 0) {
-        return;
-    }
-
+function renderMultiHeightChart(chartHost, containerId, country, longData, selectedOutcomeConfig, createHalfwayTicks) {
     const chartId = `${containerId}-${country}`.replace(/\s+/g, '-').replace(/[^a-zA-Z0-9_-]/g, '');
     const wrapper = chartHost.append('div').attr('class', 'multi-outcome-chart').attr('id', chartId);
 
-    wrapper.append('h3').attr('class', 'multi-outcome-title').text(`${country}`);
+    wrapper.append('h3').attr('class', 'multi-outcome-title').text(`${getCountryLabel(country)}`);
 
     const margin = { top: 40, right: 25, bottom: 80, left: 43 };
     const width = Math.min(window.innerWidth - 60, 600);
@@ -320,10 +318,7 @@ function renderMultiHeightChart(chartHost, containerId, country, rows, selectedO
     const grouped = d3.group(longData, d => d.outcomeKey);
 
     grouped.forEach((series, outcomeKey) => {
-        const uniqueByYear = new Map();
-        series.forEach(point => uniqueByYear.set(point.year, point));
-        const sortedSeries = Array.from(uniqueByYear.values()).sort((a, b) => a.year - b.year);
-
+        const sortedSeries = [...series].sort((a, b) => a.year - b.year);
         svg.append('path')
             .datum(sortedSeries)
             .attr('fill', 'none')
@@ -354,6 +349,7 @@ function renderMultiHeightChart(chartHost, containerId, country, rows, selectedO
         .attr('stroke', '#333')
         .attr('opacity', 0);
 
+    const byYear = d3.group(longData, d => d.year);
     svg.append('rect')
         .attr('width', width)
         .attr('height', height)
@@ -362,10 +358,9 @@ function renderMultiHeightChart(chartHost, containerId, country, rows, selectedO
         .on('mousemove', function(event) {
             const mouseX = d3.pointer(event, this)[0];
             const xPoint = Math.round(xScale.invert(mouseX));
-
             verticalLine.attr('x1', mouseX).attr('x2', mouseX).attr('opacity', 1);
 
-            const values = longData.filter(d => d.year === xPoint);
+            const values = byYear.get(xPoint) || [];
             if (values.length === 0) {
                 tooltip.style('display', 'none');
                 return;
