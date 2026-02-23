@@ -115,6 +115,40 @@
         <div id="multi-outcome-1" class="multi-outcome-container" data-file="data/yearlydata.csv" data-x-var="year" data-rendered="false"></div>
     </div>
 
+    <hr class="top"><h1 class="sect">Height</h1>
+    <hr class="bottom">
+
+    <h2 class="expandable">Height at age 5</h2>
+    <div class="content" data-height="3500" style="max-height: 0; overflow: hidden;">
+        <div class="figure-placeholder">[Add brief explanation for this figure.]</div>
+        <div id="line-ncdcm5" class="line-chart-container" style="width: 100%; height: auto;" y-var='ncdcm5' data-file="data/yearlydata.csv" y-title="Height at age 5 (cm)" x-var="year" x-title="Year" x-range="[1901,2023]" data-rendered="false"></div>
+    </div>
+
+    <h2 class="expandable">Height at age 10</h2>
+    <div class="content" data-height="3500" style="max-height: 0; overflow: hidden;">
+        <div class="figure-placeholder">[Add brief explanation for this figure.]</div>
+        <div id="line-ncdcm10" class="line-chart-container" style="width: 100%; height: auto;" y-var='ncdcm10' data-file="data/yearlydata.csv" y-title="Height at age 10 (cm)" x-var="year" x-title="Year" x-range="[1901,2023]" data-rendered="false"></div>
+    </div>
+
+    <h2 class="expandable">Height at age 15</h2>
+    <div class="content" data-height="3500" style="max-height: 0; overflow: hidden;">
+        <div class="figure-placeholder">[Add brief explanation for this figure.]</div>
+        <div id="line-ncdcm15" class="line-chart-container" style="width: 100%; height: auto;" y-var='ncdcm15' data-file="data/yearlydata.csv" y-title="Height at age 15 (cm)" x-var="year" x-title="Year" x-range="[1901,2023]" data-rendered="false"></div>
+    </div>
+
+    <h2 class="expandable">Height at age 19</h2>
+    <div class="content" data-height="3500" style="max-height: 0; overflow: hidden;">
+        <div class="figure-placeholder">[Add brief explanation for this figure.]</div>
+        <div id="line-ncdcm19" class="line-chart-container" style="width: 100%; height: auto;" y-var='ncdcm19' data-file="data/yearlydata.csv" y-title="Height at age 19 (cm)" x-var="year" x-title="Year" x-range="[1901,2023]" data-rendered="false"></div>
+    </div>
+
+    <h2 class="expandable">Multiple height outcomes per figure</h2>
+    <div class="content" data-height="100000" style="max-height: 0; overflow: hidden;">
+        <div class="figure-placeholder">[Add brief explanation for this figure.]</div>
+        <div class="figure-note">Select height outcomes below. One figure is shown per selected country.</div>
+        <div id="multi-height-outcome-1" class="multi-outcome-container" data-file="data/yearlydata.csv" data-x-var="year" data-rendered="false"></div>
+    </div>
+
     <hr class="top"><h1 class="sect">Other outcomes</h1>
     <hr class="bottom">
 
@@ -130,5 +164,6 @@
 <script src="script_main.js"></script>
 <script src="script_line_figs.js"></script>
 <script src="script_multi_outcomes.js"></script>
+<script src="script_multi_height_outcomes.js"></script>
 </body>
 </html>

@@ -37,7 +37,7 @@ function selectionFilter(fullData, currentData, filters, selectedFilters, curren
 }
 
 function formatTooltipValue(yVar, value) {
-    if (yVar === 'cms') {
+    if (yVar === 'cms' || yVar.startsWith('ncdcm')) {
         return d3.format('.1f')(value);
     }
     return roundToTwoSignificantFigures(value);

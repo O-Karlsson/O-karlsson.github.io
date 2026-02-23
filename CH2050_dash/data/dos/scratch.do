@@ -64,6 +64,66 @@ gen u5m = (1-exp(ln(1-qx0/1000)+ln(1-qx1/1000)))*1000
 rename (qx0 qx1 qx5 qx10 qx15)(imr cmr q5_10 q10_15 q15_19)
 save temp, replace
 
+
+********************************************************************************************************************************************
+********************************************************************************************************************************************
+*** Preparing height data
+********************************************************************************************************************************************
+********************************************************************************************************************************************
+
+use iso3 year sex age pop if inlist(age,5,10,15,19) & inrange(year,1985,2023) & iso3!="" & sex!=3 using "$data/unwpp/population and deaths/estimates/data.dta" , clear
+merge m:1 iso using "$data/keys/location_keys/data.dta" , keepusing(location_label iso3 region subregion incomegr) nogen
+gen country = location_label
+replace country = "China (Hong Kong SAR)"   if country == "Hong Kong"
+replace country = "Cote d'Ivoire"   if country == "Côte d'Ivoire"
+replace country = "Czech Republic"   if country == "Czechia"
+replace country = "DR Congo"   if country == "Congo DR"
+replace country = "Guinea Bissau"   if country == "Guinea-Bissau"
+replace country = "Lao PDR"   if country == "Lao"
+replace country = "Macedonia (TFYR)"   if country == "North Macedonia"
+replace country = "Micronesia (Federated States of)"   if country == "Micronesia"
+replace country = "Occupied Palestinian Territory"   if country == "Palestine"
+replace country = "Russian Federation"   if country == "Russia"
+replace country = "Swaziland"   if country == "Eswatini"
+replace country = "Syrian Arab Republic"   if country == "Syria"
+replace country = "Turkey"   if country == "Türkiye"
+replace country = "United States of America"   if country == "United States"
+gen age_group = age
+merge 1:1 country sex year age_group using "$data\NCDRisc\height\data.dta" , keep(match) nogen keepusing(mean_height)
+
+reshape wide mean_height pop , i(iso3 year age) j(sex)
+gen mean_height3= (mean_height1*pop1+mean_height2*pop2)/(pop1+pop2)
+gen pop3 = pop1+pop2
+reshape long mean_height pop , i(iso3 year age) j(sex)
+
+gen loc = location_label
+
+// The same structure as above
+gen heading1 = "Countries"
+gen heading2 = region
+save temp3, replace
+
+// Aggregating nmr like above
+foreach r in region subregion incomegr {
+preserve
+collapse (mean) mean_height [aweight=pop] , by(`r' age sex year)
+gen loc = `r'
+sum
+gen heading1 = "Aggregates"
+gen heading2 = "`r'"
+append using temp3
+save temp3, replace
+restore
+}
+
+use temp3, clear
+keep heading1 heading2 loc year age sex mean_height
+rename mean_height ncdcm
+reshape wide ncdcm , i(loc heading1 heading2 year sex) j(age)
+merge 1:1 heading1 heading2 loc sex year using temp, nogen
+save temp, replace
+
+
 ********************************************************************************************************************************************
 ********************************************************************************************************************************************
 *** Preparing neonatal mortality data
@@ -130,10 +190,10 @@ merge 1:1  heading1 heading2 loc year sex using temp, nogen
 gen nmr = dthn/dth1*imr 
 gen pnm = imr-nmr // Also, if using the GBD NMR then PNMR could end up being negative
 
-keep year sex unnmr loc heading1 heading2 subregion gbdnmr imr cmr q5_10 q10_15 q15_19 u5m nmr pnm
+keep year sex unnmr loc heading1 heading2 subregion gbdnmr imr cmr q5_10 q10_15 q15_19 u5m nmr pnm ncdcm5 ncdcm10 ncdcm15 ncdcm19
 save temp , replace
 
-foreach var in unnmr gbdnmr imr cmr q5_10 q10_15 q15_19 u5m nmr pnm {
+foreach var in unnmr gbdnmr imr cmr q5_10 q10_15 q15_19 u5m nmr pnm ncdcm5 ncdcm10 ncdcm15 ncdcm19  {
 rename `var' e`var'
 }
 reshape long e , i(heading1 heading2 loc year sex) j(var) string
@@ -141,6 +201,7 @@ drop if var =="unnmr" & year<1989
 keep if inlist(heading1,"Countries","Subnational regions")
 replace subregion = heading2 if heading1=="Subnational regions"
 drop if strpos(loc,"Total ") & heading1=="Subnational regions" 
+drop if e==.
 save temp2, replace
 
 
@@ -153,9 +214,9 @@ bys heading1 subregion sex year var (e): replace loc = subregion + ", highest ea
 replace heading2 = "UN subregions" if heading1 == "Countries"
 replace heading2 = "Subnational regions" if heading1 == "Subnational regions"
 replace heading1 = "Lowest or highest mortality"
-drop subregion
+drop subregion count
 reshape wide e note_ , i(heading1 heading2 loc year sex) j(var) string
-foreach var in unnmr gbdnmr imr cmr q5_10 q10_15 q15_19 u5m nmr pnm {
+foreach var in unnmr gbdnmr imr cmr q5_10 q10_15 q15_19 u5m nmr pnm  ncdcm5 ncdcm10 ncdcm15 ncdcm19 {
 rename e`var' `var'
 }
 append using temp
@@ -171,7 +232,7 @@ replace heading2 = "Global"
 replace heading1 = "Lowest or highest mortality"
 drop subregion
 reshape wide e note_ , i(heading1 heading2 loc year sex) j(var) string
-foreach var in unnmr gbdnmr imr cmr q5_10 q10_15 q15_19 u5m nmr pnm {
+foreach var in unnmr gbdnmr imr cmr q5_10 q10_15 q15_19 u5m nmr pnm  ncdcm5 ncdcm10 ncdcm15 ncdcm19 {
 rename e`var' `var'
 }
 append using temp
@@ -189,7 +250,7 @@ replace heading2 = "Subnational regions"
 replace heading1 = "Lowest or highest mortality"
 drop subregion
 reshape wide e note_ , i(heading1 heading2 loc year sex) j(var) string
-foreach var in unnmr gbdnmr imr cmr q5_10 q10_15 q15_19 u5m nmr pnm {
+foreach var in   imr cmr q5_10 q10_15 q15_19 u5m  {
 rename e`var' `var'
 }
 append using temp
@@ -216,7 +277,7 @@ save temp, replace
 
 
 
-keep year sex loc heading1 heading2 imr cmr q5_10 q10_15 q15_19 u5m nmr pnm unnmr cms gbdnmr note_*
+keep year sex loc heading1 heading2 imr cmr q5_10 q10_15 q15_19 u5m nmr pnm unnmr cms gbdnmr note_* ncdcm5 ncdcm10 ncdcm15 ncdcm19
 
 replace heading2 = "World Bank Income groups" if heading2 == "incomegr"
 replace heading2 = "UN regions" if heading2 == "region"
@@ -229,7 +290,7 @@ save yeardata, replace
 export delimited using "$output_dir\yearlydata" , replace
 
 use yeardata , clear
-foreach var in imr cmr q5_10 q10_15 q15_19 u5m nmr pnm unnmr cms gbdnmr {
+foreach var in imr cmr q5_10 q10_15 q15_19 u5m nmr pnm unnmr cms gbdnmr ncdcm5 ncdcm10 ncdcm15 ncdcm19 {
 bys heading1 heading2 loc: egen has_`var' = max(`var'!=.)
 }
 
@@ -237,7 +298,7 @@ duplicates drop heading1 heading2 loc, force
 keep heading1 heading2 loc has_*
 compress
 export delimited using "$output_dir\location_select" , replace
-
+x
 
 twoway (line q15_19 year if sex == 1 & loc == "Northern America"  & heading2=="UN regions")(line q10_15 year if sex == 1 & loc == "Northern America" & heading2=="UN subregions")
 

@@ -108,6 +108,7 @@ function toggleSection(headings) {
                 if (containerId.startsWith("decomp")) {renderDecompFigures(containerId)}; // Render decomposition figures
                 if (containerId.startsWith("line")) {drawLineFigures(containerId)}; // Render line figures
                 if (containerId.startsWith("multi-outcome")) {drawMultiOutcomeFigures(containerId)}; // Render multi-outcome figures
+                if (containerId.startsWith("multi-height-outcome")) {drawMultiHeightFigures(containerId)}; // Render multi-height-outcome figures
                 container.setAttribute("data-rendered", "true"); // Mark as rendered
                 document.dispatchEvent(new Event(`${containerId}-expanded`)); // used to check if there is no selection (no data to plot)                
             }
