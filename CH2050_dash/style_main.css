@@ -6,6 +6,7 @@
 
 button {margin-top: 20px; margin-left: 20px; padding: 10px 10px;background-color: #007bff;color: white;border: none;cursor: pointer;font-size: 16px;}
 button:hover {background-color: #0056b3;}
+.figure-download-btn {margin-top: 10px; margin-left: 10px; padding: 6px 10px; font-size: 13px; border-radius: 4px;}
 
 
 .no-data-message-box {display: flex; justify-content:center;align-items:center; height: 200px; background-color: #f9f9f9; border: 1px solid #ccc ; margin:10px;}
@@ -58,6 +59,7 @@ ul {list-style-type: none;}
 
 .variable-filters {margin: 10px 0 15px 0; padding: 10px; background: #f8fbff; border: 1px solid #d9e7f4; border-radius: 6px;}
 .variable-filters-title {font-size: 0.95em; font-weight: bold; margin-bottom: 8px;}
+.variable-filters-toggle {cursor: pointer; user-select: none;}
 .variable-filters-list {display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 6px 14px;}
 .variable-filter-item {display: grid; grid-template-columns: 18px 1fr; align-items: start; column-gap: 8px; margin: 0; font-weight: normal;}
 .variable-filter-item input {margin: 0; margin-top: 3px;}
@@ -69,14 +71,13 @@ ul {list-style-type: none;}
 .multi-outcome-filters-list {display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 6px 14px;}
 .multi-outcome-filter-item {display: grid; grid-template-columns: 18px 1fr; align-items: start; column-gap: 8px; margin: 0;}
 .multi-outcome-filter-item input {margin: 0; margin-top: 3px;}
-.multi-outcome-slider-wrap {margin: 0 0 14px 0; padding: 0 10px;}
-.multi-outcome-slider-title {font-size: 0.95em; font-weight: bold; margin-bottom: 6px;}
-.multi-outcome-slider-wrap .line-year-slider {margin: 8px 6px 8px 6px;}
+.multi-outcome-filter-item input:disabled + span {color: #8f8f8f;}
+.multi-outcome-slider-wrap {margin: 24px 0 14px 0; padding: 0 10px;}
+.multi-outcome-slider-title {font-size: 0.95em; font-weight: bold; margin-bottom: 18px;}
+.multi-outcome-slider-wrap .line-year-slider {margin: 34px 6px 8px 6px;}
 .multi-outcome-chart {padding: 12px 0; border-top: 1px solid #e6e6e6;}
 .multi-outcome-title {margin: 0 0 8px 0; font-size: 1em;}
-.multi-outcome-legend {display: flex; flex-wrap: wrap; gap: 6px 12px; margin-top: 8px; margin-left: 10px;}
-.multi-outcome-legend-item {display: inline-flex; align-items: center; gap: 6px; font-size: 14px;}
-.multi-outcome-legend-swatch {display: inline-block; width: 18px; height: 4px; border-radius: 2px;}
+.multi-outcome-legend-svg {margin-top: 8px; margin-left: 10px;}
 
 
 /*********************************************************************************

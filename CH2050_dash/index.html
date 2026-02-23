@@ -108,7 +108,7 @@
         <div id="line-gbdnmr" class="line-chart-container" style="width: 100%; height: auto;" y-var='gbdnmr' data-file="data/gbdnmr.csv" y-title="Neonatal mortality (GBD, per 1000 live births)" x-var="year" x-title="Year" x-range="[1901,2023]" data-rendered="false"></div>
     </div>
 
-    <h2 class="expandable">Multiple outcomes per figure</h2>
+    <h2 class="expandable">Single location and sex and multiple outcomes per figure</h2>
     <div class="content" data-height="100000" style="max-height: 0; overflow: hidden;">
         <div class="figure-placeholder">[Add brief explanation for this figure.]</div>
         <div class="figure-note">Select outcomes below. Infant mortality, neonatal mortality, postneonatal mortality, neonatal mortality (UN-IGME), and neonatal mortality (GBD) are per 1000 live births. Child mortality (1-4 years), mortality age 5-9 years, mortality age 10-15 years, mortality age 15-19 years, and under-5 mortality are per 1000.</div>
@@ -141,22 +141,24 @@
         <div class="figure-placeholder">[Add brief explanation for this figure.]</div>
         <div id="line-ncdcm19" class="line-chart-container" style="width: 100%; height: auto;" y-var='ncdcm19' data-file="data/ncdcm19.csv" y-title="Height at age 19 (cm)" x-var="year" x-title="Year" x-range="[1901,2023]" data-rendered="false"></div>
     </div>
+    
+    <h2 class="expandable">Female height (DHS)</h2>
+    <div class="content" data-height="3500" style="max-height: 0; overflow: hidden;">
+        <div class="figure-placeholder">[Add brief explanation for this figure.]</div>
+        <div id="line-cms" class="line-chart-container" style="width: 100%; height: auto;" y-var='cms' data-file="data/cms.csv" y-title="Female height (cm)" x-var="year" x-title="Birth year" x-range="[1901,2023]" data-auto-range="selection" data-rendered="false"></div>
+    </div>
 
-    <h2 class="expandable">Multiple height outcomes per figure</h2>
+    <h2 class="expandable">Single location and sex and multiple outcomes per figure</h2>
     <div class="content" data-height="100000" style="max-height: 0; overflow: hidden;">
         <div class="figure-placeholder">[Add brief explanation for this figure.]</div>
         <div class="figure-note">Select height outcomes below. One figure is shown per selected country.</div>
         <div id="multi-height-outcome-1" class="multi-outcome-container" data-file="data" data-x-var="year" data-rendered="false"></div>
     </div>
 
-    <hr class="top"><h1 class="sect">Other outcomes</h1>
+    <hr class="top"><h1 class="sect">References</h1>
     <hr class="bottom">
 
-    <h2 class="expandable">Female height (DHS)</h2>
-    <div class="content" data-height="3500" style="max-height: 0; overflow: hidden;">
-        <div class="figure-placeholder">[Add brief explanation for this figure.]</div>
-        <div id="line-cms" class="line-chart-container" style="width: 100%; height: auto;" y-var='cms' data-file="data/cms.csv" y-title="Female height (cm)" x-var="year" x-title="Birth year" x-range="[1901,2023]" data-auto-range="selection" data-rendered="false"></div>
-    </div>
+
 
 </div>
 <button id="backToMenu">Back to Menu</button>

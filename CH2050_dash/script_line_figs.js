@@ -322,8 +322,21 @@ function lineFigure(containerId, filteredData, xVar, yVar, xVarTitle, yVarTitle)
         return { ticks, halfTicks };
     }
 
+    function limitTickCount(ticks, maxTicks) {
+        if (ticks.length <= maxTicks) {
+            return ticks;
+        }
+        const step = Math.ceil(ticks.length / maxTicks);
+        return ticks.filter((_, i) => i % step === 0);
+    }
+
     const { ticks: xTicks, halfTicks: xHalfTicks } = createHalfwayTicks(xScale, 6);
-    const { ticks: yTicks, halfTicks: yHalfTicks } = createHalfwayTicks(yScale, 10);
+    const yTickResult = createHalfwayTicks(yScale, 10);
+    const yTicks = limitTickCount(yTickResult.ticks, 10);
+    const yHalfTicks = [];
+    for (let i = 0; i < yTicks.length - 1; i += 1) {
+        yHalfTicks.push((yTicks[i] + yTicks[i + 1]) / 2);
+    }
 
     svg.append('g')
         .attr('transform', `translate(0, ${height})`)
@@ -332,7 +345,7 @@ function lineFigure(containerId, filteredData, xVar, yVar, xVarTitle, yVarTitle)
 
     svg.append('g')
         .attr('transform', 'translate(0, 0)')
-        .call(d3.axisLeft(yScale))
+        .call(d3.axisLeft(yScale).tickValues(yTicks))
         .style('font-size', `${Math.max(12, width * 0.025)}px`);
 
     const [minxVar, maxxVar] = d3.extent(cleanedData, item => item[xVar]);
@@ -515,6 +528,7 @@ function lineFigure(containerId, filteredData, xVar, yVar, xVarTitle, yVarTitle)
         });
 
     downloadArea.append('button')
+        .attr('class', 'figure-download-btn')
         .attr('onclick', `downloadAsPNG('${containerId}')`)
         .text('Download figure');
 }

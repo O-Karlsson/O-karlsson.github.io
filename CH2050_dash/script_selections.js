@@ -56,20 +56,10 @@ function loadLocationSelectionData() {
 }
 
 function getDefaultLocationIds(locationIdByName) {
-    const preferredGroups = [
-        ['Africa'],
-        ['Europe'],
-        ['North America', 'Northern America']
-    ];
-
-    const chosen = [];
-    preferredGroups.forEach(group => {
-        const match = group.find(name => locationIdByName.has(name));
-        if (match) {
-            chosen.push(String(locationIdByName.get(match)));
-        }
-    });
-    return chosen;
+    if (locationIdByName.has('Africa')) {
+        return [String(locationIdByName.get('Africa'))];
+    }
+    return [];
 }
 
 loadLocationSelectionData().then(function(data) {
@@ -88,9 +78,18 @@ loadLocationSelectionData().then(function(data) {
     }
 
     const controls = treeContainer.append('div').attr('class', 'variable-filters');
-    controls.append('div').attr('class', 'variable-filters-title').text('Filter locations by available variable(s):');
+    const controlsTitle = controls.append('div')
+        .attr('class', 'variable-filters-title variable-filters-toggle')
+        .text('[+] Filter locations by available variable(s):');
 
-    const controlsWrap = controls.append('div').attr('class', 'variable-filters-list');
+    const controlsWrap = controls.append('div').attr('class', 'variable-filters-list').style('display', 'none');
+    let filtersExpanded = false;
+
+    controlsTitle.on('click', function() {
+        filtersExpanded = !filtersExpanded;
+        controlsWrap.style('display', filtersExpanded ? null : 'none');
+        controlsTitle.text(`${filtersExpanded ? '[-]' : '[+]'} Filter locations by available variable(s):`);
+    });
     hasColumns.forEach(col => {
         const id = `var-filter-${col}`;
         const item = controlsWrap.append('label').attr('class', 'variable-filter-item').attr('for', id);
@@ -224,21 +223,39 @@ loadLocationSelectionData().then(function(data) {
         }
     }
 
-    function updateFemaleHeightAvailability() {
+    function updateVariableFilterAvailability() {
         const femaleSelected = selectedSex.includes('female');
+        const bothSelected = selectedSex.includes('both');
         const cmsCheckbox = document.getElementById('var-filter-has_cms');
-        if (!cmsCheckbox) { return; }
+        const unnmrCheckbox = document.getElementById('var-filter-has_unnmr');
 
-        cmsCheckbox.disabled = !femaleSelected;
-        if (!femaleSelected && cmsCheckbox.checked) {
-            cmsCheckbox.checked = false;
-            activeVarFilters.delete('has_cms');
+        let filtersChanged = false;
+
+        if (cmsCheckbox) {
+            cmsCheckbox.disabled = !femaleSelected;
+            if (!femaleSelected && cmsCheckbox.checked) {
+                cmsCheckbox.checked = false;
+                activeVarFilters.delete('has_cms');
+                filtersChanged = true;
+            }
+        }
+
+        if (unnmrCheckbox) {
+            unnmrCheckbox.disabled = !bothSelected;
+            if (!bothSelected && unnmrCheckbox.checked) {
+                unnmrCheckbox.checked = false;
+                activeVarFilters.delete('has_unnmr');
+                filtersChanged = true;
+            }
+        }
+
+        if (filtersChanged) {
             applyVariableFilters();
         }
     }
 
-    document.addEventListener('sexwasSelected', updateFemaleHeightAvailability);
-    updateFemaleHeightAvailability();
+    document.addEventListener('sexwasSelected', updateVariableFilterAvailability);
+    updateVariableFilterAvailability();
     applyVariableFilters();
 });
 

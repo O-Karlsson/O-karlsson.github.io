@@ -29,6 +29,56 @@ function defaultMortalityRange(extent) {
     return [Math.max(extent[0], preferred[0]), Math.min(extent[1], preferred[1])];
 }
 
+function downloadCombinedSVG(chartSvgId, legendSvgId, fileName) {
+    const chartSVG = document.getElementById(chartSvgId);
+    const legendSVG = document.getElementById(legendSvgId);
+    if (!chartSVG) {
+        return;
+    }
+
+    const chartRect = chartSVG.getBoundingClientRect();
+    const legendRect = legendSVG ? legendSVG.getBoundingClientRect() : { width: 0, height: 0 };
+    const padding = 20;
+    const totalWidth = Math.max(chartRect.width, legendRect.width) + padding * 2;
+    const totalHeight = chartRect.height + legendRect.height + padding * 3;
+
+    const canvas = document.createElement('canvas');
+    canvas.width = totalWidth;
+    canvas.height = totalHeight;
+    const context = canvas.getContext('2d');
+    context.fillStyle = 'white';
+    context.fillRect(0, 0, totalWidth, totalHeight);
+
+    const renderSVG = (svg, yPos) => {
+        return new Promise(resolve => {
+            if (!svg) {
+                resolve();
+                return;
+            }
+            const xml = new XMLSerializer().serializeToString(svg);
+            const img = new Image();
+            const blob = new Blob([xml], { type: 'image/svg+xml' });
+            const url = URL.createObjectURL(blob);
+
+            img.onload = function() {
+                context.drawImage(img, padding, yPos, svg.getBoundingClientRect().width, svg.getBoundingClientRect().height);
+                URL.revokeObjectURL(url);
+                resolve();
+            };
+            img.src = url;
+        });
+    };
+
+    renderSVG(chartSVG, padding)
+        .then(() => renderSVG(legendSVG, chartRect.height + padding * 2))
+        .then(() => {
+            const link = document.createElement('a');
+            link.href = canvas.toDataURL('image/png');
+            link.download = fileName;
+            link.click();
+        });
+}
+
 function drawMultiOutcomeFigures(containerId) {
     const container = document.getElementById(containerId);
     const dataPath = container.getAttribute('data-file') || 'data';
@@ -69,10 +119,6 @@ function drawMultiOutcomeFigures(containerId) {
     const sliderWrap = d3.select(`#${containerId}`)
         .append('div')
         .attr('class', 'multi-outcome-slider-wrap');
-
-    sliderWrap.append('div')
-        .attr('class', 'multi-outcome-slider-title')
-        .text('Year range:');
 
     sliderWrap.append('div')
         .attr('id', `multi-outcome-slider-${containerId}`)
@@ -261,6 +307,8 @@ function drawMultiOutcomeFigures(containerId) {
 function renderMultiOutcomeChart(chartHost, containerId, country, sex, longData, selectedOutcomeConfig, createHalfwayTicks) {
     const chartId = `${containerId}-${country}-${sex}`.replace(/\s+/g, '-').replace(/[^a-zA-Z0-9_-]/g, '');
     const wrapper = chartHost.append('div').attr('class', 'multi-outcome-chart').attr('id', chartId);
+    const chartSvgId = `multi-chart-${chartId}`;
+    const legendSvgId = `multi-legend-${chartId}`;
 
     wrapper.append('h3').attr('class', 'multi-outcome-title').text(`${getCountryLabel(country)} (${sex})`);
 
@@ -269,6 +317,7 @@ function renderMultiOutcomeChart(chartHost, containerId, country, sex, longData,
     const height = width * 0.7;
 
     const svg = wrapper.append('svg')
+        .attr('id', chartSvgId)
         .attr('width', width + margin.left + margin.right)
         .attr('height', height + margin.top + margin.bottom)
         .style('font-family', 'Arial, sans-serif')
@@ -282,7 +331,14 @@ function renderMultiOutcomeChart(chartHost, containerId, country, sex, longData,
     const yScale = d3.scaleLinear().domain(yExtent).nice().range([height, 0]);
 
     const { ticks: xTicks, halfTicks: xHalfTicks } = createHalfwayTicks(xScale, 6);
-    const { ticks: yTicks, halfTicks: yHalfTicks } = createHalfwayTicks(yScale, 10);
+    const yTickResult = createHalfwayTicks(yScale, 10);
+    const yTicks = yTickResult.ticks.length > 10
+        ? yTickResult.ticks.filter((_, i) => i % Math.ceil(yTickResult.ticks.length / 10) === 0)
+        : yTickResult.ticks;
+    const yHalfTicks = [];
+    for (let i = 0; i < yTicks.length - 1; i += 1) {
+        yHalfTicks.push((yTicks[i] + yTicks[i + 1]) / 2);
+    }
 
     svg.append('g')
         .attr('transform', `translate(0,${height})`)
@@ -290,7 +346,7 @@ function renderMultiOutcomeChart(chartHost, containerId, country, sex, longData,
         .style('font-size', `${Math.max(12, width * 0.025)}px`);
 
     svg.append('g')
-        .call(d3.axisLeft(yScale))
+        .call(d3.axisLeft(yScale).tickValues(yTicks))
         .style('font-size', `${Math.max(12, width * 0.025)}px`);
 
     svg.append('g')
@@ -333,12 +389,66 @@ function renderMultiOutcomeChart(chartHost, containerId, country, sex, longData,
             .attr('d', line);
     });
 
-    const legend = wrapper.append('div').attr('class', 'multi-outcome-legend');
-    selectedOutcomeConfig.forEach(outcome => {
-        const item = legend.append('div').attr('class', 'multi-outcome-legend-item');
-        item.append('span').attr('class', 'multi-outcome-legend-swatch').style('background-color', outcomeColor(outcome.key));
-        item.append('span').text(outcome.label);
+    const legendFontSize = Math.max(14, width * 0.028);
+    const itemHeight = Math.max(30, legendFontSize + 14);
+    const lineWidth = 40;
+    const textOffsetX = 50;
+    const padding = 15;
+    const legendSvgWidth = Math.min(window.innerWidth, 600);
+    const legendSvg = wrapper.append('svg')
+        .attr('id', legendSvgId)
+        .attr('class', 'multi-outcome-legend-svg')
+        .attr('width', legendSvgWidth);
+
+    const legendLabels = selectedOutcomeConfig.map(d => d.label);
+    const measureGroup = legendSvg.append('g').style('visibility', 'hidden');
+    const itemWidths = legendLabels.map(label => {
+        const textNode = measureGroup.append('text')
+            .attr('font-family', 'Arial')
+            .style('font-size', `${legendFontSize}px`)
+            .text(label);
+        const widthPx = textNode.node().getComputedTextLength();
+        textNode.remove();
+        return textOffsetX + widthPx + padding;
     });
+    measureGroup.remove();
+
+    let currentX = 0;
+    let currentY = 0;
+    const positions = selectedOutcomeConfig.map((d, i) => {
+        const itemWidth = itemWidths[i];
+        if (currentX + itemWidth > legendSvgWidth && currentX > 0) {
+            currentX = 0;
+            currentY += itemHeight;
+        }
+        const pos = { x: currentX, y: currentY };
+        currentX += itemWidth;
+        return pos;
+    });
+    legendSvg.attr('height', currentY + itemHeight + 20);
+
+    const legendEntries = legendSvg.selectAll('.legend-entry')
+        .data(selectedOutcomeConfig)
+        .enter()
+        .append('g')
+        .attr('class', 'legend-entry')
+        .attr('transform', (d, i) => `translate(${positions[i].x}, ${positions[i].y})`);
+
+    legendEntries.append('line')
+        .attr('x1', 0)
+        .attr('x2', lineWidth)
+        .attr('y1', itemHeight / 2)
+        .attr('y2', itemHeight / 2)
+        .attr('stroke', d => outcomeColor(d.key))
+        .attr('stroke-width', 6);
+
+    legendEntries.append('text')
+        .attr('x', textOffsetX)
+        .attr('y', itemHeight / 2 + 4)
+        .text(d => d.label)
+        .attr('font-family', 'Arial')
+        .style('font-size', `${legendFontSize}px`)
+        .attr('alignment-baseline', 'middle');
 
     const tooltip = d3.select('body').append('div')
         .attr('class', 'multi-tooltip')
@@ -388,5 +498,12 @@ function renderMultiOutcomeChart(chartHost, containerId, country, sex, longData,
         .on('mouseleave', function() {
             verticalLine.attr('opacity', 0);
             tooltip.style('display', 'none');
+        });
+
+    wrapper.append('button')
+        .attr('class', 'figure-download-btn')
+        .text('Download figure')
+        .on('click', function() {
+            downloadCombinedSVG(chartSvgId, legendSvgId, `${chartId}.png`);
         });
 }
