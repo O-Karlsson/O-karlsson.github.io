@@ -222,7 +222,7 @@ gen `lt'_L=1000*s`lt'_L
 gen `lt'_U=1000*s`lt'_U
 }
 replace wi = `wii'
-keep countryname surveyyear surveynum wi ENMR* LNMR* NMR28* NMR* IMR* U5MR* PN* CH* EPP28*
+keep dhs_countrycode surveynum wi ENMR* LNMR* NMR28* NMR* IMR* U5MR* PN* CH* EPP28*
 append using para_`group'_`sensitivity'
 save para_`group'_`sensitivity' , replace
 restore

@@ -12,6 +12,15 @@ function buildDataIndex(csvFilePath, sourceRows = null) {
     const byCountrySex = new Map();
     const byOutcomeCountrySex = new Map();
     const byOutcomeCountrySexYear = new Map();
+    const getRowOrderX = (row) => {
+        if (Number.isFinite(row.year)) {
+            return row.year;
+        }
+        if (Number.isFinite(row.age)) {
+            return row.age;
+        }
+        return 0;
+    };
 
     rows.forEach((row) => {
         const key = `${row.country}||${row.sex}`;
@@ -51,12 +60,12 @@ function buildDataIndex(csvFilePath, sourceRows = null) {
 
     // Keep each country/sex series sorted once, so consumers avoid repeated sorts.
     byCountrySex.forEach((series) => {
-        series.sort((a, b) => (a.year ?? 0) - (b.year ?? 0));
+        series.sort((a, b) => getRowOrderX(a) - getRowOrderX(b));
     });
     byOutcomeCountrySex.forEach((byCountry) => {
         byCountry.forEach((bySex) => {
             bySex.forEach((series) => {
-                series.sort((a, b) => (a.year ?? 0) - (b.year ?? 0));
+                series.sort((a, b) => getRowOrderX(a) - getRowOrderX(b));
             });
         });
     });
@@ -195,8 +204,14 @@ document.getElementById('backToMenu').addEventListener('click', () => {
 *************************************************************************************/
 
 function toggleSection(headings) {
+    function setHeadingToggleState(heading, isExpanded) {
+        const baseLabel = heading.getAttribute('data-base-label') || heading.textContent.replace(/^\[[+-]\]\s*/, '').trim();
+        heading.setAttribute('data-base-label', baseLabel);
+        heading.textContent = `${isExpanded ? '[-]' : '[+]'} ${baseLabel}`;
+    }
 
     headings.forEach(heading => {
+        setHeadingToggleState(heading, false);
         heading.addEventListener('click', () => {
 
             const content = heading.nextElementSibling;
@@ -217,14 +232,18 @@ function toggleSection(headings) {
                     // uncomment the one below to also remove the dataset from memory. However, the same dataset is often used for different figures
                     // delete fullData[csvFilePath]; // Explicitly delete the data
                     document.dispatchEvent(new Event(`${containerId}-collapsed`));} // used to remove event listeners
+                setHeadingToggleState(heading, false);
             } else {
                 content.style.maxHeight =  maxHeight + 'px'; // Expand to actual height
                 if (containerId.startsWith("decomp")) {renderDecompFigures(containerId)}; // Render decomposition figures
                 if (containerId.startsWith("line")) {drawLineFigures(containerId)}; // Render line figures
                 if (containerId.startsWith("multi-outcome")) {drawMultiOutcomeFigures(containerId)}; // Render multi-outcome figures
                 if (containerId.startsWith("multi-height-outcome")) {drawMultiHeightFigures(containerId)}; // Render multi-height-outcome figures
+                if (containerId.startsWith("multi-height-age-outcome")) {drawMultiHeightAgeFigures(containerId)}; // Render multi-height-age-outcome figures
+                if (containerId.startsWith("wimort")) {drawWIMortFigures(containerId)}; // Render under-5 mortality by wealth figures
                 container.setAttribute("data-rendered", "true"); // Mark as rendered
                 document.dispatchEvent(new Event(`${containerId}-expanded`)); // used to check if there is no selection (no data to plot)                
+                setHeadingToggleState(heading, true);
             }
             // Toggle the 'active' class on the heading
             heading.classList.toggle('active');  // Add/remove the 'active' class to indicate state

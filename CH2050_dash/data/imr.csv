@@ -1,4 +1,4 @@
-year,sex,value,note,lid
+year,sex,value,note_,lid
 1950,1,183.6011558771133,,1
 1950,2,161.1151397228241,,1
 1950,3,172.359898686409,,1
@@ -60299,7 +60299,7 @@ year,sex,value,note,lid
 1995,1,4.194829999999983,Finland,399
 1995,2,3.131569999999972,Norway,399
 1995,3,3.84446000000005,Finland,399
-1996,1,4.03595999999995,Sweden,399
+1996,1,4.03595999999995,Iceland,399
 1996,2,3.205250000000048,Bermuda,399
 1996,3,3.707539999999954,Iceland,399
 1997,1,3.071889999999966,Luxembourg,399
@@ -61170,7 +61170,7 @@ year,sex,value,note,lid
 2013,2,1.510000000000011,Prince Edward Island. Includes 12 regions.,403
 2013,3,2.229999999999954,Prince Edward Island. Includes 12 regions.,403
 2014,1,2.809999999999979,Prince Edward Island. Includes 12 regions.,403
-2014,2,0,Yukon. Includes 12 regions.,403
+2014,2,0,Prince Edward Island. Includes 12 regions.,403
 2014,3,1.449999999999951,Prince Edward Island. Includes 12 regions.,403
 2015,1,1.369999999999982,Prince Edward Island. Includes 12 regions.,403
 2015,2,2.419999999999978,New Brunswick. Includes 12 regions.,403
@@ -61506,7 +61506,7 @@ year,sex,value,note,lid
 2002,2,3.369999999999984,Normandie. Includes 13 regions.,404
 2002,3,3.940000000000055,Normandie. Includes 13 regions.,404
 2003,1,4.669999999999952,Normandie. Includes 13 regions.,404
-2003,2,3.550000000000053,Île de France. Includes 13 regions.,404
+2003,2,3.550000000000053,Hauts-de-France. Includes 13 regions.,404
 2003,3,3.85000000000002,Grand Est. Includes 13 regions.,404
 2004,1,6.240000000000023,Corse. Includes 13 regions.,404
 2004,2,3.399999999999959,Grand Est. Includes 13 regions.,404
@@ -62026,7 +62026,7 @@ year,sex,value,note,lid
 1979,3,10.29999999999998,Iwate. Includes 47 regions.,406
 1980,1,10.68999999999998,Shimane. Includes 47 regions.,406
 1980,2,8.950000000000014,Kumamoto. Includes 47 regions.,406
-1980,3,9.440000000000005,Shimane. Includes 47 regions.,406
+1980,3,9.440000000000005,Kagoshima. Includes 47 regions.,406
 1981,1,11.02000000000003,Kagoshima. Includes 47 regions.,406
 1981,2,9.159999999999947,Wakayama. Includes 47 regions.,406
 1981,3,9.610000000000007,Wakayama. Includes 47 regions.,406
@@ -62056,7 +62056,7 @@ year,sex,value,note,lid
 1989,3,6.60000000000005,Aomori. Includes 47 regions.,406
 1990,1,7.750000000000035,Kochi. Includes 47 regions.,406
 1990,2,6.680000000000019,Okinawa. Includes 47 regions.,406
-1990,3,7.020000000000026,Okinawa. Includes 47 regions.,406
+1990,3,7.020000000000026,Kochi. Includes 47 regions.,406
 1991,1,6.120000000000014,Fukuoka. Includes 47 regions.,406
 1991,2,6.469999999999976,Ishikawa. Includes 47 regions.,406
 1991,3,5.820000000000047,Kochi. Includes 47 regions.,406
@@ -62865,7 +62865,7 @@ year,sex,value,note,lid
 2017,2,3.229999999999955,Massachusetts. Includes 51 regions.,409
 2017,3,3.650000000000042,Massachusetts. Includes 51 regions.,409
 2018,1,3.079999999999972,New Hampshire. Includes 51 regions.,409
-2018,2,3.689999999999971,California. Includes 51 regions.,409
+2018,2,3.689999999999971,Oregon. Includes 51 regions.,409
 2018,3,3.530000000000033,New Hampshire. Includes 51 regions.,409
 2019,1,3.390000000000004,New Hampshire. Includes 51 regions.,409
 2019,2,1.850000000000018,Vermont. Includes 51 regions.,409

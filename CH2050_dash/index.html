@@ -50,7 +50,7 @@
 
     <h2 class="expandable">Infant mortality</h2>
     <div class="content" data-height="3500" style="max-height: 0; overflow: hidden;">
-        <div class="figure-placeholder">[Add brief explanation for this figure.]</div>
+        <div class="figure-placeholder">Data source: United Nations, Department of Economic and Social Affairs, Population Division (2024). World Population Prospects 2024, Online Edition</div>
         <div id="line-imr" class="line-chart-container" style="width: 100%; height: auto;" y-var='imr' data-file="data/imr.csv" y-title="Infant mortality (per 1000 live births)" x-var="year" x-title="Year" x-range="[1901,2023]" data-rendered="false"></div>
     </div>
 
@@ -115,7 +115,14 @@
         <div id="multi-outcome-1" class="multi-outcome-container" data-file="data" data-x-var="year" data-rendered="false"></div>
     </div>
 
-    <hr class="top"><h1 class="sect">Height</h1>
+        <hr class="top"><h1 class="sect">Outcomes by household wealth</h1>
+    <hr class="bottom">
+    <h2 class="expandable">Age decomposition of under-5 mortality by wealth</h2>
+    <div class="content" data-height="100000" style="max-height: 0; overflow: hidden;">
+        <div class="figure-placeholder">Each bar shows under-5 mortality by household wealth quintile, stacked by age segment at death.</div>
+        <div id="wimort-1" class="wimort-container" data-file="data/wimort.csv" data-rendered="false"></div>
+    </div>
+    <hr class="top"><h1 class="sect">Height by year</h1>
     <hr class="bottom">
 
     <h2 class="expandable">Height at age 5</h2>
@@ -142,7 +149,7 @@
         <div id="line-ncdcm19" class="line-chart-container" style="width: 100%; height: auto;" y-var='ncdcm19' data-file="data/ncdcm19.csv" y-title="Height at age 19 (cm)" x-var="year" x-title="Year" x-range="[1901,2023]" data-rendered="false"></div>
     </div>
     
-    <h2 class="expandable">Female height (DHS)</h2>
+    <h2 class="expandable">Female height (DHS) by birth year</h2>
     <div class="content" data-height="3500" style="max-height: 0; overflow: hidden;">
         <div class="figure-placeholder">[Add brief explanation for this figure.]</div>
         <div id="line-cms" class="line-chart-container" style="width: 100%; height: auto;" y-var='cms' data-file="data/cms.csv" y-title="Female height (cm)" x-var="year" x-title="Birth year" x-range="[1901,2023]" data-auto-range="selection" data-rendered="false"></div>
@@ -155,9 +162,53 @@
         <div id="multi-height-outcome-1" class="multi-outcome-container" data-file="data" data-x-var="year" data-rendered="false"></div>
     </div>
 
-    <hr class="top"><h1 class="sect">References</h1>
+    <hr class="top"><h1 class="sect">Height by age</h1>
     <hr class="bottom">
 
+    <h2 class="expandable">Height by age in 1985</h2>
+    <div class="content" data-height="3500" style="max-height: 0; overflow: hidden;">
+        <div class="figure-placeholder">[Add brief explanation for this figure.]</div>
+        <div id="line-ncdcmage1985" class="line-chart-container" style="width: 100%; height: auto;" y-var='ncdcmage1985' data-file="data/ncdcmage1985.csv" y-title="Height (cm)" x-var="age" x-title="Age in years" x-range="[5,19]" data-auto-range="selection" data-rendered="false"></div>
+    </div>
+
+    <h2 class="expandable">Height by age in 1990</h2>
+    <div class="content" data-height="3500" style="max-height: 0; overflow: hidden;">
+        <div class="figure-placeholder">[Add brief explanation for this figure.]</div>
+        <div id="line-ncdcmage1990" class="line-chart-container" style="width: 100%; height: auto;" y-var='ncdcmage1990' data-file="data/ncdcmage1990.csv" y-title="Height (cm)" x-var="age" x-title="Age in years" x-range="[5,19]" data-auto-range="selection" data-rendered="false"></div>
+    </div>
+
+    <h2 class="expandable">Height by age in 2000</h2>
+    <div class="content" data-height="3500" style="max-height: 0; overflow: hidden;">
+        <div class="figure-placeholder">[Add brief explanation for this figure.]</div>
+        <div id="line-ncdcmage2000" class="line-chart-container" style="width: 100%; height: auto;" y-var='ncdcmage2000' data-file="data/ncdcmage2000.csv" y-title="Height (cm)" x-var="age" x-title="Age in years" x-range="[5,19]" data-auto-range="selection" data-rendered="false"></div>
+    </div>
+
+    <h2 class="expandable">Height by age in 2010</h2>
+    <div class="content" data-height="3500" style="max-height: 0; overflow: hidden;">
+        <div class="figure-placeholder">[Add brief explanation for this figure.]</div>
+        <div id="line-ncdcmage2010" class="line-chart-container" style="width: 100%; height: auto;" y-var='ncdcmage2010' data-file="data/ncdcmage2010.csv" y-title="Height (cm)" x-var="age" x-title="Age in years" x-range="[5,19]" data-auto-range="selection" data-rendered="false"></div>
+    </div>
+
+    <h2 class="expandable">Height by age in 2019</h2>
+    <div class="content" data-height="3500" style="max-height: 0; overflow: hidden;">
+        <div class="figure-placeholder">[Add brief explanation for this figure.]</div>
+        <div id="line-ncdcmage2019" class="line-chart-container" style="width: 100%; height: auto;" y-var='ncdcmage2019' data-file="data/ncdcmage2019.csv" y-title="Height (cm)" x-var="age" x-title="Age in years" x-range="[5,19]" data-auto-range="selection" data-rendered="false"></div>
+    </div>
+
+    <h2 class="expandable">Single location and sex and multiple outcomes per figure</h2>
+    <div class="content" data-height="100000" style="max-height: 0; overflow: hidden;">
+        <div class="figure-placeholder">[Add brief explanation for this figure.]</div>
+        <div class="figure-note">Select years below to compare height by age. One figure is shown per selected location and sex. 2019 is preselected.</div>
+        <div id="multi-height-age-outcome-1" class="multi-outcome-container" data-file="data" data-x-var="age" data-rendered="false"></div>
+    </div>
+
+
+
+    <hr class="top"><h1 class="sect">Information on data</h1>
+    <hr class="bottom">
+    <h2 class="expandable">References</h2>
+    
+</div>
 
 
 </div>
@@ -167,5 +218,7 @@
 <script src="script_line_figs.js"></script>
 <script src="script_multi_outcomes.js"></script>
 <script src="script_multi_height_outcomes.js"></script>
+<script src="script_multi_height_age_outcomes.js"></script>
+<script src="script_wimort_figs.js"></script>
 </body>
 </html>

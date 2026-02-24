@@ -293,7 +293,7 @@ function lineFigure(containerId, filteredData, xVar, yVar, xVarTitle, yVarTitle)
         return;
     }
 
-    const margin = { top: 40, right: 25, bottom: 80, left: 43 };
+    const margin = { top: 40, right: 25, bottom: 80, left: 56 };
     const width = Math.min(window.innerWidth - 60, 600);
     const height = width * 0.7;
 

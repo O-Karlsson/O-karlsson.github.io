@@ -12,7 +12,7 @@ duplicates tag file, gen(dup)
 keep file surveynum dhs_countrycode countryname surveyyear dhs_countrycode
 drop if surveynum==156 & substr(file,1,2)!="IA"
 compress
-save "$dir\DHS_zipfilname_cc_surveyid.dta", replace
+save DHS_zipfilname_cc_surveyid.dta, replace
 
 ****************************************************************************
 *** Identifying WI datasets and appending
@@ -43,7 +43,7 @@ forval i = 2/16 {
 append using WI_`i'
 }
 drop del
-merge m:1 file using DHS_zipfilname_cc_surveynum.dta, nogen keep(match) keepusing(surveynum)
+merge m:1 file using DHS_zipfilname_cc_surveyid.dta, nogen keep(match) keepusing(surveynum)
 rename whhid hhid
 replace hhid = trim(hhid)
 save WI, replace 
@@ -76,7 +76,7 @@ use BR_1 , clear
 forval i = 2/16 {
 append using BR_`i'
 }
-merge m:1 file using DHS_zipfilname_cc_surveynum.dta, nogen keep(match) keepusing(surveynum dhs_countrynamecode countrynamename) // those in master only are indian states 
+merge m:1 file using DHS_zipfilname_cc_surveyid.dta, nogen keep(match) keepusing(surveynum dhs_countrycode countryname surveyyear) // those in master only are indian states 
 
 
 // Don't consider those that have ID issues (can try to salvage some)
@@ -141,7 +141,7 @@ drop day* doi dob
 preserve
 collapse (count) N = v001	, by(surveynum)
 sort N
-gen group  = mod(_n,18)+1
+gen group  = mod(_n,14)+1
 drop N
 save temp, replace 
 restore
@@ -155,9 +155,9 @@ keep bidx v001 v002 v003 v005 v008 v024 b3 b6 b7 b19 countryname group surveyyea
 save BR, replace
 
 clear all
-parallel initialize  18 , force
+parallel initialize  14 , force
 program def myprogram
-forval i = 1/18 {
+forval i = 1/14 {
 if	($pll_instance == `i') synth, dir("$dir") group(`i')  sensitivity(none)
 }
 end
@@ -165,12 +165,30 @@ parallel, nodata processors(8) prog(myprogram): myprogram
 
 
 use para_1_none , clear
-forval i = 2/18 {
+forval i = 2/14 {
 append using para_`i'_none
 }
 label define wi 0 "Pooled" 1 "Poorest" 2 "Poorer" 3 "Middle" 4 "Richer" 5 "Richest" , replace
 label val wi wi
 
-
-
 save estimates , replace
+
+use location_label dhs_countrycode region if dhs_countrycode!="" using "$data/keys/location_keys/data.dta" , clear
+save temp , replace
+use dhs_countrycode countryname using DHS_zipfilname_cc_surveyid.dta , clear
+duplicates drop dhs_countrycode, force
+merge 1:1 dhs_countrycode using temp, nogen keep(match)
+save temp , replace
+
+
+use estimates, clear
+merge m:1 countryname using temp, keep(match)
+rename (surveyyear location_label)(year loc)
+gen PNM = IMR-NMR
+gen heading2 = region
+gen heading1 = "Countries and territories"
+
+keep NMR PNM CH year loc wi heading1 heading2
+drop if wi==0
+compress
+save wimort, replace

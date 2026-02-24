@@ -20,21 +20,14 @@ function isAvailableFlag(value) {
 
 function prettyVariableName(hasColumn) {
     const variableLabels = {
-        has_imr: 'Infant mortality',
-        has_cmr: 'Child mortality (1-4 years)',
-        has_q5_10: 'Mortality age 5-9 years',
-        has_q10_15: 'Mortality age 10-15 years',
-        has_q15_19: 'Mortality age 15-19 years',
-        has_u5m: 'Under-5 mortality',
-        has_nmr: 'Neonatal mortality',
-        has_pnm: 'Postneonatal mortality',
+        has_imr: 'Mortality by single-year ages (UN WPP)',
+        has_nmr: 'Neonatal mortality (UN WPP+GBD)',
+        has_pnm: 'Postneonatal mortality (UN WPP+GBD)',
         has_unnmr: 'Neonatal mortality (UN-IGME)',
         has_gbdnmr: 'Neonatal mortality (GBD)',
         has_cms: 'Female height (DHS)',
-        has_ncdcm5: 'Height at age 5',
-        has_ncdcm10: 'Height at age 10',
-        has_ncdcm15: 'Height at age 15',
-        has_ncdcm19: 'Height at age 19'
+        has_ncdcm5: 'Height (NCD-RisC)',
+        has_wimort: 'Under-5 mortality by wealth'
     };
 
     return variableLabels[hasColumn] || hasColumn.replace(/^has_/, '').toUpperCase();
@@ -56,9 +49,6 @@ function loadLocationSelectionData() {
 }
 
 function getDefaultLocationIds(locationIdByName) {
-    if (locationIdByName.has('Africa')) {
-        return [String(locationIdByName.get('Africa'))];
-    }
     return [];
 }
 
@@ -71,11 +61,7 @@ loadLocationSelectionData().then(function(data) {
 
     locationNameByLid = new Map(data.map(d => [String(d.lid), d.loc]));
     const locationIdByName = new Map(data.map(d => [d.loc, String(d.lid)]));
-    const fallbackDefaults = data.slice(0, 3).map(d => String(d.lid));
     selectedCountries = getDefaultLocationIds(locationIdByName);
-    if (selectedCountries.length === 0) {
-        selectedCountries = fallbackDefaults;
-    }
 
     const controls = treeContainer.append('div').attr('class', 'variable-filters');
     const controlsTitle = controls.append('div')
@@ -228,6 +214,7 @@ loadLocationSelectionData().then(function(data) {
         const bothSelected = selectedSex.includes('both');
         const cmsCheckbox = document.getElementById('var-filter-has_cms');
         const unnmrCheckbox = document.getElementById('var-filter-has_unnmr');
+        const wimortCheckbox = document.getElementById('var-filter-has_wimort');
 
         let filtersChanged = false;
 
@@ -245,6 +232,15 @@ loadLocationSelectionData().then(function(data) {
             if (!bothSelected && unnmrCheckbox.checked) {
                 unnmrCheckbox.checked = false;
                 activeVarFilters.delete('has_unnmr');
+                filtersChanged = true;
+            }
+        }
+
+        if (wimortCheckbox) {
+            wimortCheckbox.disabled = !bothSelected;
+            if (!bothSelected && wimortCheckbox.checked) {
+                wimortCheckbox.checked = false;
+                activeVarFilters.delete('has_wimort');
                 filtersChanged = true;
             }
         }

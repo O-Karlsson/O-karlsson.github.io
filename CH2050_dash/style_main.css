@@ -79,6 +79,21 @@ ul {list-style-type: none;}
 .multi-outcome-title {margin: 0 0 8px 0; font-size: 1em;}
 .multi-outcome-legend-svg {margin-top: 8px; margin-left: 10px;}
 
+.wimort-location-control {padding: 8px 10px; border: 1px solid #d9e7f4; border-radius: 6px; background: #fff;}
+.wimort-location-title {font-weight: bold; margin-bottom: 6px;}
+.wimort-years-list {display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px 10px;}
+.wimort-year-item {display: grid; grid-template-columns: 18px 1fr; column-gap: 8px; align-items: center; margin: 0;}
+.wimort-year-item input {margin: 0;}
+.wimort-year-chart {margin-bottom: 22px;}
+.wimort-year-title {margin: 8px 0 8px 10px; font-size: 0.95em;}
+.wimort-legend {display: flex; flex-wrap: wrap; gap: 10px 18px; margin: 6px 0 8px 10px;}
+.wimort-legend-item {display: inline-flex; align-items: center; gap: 8px; font-size: 0.9em;}
+.wimort-legend-swatch {width: 14px; height: 14px; border-radius: 2px; display: inline-block;}
+
+@media (max-width: 700px) {
+    .wimort-years-list {grid-template-columns: repeat(2, minmax(0, 1fr));}
+}
+
 
 /*********************************************************************************
 **********************************************************************************
@@ -110,7 +125,7 @@ hr.bottom {border: none; border-top: 2px solid #000; margin: 0px 0px 5px 40px;}
 
 /* .decomp-container {padding-left: 5px; margin:0px;} */
 
-.expandable, .subheading {cursor: pointer; background-color: #96D3F1; color: #000000; padding: 10px; margin: 10px 0; border-radius: 5px; transition: background-color 0.2s ease-out;}
+.expandable, .subheading {cursor: pointer; background-color: #cfeecd; color: #000000; padding: 10px; margin: 10px 0; border-radius: 0; transition: background-color 0.2s ease-out;}
 .expandable:hover {background-color: #e0e0e0;}
 
 #backToMenu {display: none; position: fixed; bottom: 10px; left: 10px; background-color: #007bff; color: white; border: none; padding: 10px; cursor: pointer; border-radius: 5px;}

@@ -67,11 +67,11 @@ save temp, replace
 
 ********************************************************************************************************************************************
 ********************************************************************************************************************************************
-*** Preparing height data
+*** Preparing height data (NCD-RisC)
 ********************************************************************************************************************************************
 ********************************************************************************************************************************************
 
-use iso3 year sex age pop if inlist(age,5,10,15,19) & inrange(year,1985,2023) & iso3!="" & sex!=3 using "$data/unwpp/population and deaths/estimates/data.dta" , clear
+use iso3 year sex age pop if age<20 & inrange(year,1985,2023) & iso3!="" & sex!=3 using "$data/unwpp/population and deaths/estimates/data.dta" , clear
 merge m:1 iso using "$data/keys/location_keys/data.dta" , keepusing(location_label iso3 region subregion incomegr) nogen
 gen country = location_label
 replace country = "China (Hong Kong SAR)"   if country == "Hong Kong"
@@ -119,6 +119,15 @@ restore
 use temp3, clear
 keep heading1 heading2 loc year age sex mean_height
 rename mean_height ncdcm
+
+preserve
+keep if inlist(year,1985,1990,2000,2010,2019)
+rename ncdcm value
+compress
+save heightByAge, replace
+restore
+
+keep if inlist(age,5,10,15,19)
 reshape wide ncdcm , i(loc heading1 heading2 year sex) j(age)
 merge 1:1 heading1 heading2 loc sex year using temp, nogen
 save temp, replace
@@ -263,6 +272,13 @@ replace loc = "Total " + loc
 append using temp
 save temp, replace
 
+********************************************************************************************************************************************
+********************************************************************************************************************************************
+*** Preparing height data (DHS)
+********************************************************************************************************************************************
+********************************************************************************************************************************************
+
+
 use location_label dhs_countrycode region if dhs_countrycode!="" using "$data/keys/location_keys/data.dta" , clear
 merge 1:m dhs_countrycode using dhscm, nogen keep(match)
 rename location_label loc
@@ -275,24 +291,56 @@ save temp, replace
 keep year sex loc heading1 heading2 imr cmr q5_10 q10_15 q15_19 u5m nmr pnm unnmr cms gbdnmr ncdcm5 ncdcm10 ncdcm15 ncdcm19 note_* 
 
 replace heading2 = "World Bank Income groups" if heading2 == "incomegr"
-replace heading2 = "UN regions" if heading2 == "region"
 replace heading2 = "UN subregions" if heading2 == "subregion"
-replace loc = "Northern America " if loc == "Northern America" & heading2=="UN subregions"
+replace heading2 = "UN regions" if heading2 == "region"
+
+replace heading1 = "Countries and territories" if strpos(heading1, "Countries")
+
 
 compress
 sort sex heading1 heading2 loc  year
 save yeardata, replace
 export delimited using "$output_dir\yearlydata" , replace
 
-use yeardata , clear
+use wimort, clear
+duplicates drop heading1 heading2 loc, force
+gen has_wimort = 1
+keep heading1 heading2 loc has_wimort
+merge 1:m heading1 heading2 loc using yeardata, nogen
+replace has_wimort= 0 if has_wimort==.
 
+foreach var in imr nmr pnm unnmr cms gbdnmr ncdcm5 {
+bys heading1 heading2 loc: egen has_`var' = max(`var'!=.)
+}
+duplicates drop heading1 heading2 loc, force
+keep heading1 heading2 loc has_*
+sort heading1 heading2 loc
+
+levelsof heading1
+label define h1 1 "Aggregates" 2 "Countries and territories" 3 "Subnational regions" 4 "Lowest or highest mortality", replace
+encode heading1, gen(h1)
+
+
+levelsof loc
+label define h2 1 "Low-income countries" 2 "Lower-middle-income countries" 3 "Upper-middle-income countries" 4 "High-income countries" 5 "No income group available", replace
+encode heading2, gen(h2)
+
+gen h3 = !strpos(loc, "Total ")
+sort h1 h2 h3 loc
+gen lid = _n
+drop h1 h2 h3 
+compress
+save temp, replace
+export delimited using "$output_dir\location_select" , replace
+
+use yeardata , clear
+merge m:1 heading1 heading2 loc using temp, nogen keepusing(lid)
 foreach var of varlist imr cmr q5_10 q10_15 q15_19 u5m nmr pnm unnmr cms gbdnmr ncdcm5 ncdcm10 ncdcm15 ncdcm19  {
 rename `var' value`var'
 }
 
 reshape long value note_ , i(heading1 heading2 loc year sex) j(outcome) string
 
-drop if value == .
 /*
 gen source = "UN WPP 2024" if inlist(outcome,"imr","cmr","q5_10","q10_15","q15_19","u5m")
 replace source = "UN WPP 2024; GBD 2023" if inlist(outcome, "nmr","pnm")
@@ -303,30 +351,45 @@ replace source = "NCD-Risc 2020" if inlist(outcome,"ncdcm5","ncdcm10","ncdcm15",
 gen weights = "UN WPP 2024"  if  inlist(heading1, "Aggregates")
 replace weights = "UN WPP 2024"  if inlist(outcome,"ncdcm5","ncdcm10","ncdcm15","ncdcm19") & sex == 3
 */
-rename note_ note
-compress
-export delimited using "$output_dir\yearlydata2" , replace
 
 levelsof outcome, local(olvl)
 foreach o in `olvl' {
 preserve
 keep if outcome == "`o'"
-
-
-}
-
-use yeardata , clear
-foreach var in imr cmr q5_10 q10_15 q15_19 u5m nmr pnm unnmr cms gbdnmr ncdcm5 ncdcm10 ncdcm15 ncdcm19 {
-bys heading1 heading2 loc: egen has_`var' = max(`var'!=.)
-}
-
-
-duplicates drop heading1 heading2 loc, force
-keep heading1 heading2 loc has_*
+drop outcome loc heading1 heading2
 compress
-export delimited using "$output_dir\location_select" , replace
-x
+export delimited using "$output_dir\\`o'" , replace
+restore
+}
 
+use heightByAge, clear
+replace heading2 = "World Bank Income groups" if heading2 == "incomegr"
+replace heading2 = "UN regions" if heading2 == "region"
+replace heading2 = "UN subregions" if heading2 == "subregion"
+replace heading1 = "Countries and territories" if strpos(heading1, "Countries")
+
+merge m:1 heading1 heading2 loc using temp,  keepusing(lid) nogen keep(match)
+compress
+
+levelsof year, local(ylvl)
+foreach y in `ylvl' {
+preserve
+keep if year == `y'
+drop year heading1 heading2 loc
+export delimited "$output_dir\ncdcmage`y'" , replace
+restore
+}
+
+
+use wimort, clear
+merge m:1 heading1 heading2 loc using temp,  keepusing(lid) nogen keep(match)
+drop loc heading2 heading1
+export delimited "$output_dir\wimort" , replace
+
+
+
+x
+x
 twoway (line q15_19 year if sex == 1 & loc == "Northern America"  & heading2=="UN regions")(line q10_15 year if sex == 1 & loc == "Northern America" & heading2=="UN subregions")
 
 twoway (line q15_19 year if sex == 1 & loc == "Japan", sort)(line q15_19 year if sex == 1 & loc == "United States", sort)
