@@ -216,15 +216,15 @@ save temp2, replace
 
 bys heading1 subregion sex year var: gen count = string(_N)
 bys heading1 subregion sex year var (e): keep if inlist(_n,1,_N)
-gen note_ = loc 
-replace note_ = loc + ". Includes " + count + " regions." if heading1=="Subnational regions"
+gen note = loc 
+replace note = loc + ". Includes " + count + " regions." if heading1=="Subnational regions"
 bys heading1 subregion sex year var (e): replace loc = subregion + ", lowest each year" if _n==1
 bys heading1 subregion sex year var (e): replace loc = subregion + ", highest each year" if _n==_N
 replace heading2 = "UN subregions" if heading1 == "Countries"
 replace heading2 = "Subnational regions" if heading1 == "Subnational regions"
 replace heading1 = "Lowest or highest mortality"
 drop subregion count
-reshape wide e note_ , i(heading1 heading2 loc year sex) j(var) string
+reshape wide e note , i(heading1 heading2 loc year sex) j(var) string
 foreach var in unnmr gbdnmr imr cmr q5_10 q10_15 q15_19 u5m nmr pnm  ncdcm5 ncdcm10 ncdcm15 ncdcm19 {
 rename e`var' `var'
 }
@@ -234,13 +234,13 @@ save temp , replace
 use temp2, clear
 keep if inlist(heading1,"Countries")
 bys sex year var (e): keep if inlist(_n,1,_N)
-gen note_ = loc
+gen note = loc
 bys sex year var (e): replace loc = "All countries, lowest each year" if _n==1
 bys sex year var (e): replace loc = "All countries, highest each year" if _n==_N
 replace heading2 = "Global"
 replace heading1 = "Lowest or highest mortality"
 drop subregion
-reshape wide e note_ , i(heading1 heading2 loc year sex) j(var) string
+reshape wide e note , i(heading1 heading2 loc year sex) j(var) string
 foreach var in unnmr gbdnmr imr cmr q5_10 q10_15 q15_19 u5m nmr pnm  ncdcm5 ncdcm10 ncdcm15 ncdcm19 {
 rename e`var' `var'
 }
@@ -252,13 +252,13 @@ keep if inlist(heading1,"Subnational regions")
 keep if inrange(year,1989,2021)
 bys sex year var: gen count = string(_N)
 bys sex year var (e): keep if inlist(_n,1,_N)
-gen note_ = heading2 + ": " + loc + ". Includes " + count + " regions."
+gen note = heading2 + ": " + loc + ". Includes " + count + " regions."
 bys sex year var (e): replace loc = "All subnational regions, lowest each year" if _n==1
 bys sex year var (e): replace loc = "All subnational regions, highest each year" if _n==_N
 replace heading2 = "Subnational regions"
 replace heading1 = "Lowest or highest mortality"
 drop subregion
-reshape wide e note_ , i(heading1 heading2 loc year sex) j(var) string
+reshape wide e note , i(heading1 heading2 loc year sex) j(var) string
 foreach var in   imr cmr q5_10 q10_15 q15_19 u5m  {
 rename e`var' `var'
 }
@@ -288,7 +288,7 @@ gen heading2 = region
 merge 1:1 heading1 heading2 loc year sex using temp , nogen
 save temp, replace
 
-keep year sex loc heading1 heading2 imr cmr q5_10 q10_15 q15_19 u5m nmr pnm unnmr cms gbdnmr ncdcm5 ncdcm10 ncdcm15 ncdcm19 note_* 
+keep year sex loc heading1 heading2 imr cmr q5_10 q10_15 q15_19 u5m nmr pnm unnmr cms gbdnmr ncdcm5 ncdcm10 ncdcm15 ncdcm19 note* 
 
 replace heading2 = "World Bank Income groups" if heading2 == "incomegr"
 replace heading2 = "UN subregions" if heading2 == "subregion"
@@ -339,7 +339,7 @@ foreach var of varlist imr cmr q5_10 q10_15 q15_19 u5m nmr pnm unnmr cms gbdnmr 
 rename `var' value`var'
 }
 
-reshape long value note_ , i(heading1 heading2 loc year sex) j(outcome) string
+reshape long value note , i(heading1 heading2 loc year sex) j(outcome) string
 
 /*
 gen source = "UN WPP 2024" if inlist(outcome,"imr","cmr","q5_10","q10_15","q15_19","u5m")
@@ -384,6 +384,7 @@ restore
 use wimort, clear
 merge m:1 heading1 heading2 loc using temp,  keepusing(lid) nogen keep(match)
 drop loc heading2 heading1
+rename year surveyyear
 export delimited "$output_dir\wimort" , replace
 
 
