@@ -27,7 +27,7 @@ function prettyVariableName(hasColumn) {
         has_gbdnmr: 'Neonatal mortality (GBD)',
         has_cms: 'Female height (DHS)',
         has_ncdcm5: 'Height (NCD-RisC)',
-        has_wimort: 'Under-5 mortality by wealth'
+        has_wimort: 'Under-5 mortality by wealth (DHS)'
     };
 
     return variableLabels[hasColumn] || hasColumn.replace(/^has_/, '').toUpperCase();

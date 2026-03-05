@@ -295,7 +295,7 @@ keep heading1 heading2 loc has_wimort
 merge 1:m heading1 heading2 loc using yeardata, nogen
 replace has_wimort= 0 if has_wimort==.
 
-foreach var in imr nmr pnm unnmr cms gbdnmr ncdcm5 {
+foreach var in imr nmr pnm cms ncdcm5 {
 bys heading1 heading2 loc: egen has_`var' = max(`var'!=.)
 }
 duplicates drop heading1 heading2 loc, force
