@@ -45,54 +45,62 @@
         <div class="section" id="treeContainer"></div>
     </div>
 
+    <hr class="top"><h1 class="sect">Outcomes by household wealth</h1>
+    <hr class="bottom">
+    <h2 class="expandable">Age decomposition of under-5 mortality by wealth</h2>
+    <div class="content" data-height="100000" style="max-height: 0; overflow: hidden;">
+    <div class="figure-placeholder">Each bar shows under-5 mortality by household wealth quintile, stacked by age segment at death. Data source: DHS.</div>
+    <div id="wimort-1" class="wimort-container" data-file="data/wimort.csv" data-rendered="false"></div>
+    </div>
+
     <hr class="top"><h1 class="sect">All cause mortality</h1>
     <hr class="bottom">
 
     <h2 class="expandable">Infant mortality</h2>
     <div class="content" data-height="3500" style="max-height: 0; overflow: hidden;">
-        <div class="figure-placeholder">Data source: UN WPP 2024</div>
+        <div class="figure-placeholder">Data source: UN WPP 2024.</div>
         <div id="line-imr" class="line-chart-container" style="width: 100%; height: auto;" y-var='imr' data-file="data/imr.csv" y-title="Infant mortality (per 1000 live births)" x-var="year" x-title="Year" x-range="[1901,2023]" data-rendered="false"></div>
     </div>
 
     <h2 class="expandable">Child mortality (1-4 years)</h2>
     <div class="content" data-height="3500" style="max-height: 0; overflow: hidden;">
-        <div class="figure-placeholder">Data source: UN WPP 2024</div>
+        <div class="figure-placeholder">Data source: UN WPP 2024.</div>
         <div id="line-cmr" class="line-chart-container" style="width: 100%; height: auto;" y-var='cmr' data-file="data/cmr.csv" y-title="Child mortality age 1-4 (per 1000)" x-var="year" x-title="Year" x-range="[1901,2023]" data-rendered="false"></div>
     </div>
 
     <h2 class="expandable">Mortality age 5-9 years</h2>
     <div class="content" data-height="3500" style="max-height: 0; overflow: hidden;">
-        <div class="figure-placeholder">Data source: UN WPP 2024</div>
+        <div class="figure-placeholder">Data source: UN WPP 2024.</div>
         <div id="line-q5_10" class="line-chart-container" style="width: 100%; height: auto;" y-var='q5_10' data-file="data/q5_10.csv" y-title="Mortality age 5-9 (per 1000)" x-var="year" x-title="Year" x-range="[1901,2023]" data-rendered="false"></div>
     </div>
 
     <h2 class="expandable">Mortality age 10-15 years</h2>
     <div class="content" data-height="3500" style="max-height: 0; overflow: hidden;">
-        <div class="figure-placeholder">Data source: UN WPP 2024</div>
+        <div class="figure-placeholder">Data source: UN WPP 2024.</div>
         <div id="line-q10_15" class="line-chart-container" style="width: 100%; height: auto;" y-var='q10_15' data-file="data/q10_15.csv" y-title="Mortality age 10-15 (per 1000)" x-var="year" x-title="Year" x-range="[1901,2023]" data-rendered="false"></div>
     </div>
 
     <h2 class="expandable">Mortality age 15-19 years</h2>
     <div class="content" data-height="3500" style="max-height: 0; overflow: hidden;">
-        <div class="figure-placeholder">Data source: UN WPP 2024</div>
+        <div class="figure-placeholder">Data source: UN WPP 2024.</div>
         <div id="line-q15_19" class="line-chart-container" style="width: 100%; height: auto;" y-var='q15_19' data-file="data/q15_19.csv" y-title="Mortality age 15-19 (per 1000)" x-var="year" x-title="Year" x-range="[1901,2023]" data-rendered="false"></div>
     </div>
 
     <h2 class="expandable">Under-5 mortality</h2>
     <div class="content" data-height="3500" style="max-height: 0; overflow: hidden;">
-        <div class="figure-placeholder">Data source: UN WPP 2024</div>
+        <div class="figure-placeholder">Data source: UN WPP 2024.</div>
         <div id="line-u5m" class="line-chart-container" style="width: 100%; height: auto;" y-var='u5m' data-file="data/u5m.csv" y-title="Under-5 mortality (per 1000)" x-var="year" x-title="Year" x-range="[1901,2023]" data-rendered="false"></div>
     </div>
 
     <h2 class="expandable">Neonatal mortality</h2>
     <div class="content" data-height="3500" style="max-height: 0; overflow: hidden;">
-        <div class="figure-placeholder">Data source: UN WPP 2024 and GBD 2023</div>
+        <div class="figure-placeholder">Data source: UN WPP 2024 (infant mortality) and GBD 2023 (number of deaths < age 1 year and number of deaths < age 28 days).</div>
         <div id="line-nmr" class="line-chart-container" style="width: 100%; height: auto;" y-var='nmr' data-file="data/nmr.csv" y-title="Neonatal mortality (per 1000 live births)" x-var="year" x-title="Year" x-range="[1901,2023]" data-rendered="false"></div>
     </div>
 
     <h2 class="expandable">Postneonatal mortality</h2>
     <div class="content" data-height="3500" style="max-height: 0; overflow: hidden;">
-        <div class="figure-placeholder">Data source: UN WPP 2024 and GBD 2023</div>
+        <div class="figure-placeholder">Data source: UN WPP 2024 (infant mortality) and GBD 2023 (number of deaths < age 1 year and number of deaths < age 28 days).</div>
         <div id="line-pnm" class="line-chart-container" style="width: 100%; height: auto;" y-var='pnm' data-file="data/pnm.csv" y-title="Postneonatal mortality (per 1000 live births)" x-var="year" x-title="Year" x-range="[1901,2023]" data-rendered="false"></div>
     </div>
 <!--
@@ -110,18 +118,12 @@
 -->
     <h2 class="expandable">Single location and sex and multiple outcomes per figure</h2>
     <div class="content" data-height="100000" style="max-height: 0; overflow: hidden;">
-        <div class="figure-placeholder">Data source: UN WPP 2024 and GBD 2023</div>
-        <div class="figure-note">Select outcomes below. Infant mortality, neonatal mortality, postneonatal mortality, neonatal mortality (UN-IGME), and neonatal mortality (GBD) are per 1000 live births. Child mortality (1-4 years), mortality age 5-9 years, mortality age 10-15 years, mortality age 15-19 years, and under-5 mortality are per 1000.</div>
+        <div class="figure-placeholder">Data source: UN WPP 2024 and GBD 2023.</div>
+        <div class="figure-note">Select outcomes below. Under-5 mortality, infant mortality, neonatal mortality, and postneonatal mortality are per 1000 live births. Child mortality (1-4 years), mortality age 5-9 years, mortality age 10-15 years, and mortality age 15-19 years are per 1000 surviving until the start of the age interval.</div>
         <div id="multi-outcome-1" class="multi-outcome-container" data-file="data" data-x-var="year" data-rendered="false"></div>
     </div>
 
-        <hr class="top"><h1 class="sect">Outcomes by household wealth</h1>
-    <hr class="bottom">
-    <h2 class="expandable">Age decomposition of under-5 mortality by wealth</h2>
-    <div class="content" data-height="100000" style="max-height: 0; overflow: hidden;">
-        <div class="figure-placeholder">Each bar shows under-5 mortality by household wealth quintile, stacked by age segment at death. Data source: DHS.</div>
-        <div id="wimort-1" class="wimort-container" data-file="data/wimort.csv" data-rendered="false"></div>
-    </div>
+
     <hr class="top"><h1 class="sect">Height by year</h1>
     <hr class="bottom">
 

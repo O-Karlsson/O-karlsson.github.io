@@ -222,6 +222,12 @@ async function renderReferences(containerId) {
         }
         const text = await response.text();
         container.innerHTML = renderSimpleMarkdown(text);
+        const contentSection = container.closest(".content");
+        if (contentSection) {
+            requestAnimationFrame(() => {
+                contentSection.style.maxHeight = `${contentSection.scrollHeight}px`;
+            });
+        }
     } catch (error) {
         container.textContent = `Unable to load references from ${filePath}.`;
     }

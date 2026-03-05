@@ -1,14 +1,12 @@
 const mortalityOutcomeConfig = [
+    { key: 'u5m', label: 'Under-5 mortality' }, 
     { key: 'imr', label: 'Infant mortality' },
+    { key: 'nmr', label: 'Neonatal mortality' },
+    { key: 'pnm', label: 'Postneonatal mortality'},
     { key: 'cmr', label: 'Child mortality (1-4 years)' },
     { key: 'q5_10', label: 'Mortality age 5-9 years' },
     { key: 'q10_15', label: 'Mortality age 10-15 years' },
-    { key: 'q15_19', label: 'Mortality age 15-19 years' },
-    { key: 'u5m', label: 'Under-5 mortality' },
-    { key: 'nmr', label: 'Neonatal mortality' },
-    { key: 'pnm', label: 'Postneonatal mortality' },
-    { key: 'unnmr', label: 'Neonatal mortality (UN-IGME)' },
-    { key: 'gbdnmr', label: 'Neonatal mortality (GBD)' }
+    { key: 'q15_19', label: 'Mortality age 15-19 years' }
 ];
 
 function getCountryLabel(countryId) {
