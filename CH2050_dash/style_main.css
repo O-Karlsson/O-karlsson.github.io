@@ -103,6 +103,44 @@ ul {list-style-type: none;}
 
 .figure-note { font-size: 16px; text-align: left; margin-bottom: 20px; margin-top: 20px; margin-left: 10px; width: 90%;}
 .figure-placeholder {font-size: 15px; color: #555; margin: 8px 10px 12px 10px; font-style: italic;}
+.references-container {margin: 0 10px 12px 10px;}
+.references-pre {
+    margin: 0;
+    padding: 10px 12px;
+    background: #f8f8f8;
+    border: 1px solid #ddd;
+    max-height: 900px;
+    overflow: auto;
+    white-space: pre-wrap;
+    word-break: break-word;
+    font-size: 14px;
+    line-height: 1.4;
+}
+.references-markdown {
+    padding: 8px 12px;
+    background: #f8f8f8;
+    border: 1px solid #ddd;
+}
+.references-markdown h3 {
+    margin: 28px 0 12px 0;
+    font-size: 1.05em;
+}
+.references-markdown h4 {
+    margin: 10px 0 6px 0;
+    font-size: 1em;
+}
+.references-markdown p {
+    margin: 6px 0;
+}
+.references-markdown ul {
+    margin: 0 0 8px 0;
+    padding-left: 20px;
+    list-style-type: disc;
+}
+.references-markdown li {
+    line-height: 1.45;
+    margin: 2px 0;
+}
 
 body {font-family: Arial, sans-serif; margin: 20px; display: flex; flex-direction: column; align-items: center; line-height: 1.5; font-size: 18px; padding-bottom: 100px;}
 

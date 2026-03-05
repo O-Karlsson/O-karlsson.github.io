@@ -72,22 +72,8 @@ save temp, replace
 ********************************************************************************************************************************************
 
 use iso3 year sex age pop if age<20 & inrange(year,1985,2023) & iso3!="" & sex!=3 using "$data/unwpp/population and deaths/estimates/data.dta" , clear
-merge m:1 iso using "$data/keys/location_keys/data.dta" , keepusing(location_label iso3 region subregion incomegr) nogen
-gen country = location_label
-replace country = "China (Hong Kong SAR)"   if country == "Hong Kong"
-replace country = "Cote d'Ivoire"   if country == "Côte d'Ivoire"
-replace country = "Czech Republic"   if country == "Czechia"
-replace country = "DR Congo"   if country == "Congo DR"
-replace country = "Guinea Bissau"   if country == "Guinea-Bissau"
-replace country = "Lao PDR"   if country == "Lao"
-replace country = "Macedonia (TFYR)"   if country == "North Macedonia"
-replace country = "Micronesia (Federated States of)"   if country == "Micronesia"
-replace country = "Occupied Palestinian Territory"   if country == "Palestine"
-replace country = "Russian Federation"   if country == "Russia"
-replace country = "Swaziland"   if country == "Eswatini"
-replace country = "Syrian Arab Republic"   if country == "Syria"
-replace country = "Turkey"   if country == "Türkiye"
-replace country = "United States of America"   if country == "United States"
+merge m:1 iso using "$data/keys/location_keys/data.dta" , keepusing(location_label NCD_RisC_country iso3 region subregion incomegr) nogen
+gen country = NCD_RisC_country
 gen age_group = age
 merge 1:1 country sex year age_group using "$data\NCDRisc\height\data.dta" , keep(match) nogen keepusing(mean_height)
 

@@ -203,6 +203,97 @@ document.getElementById('backToMenu').addEventListener('click', () => {
 **************************************************************************************
 *************************************************************************************/
 
+async function renderReferences(containerId) {
+    const container = document.getElementById(containerId);
+    if (!container) {
+        return;
+    }
+
+    const filePath = container.getAttribute("data-file");
+    if (!filePath) {
+        container.textContent = "No references file configured.";
+        return;
+    }
+
+    try {
+        const response = await fetch(filePath);
+        if (!response.ok) {
+            throw new Error(`Failed to load ${filePath}`);
+        }
+        const text = await response.text();
+        container.innerHTML = renderSimpleMarkdown(text);
+    } catch (error) {
+        container.textContent = `Unable to load references from ${filePath}.`;
+    }
+}
+
+function renderSimpleMarkdown(markdownText) {
+    const escapeHtml = (value) => value
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+
+    const formatInline = (value) => {
+        let html = escapeHtml(value);
+        html = html.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+        html = html.replace(/\*(.+?)\*/g, "<em>$1</em>");
+        html = html.replace(/(https?:\/\/[^\s)]+)/g, '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>');
+        return html;
+    };
+
+    const lines = markdownText.split(/\r?\n/);
+    const output = ['<div class="references-markdown">'];
+    let inList = false;
+
+    const closeList = () => {
+        if (inList) {
+            output.push("</ul>");
+            inList = false;
+        }
+    };
+
+    lines.forEach((rawLine) => {
+        const line = rawLine.trim();
+        if (!line) {
+            closeList();
+            return;
+        }
+
+        if (line === "#" || line === "##") {
+            closeList();
+            return;
+        }
+
+        if (line.startsWith("## ")) {
+            closeList();
+            output.push(`<h3>${formatInline(line.slice(3))}</h3>`);
+            return;
+        }
+
+        if (/^\*\*.+\*\*$/.test(line)) {
+            closeList();
+            output.push(`<h4>${formatInline(line.slice(2, -2))}</h4>`);
+            return;
+        }
+
+        if (line.startsWith("- ")) {
+            if (!inList) {
+                output.push("<ul>");
+                inList = true;
+            }
+            output.push(`<li>${formatInline(line.slice(2))}</li>`);
+            return;
+        }
+
+        closeList();
+        output.push(`<p>${formatInline(line)}</p>`);
+    });
+
+    closeList();
+    output.push("</div>");
+    return output.join("");
+}
+
 function toggleSection(headings) {
     function setHeadingToggleState(heading, isExpanded) {
         const baseLabel = heading.getAttribute('data-base-label') || heading.textContent.replace(/^\[[+-]\]\s*/, '').trim();
@@ -241,6 +332,7 @@ function toggleSection(headings) {
                 if (containerId.startsWith("multi-height-outcome")) {drawMultiHeightFigures(containerId)}; // Render multi-height-outcome figures
                 if (containerId.startsWith("multi-height-age-outcome")) {drawMultiHeightAgeFigures(containerId)}; // Render multi-height-age-outcome figures
                 if (containerId.startsWith("wimort")) {drawWIMortFigures(containerId)}; // Render under-5 mortality by wealth figures
+                if (containerId.startsWith("references")) {renderReferences(containerId)}; // Render references file
                 container.setAttribute("data-rendered", "true"); // Mark as rendered
                 document.dispatchEvent(new Event(`${containerId}-expanded`)); // used to check if there is no selection (no data to plot)                
                 setHeadingToggleState(heading, true);
