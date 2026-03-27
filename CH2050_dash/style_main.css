@@ -75,9 +75,19 @@ ul {list-style-type: none;}
 .multi-outcome-slider-wrap {margin: 24px 0 14px 0; padding: 0 10px;}
 .multi-outcome-slider-title {font-size: 0.95em; font-weight: bold; margin-bottom: 18px;}
 .multi-outcome-slider-wrap .line-year-slider {margin: 34px 6px 8px 6px;}
-.multi-outcome-chart {padding: 12px 0; border-top: 1px solid #e6e6e6;}
+.multi-outcome-chart {padding: 34px 0; border-top: 1px solid #e6e6e6; margin-bottom: 22px;}
 .multi-outcome-title {margin: 0 0 8px 0; font-size: 1em;}
 .multi-outcome-legend-svg {margin-top: 8px; margin-left: 10px;}
+.star-plot-subtitle {margin: 4px 0 8px 10px; color: #555; font-size: 0.9em;}
+.star-legend-svg {display: block; margin-top: -40px; margin-left: auto; margin-right: auto;}
+.star-axis-label {font-size: 14px; font-weight: bold;}
+.star-axis-subtitle {font-size: 11px; fill: #666;}
+
+@media (max-width: 480px) {
+    .star-legend-svg {margin-top: -10px;}
+    .star-chart-wrapper {overflow-x: auto; -webkit-overflow-scrolling: touch;}
+    .star-chart-wrapper svg {display: block;}
+}
 
 .wimort-location-control {padding: 8px 10px; border: 1px solid #d9e7f4; border-radius: 6px; background: #fff;}
 .wimort-location-title {font-weight: bold; margin-bottom: 6px;}

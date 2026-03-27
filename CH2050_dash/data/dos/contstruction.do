@@ -36,8 +36,6 @@ save temp, replace
 restore
 }
 
-
-
 ********************************************************************************************************************************************
 *** Adding HMD data
 foreach c in USA Canada Japan France {
@@ -63,7 +61,6 @@ reshape wide qx , i(heading1 heading2 loc sex year) j(ageg)
 gen u5m = (1-exp(ln(1-qx0/1000)+ln(1-qx1/1000)))*1000
 rename (qx0 qx1 qx5 qx10 qx15)(imr cmr q5_10 q10_15 q15_19)
 save temp, replace
-
 
 ********************************************************************************************************************************************
 ********************************************************************************************************************************************
@@ -264,7 +261,6 @@ save temp, replace
 ********************************************************************************************************************************************
 ********************************************************************************************************************************************
 
-
 use location_label dhs_countrycode region if dhs_countrycode!="" using "$data/keys/location_keys/data.dta" , clear
 merge 1:m dhs_countrycode using dhscm, nogen keep(match)
 rename location_label loc
@@ -281,7 +277,6 @@ replace heading2 = "UN subregions" if heading2 == "subregion"
 replace heading2 = "UN regions" if heading2 == "region"
 
 replace heading1 = "Countries and territories" if strpos(heading1, "Countries")
-
 
 compress
 sort sex heading1 heading2 loc  year
@@ -306,7 +301,6 @@ levelsof heading1
 label define h1 1 "Aggregates" 2 "Countries and territories" 3 "Subnational regions" 4 "Lowest or highest mortality", replace
 encode heading1, gen(h1)
 
-
 levelsof loc
 label define h2 1 "Low-income countries" 2 "Lower-middle-income countries" 3 "Upper-middle-income countries" 4 "High-income countries" 5 "No income group available", replace
 encode heading2, gen(h2)
@@ -316,15 +310,14 @@ sort h1 h2 h3 loc
 gen lid = _n
 drop h1 h2 h3 
 compress
-save temp, replace
+save locids, replace
 export delimited using "$output_dir\location_select" , replace
 
 use yeardata , clear
-merge m:1 heading1 heading2 loc using temp, nogen keepusing(lid)
+merge m:1 heading1 heading2 loc using locids, nogen keepusing(lid)
 foreach var of varlist imr cmr q5_10 q10_15 q15_19 u5m nmr pnm unnmr cms gbdnmr ncdcm5 ncdcm10 ncdcm15 ncdcm19  {
 rename `var' value`var'
 }
-
 reshape long value note , i(heading1 heading2 loc year sex) j(outcome) string
 
 /*
@@ -354,7 +347,7 @@ replace heading2 = "UN regions" if heading2 == "region"
 replace heading2 = "UN subregions" if heading2 == "subregion"
 replace heading1 = "Countries and territories" if strpos(heading1, "Countries")
 
-merge m:1 heading1 heading2 loc using temp,  keepusing(lid) nogen keep(match)
+merge m:1 heading1 heading2 loc using locids,  keepusing(lid) nogen keep(match)
 compress
 
 levelsof year, local(ylvl)
@@ -368,7 +361,7 @@ restore
 
 
 use wimort, clear
-merge m:1 heading1 heading2 loc using temp,  keepusing(lid) nogen keep(match)
+merge m:1 heading1 heading2 loc using locids,  keepusing(lid) nogen keep(match)
 drop loc heading2 heading1
 rename year surveyyear
 export delimited "$output_dir\wimort" , replace

@@ -27,18 +27,88 @@ function defaultMortalityRange(extent) {
     return [Math.max(extent[0], preferred[0]), Math.min(extent[1], preferred[1])];
 }
 
-function downloadCombinedSVG(chartSvgId, legendSvgId, fileName) {
+function cloneSVGForExport(svg, exportOptions = {}) {
+    const clone = svg.cloneNode(true);
+    const sourceNodes = [svg, ...svg.querySelectorAll('*')];
+    const cloneNodes = [clone, ...clone.querySelectorAll('*')];
+    const styleProps = [
+        'font-family', 'font-size', 'font-weight', 'font-style',
+        'fill', 'fill-opacity', 'stroke', 'stroke-width', 'stroke-opacity',
+        'stroke-dasharray', 'stroke-linecap', 'stroke-linejoin',
+        'opacity', 'text-anchor', 'dominant-baseline', 'letter-spacing',
+        'paint-order'
+    ];
+
+    sourceNodes.forEach((node, i) => {
+        const cloneNode = cloneNodes[i];
+        if (!cloneNode || cloneNode.nodeType !== 1) {
+            return;
+        }
+        const computed = window.getComputedStyle(node);
+        const inlineStyle = styleProps
+            .map(prop => `${prop}:${computed.getPropertyValue(prop)};`)
+            .join('');
+        const existingStyle = cloneNode.getAttribute('style') || '';
+        cloneNode.setAttribute('style', `${existingStyle}${existingStyle && !existingStyle.trim().endsWith(';') ? ';' : ''}${inlineStyle}`);
+    });
+
+    const width = Number(svg.getAttribute('width')) || svg.getBoundingClientRect().width || 0;
+    const height = Number(svg.getAttribute('height')) || svg.getBoundingClientRect().height || 0;
+    const margin = exportOptions.margin || { top: 0, right: 0, bottom: 0, left: 0 };
+    const crop = exportOptions.crop || { top: 0, right: 0, bottom: 0, left: 0 };
+    const exportTitle = exportOptions.titleText || '';
+    const titleHeight = exportTitle ? (exportOptions.titleHeight ?? 28) : 0;
+    const translatedGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    while (clone.firstChild) {
+        translatedGroup.appendChild(clone.firstChild);
+    }
+    translatedGroup.setAttribute(
+        'transform',
+        `translate(${(margin.left || 0) - (crop.left || 0)},${(margin.top || 0) + titleHeight - (crop.top || 0)})`
+    );
+    clone.appendChild(translatedGroup);
+
+    if (exportTitle) {
+        const titleNode = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        titleNode.setAttribute('x', String((margin.left || 0) - (crop.left || 0)));
+        titleNode.setAttribute('y', String(titleHeight - 8));
+        titleNode.setAttribute('font-family', 'Arial, sans-serif');
+        titleNode.setAttribute('font-size', String(exportOptions.titleFontSize ?? 18));
+        titleNode.setAttribute('font-weight', '700');
+        titleNode.setAttribute('fill', '#000');
+        titleNode.textContent = exportTitle;
+        clone.appendChild(titleNode);
+    }
+
+    const exportWidth = width + (margin.left || 0) + (margin.right || 0) - (crop.left || 0) - (crop.right || 0);
+    const exportHeight = height + titleHeight + (margin.top || 0) + (margin.bottom || 0) - (crop.top || 0) - (crop.bottom || 0);
+    clone.setAttribute('width', exportWidth);
+    clone.setAttribute('height', exportHeight);
+    clone.setAttribute('viewBox', `0 0 ${exportWidth} ${exportHeight}`);
+    clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+
+    return {
+        svg: clone,
+        width: exportWidth,
+        height: exportHeight
+    };
+}
+
+function downloadCombinedSVG(chartSvgId, legendSvgId, fileName, exportOptions = {}) {
     const chartSVG = document.getElementById(chartSvgId);
     const legendSVG = document.getElementById(legendSvgId);
     if (!chartSVG) {
         return;
     }
 
-    const chartRect = chartSVG.getBoundingClientRect();
-    const legendRect = legendSVG ? legendSVG.getBoundingClientRect() : { width: 0, height: 0 };
-    const padding = 20;
-    const totalWidth = Math.max(chartRect.width, legendRect.width) + padding * 2;
-    const totalHeight = chartRect.height + legendRect.height + padding * 3;
+    const chartExport = cloneSVGForExport(chartSVG, exportOptions.chart || {});
+    const legendExport = legendSVG ? cloneSVGForExport(legendSVG, exportOptions.legend || {}) : null;
+    const padding = exportOptions.canvasPadding ?? 20;
+    const bottomPadding = exportOptions.bottomPadding ?? padding;
+    const legendGap = exportOptions.legendGap ?? padding;
+    const legendOffsetY = exportOptions.legendOffsetY ?? 0;
+    const totalWidth = Math.max(chartExport.width, legendExport ? legendExport.width : 0) + padding * 2;
+    const totalHeight = chartExport.height + (legendExport ? legendExport.height : 0) + padding + bottomPadding + (legendExport ? legendGap : 0);
 
     const canvas = document.createElement('canvas');
     canvas.width = totalWidth;
@@ -47,19 +117,20 @@ function downloadCombinedSVG(chartSvgId, legendSvgId, fileName) {
     context.fillStyle = 'white';
     context.fillRect(0, 0, totalWidth, totalHeight);
 
-    const renderSVG = (svg, yPos) => {
+    const renderSVG = (prepared, yPos, centerHorizontally = false) => {
         return new Promise(resolve => {
-            if (!svg) {
+            if (!prepared) {
                 resolve();
                 return;
             }
-            const xml = new XMLSerializer().serializeToString(svg);
+            const xml = new XMLSerializer().serializeToString(prepared.svg);
             const img = new Image();
             const blob = new Blob([xml], { type: 'image/svg+xml' });
             const url = URL.createObjectURL(blob);
 
             img.onload = function() {
-                context.drawImage(img, padding, yPos, svg.getBoundingClientRect().width, svg.getBoundingClientRect().height);
+                const xPos = centerHorizontally ? (totalWidth - prepared.width) / 2 : padding;
+                context.drawImage(img, xPos, yPos, prepared.width, prepared.height);
                 URL.revokeObjectURL(url);
                 resolve();
             };
@@ -67,8 +138,8 @@ function downloadCombinedSVG(chartSvgId, legendSvgId, fileName) {
         });
     };
 
-    renderSVG(chartSVG, padding)
-        .then(() => renderSVG(legendSVG, chartRect.height + padding * 2))
+    renderSVG(chartExport, padding, exportOptions.centerChart === true)
+        .then(() => renderSVG(legendExport, padding + chartExport.height + (legendExport ? legendGap + legendOffsetY : 0), exportOptions.centerLegend === true))
         .then(() => {
             const link = document.createElement('a');
             link.href = canvas.toDataURL('image/png');

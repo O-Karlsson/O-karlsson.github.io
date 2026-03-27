@@ -33,38 +33,38 @@ Lower-middle-income countries,World Bank Income groups,Aggregates,0,1,1,1,0,1,31
 No income group available,World Bank Income groups,Aggregates,0,1,1,1,0,1,32
 Upper-middle-income countries,World Bank Income groups,Aggregates,0,1,1,1,0,1,33
 Algeria,Africa,Countries and territories,0,1,1,1,0,1,34
-Angola,Africa,Countries and territories,1,1,1,1,1,1,35
+Angola,Africa,Countries and territories,1,1,1,1,0,1,35
 Benin,Africa,Countries and territories,1,1,1,1,1,1,36
 Botswana,Africa,Countries and territories,0,1,1,1,0,1,37
 Burkina Faso,Africa,Countries and territories,1,1,1,1,1,1,38
-Burundi,Africa,Countries and territories,1,1,1,1,1,1,39
+Burundi,Africa,Countries and territories,1,1,1,1,0,1,39
 Cabo Verde,Africa,Countries and territories,0,1,1,1,0,1,40
 Cameroon,Africa,Countries and territories,1,1,1,1,1,1,41
 Central African Republic,Africa,Countries and territories,1,1,1,1,1,1,42
 Chad,Africa,Countries and territories,1,1,1,1,1,1,43
 Comoros,Africa,Countries and territories,1,1,1,1,1,1,44
-Congo,Africa,Countries and territories,1,1,1,1,1,1,45
-Congo DR,Africa,Countries and territories,1,1,1,1,1,1,46
+Congo,Africa,Countries and territories,1,1,1,1,0,1,45
+Congo DR,Africa,Countries and territories,1,1,1,1,0,1,46
 Côte d'Ivoire,Africa,Countries and territories,1,1,1,1,1,1,47
 Djibouti,Africa,Countries and territories,0,1,1,1,0,1,48
 Egypt,Africa,Countries and territories,1,1,1,1,1,1,49
 Equatorial Guinea,Africa,Countries and territories,0,1,1,1,0,1,50
 Eritrea,Africa,Countries and territories,0,1,1,1,0,1,51
-Eswatini,Africa,Countries and territories,1,1,1,1,1,1,52
+Eswatini,Africa,Countries and territories,1,1,1,1,0,1,52
 Ethiopia,Africa,Countries and territories,1,1,1,1,1,1,53
 Gabon,Africa,Countries and territories,1,1,1,1,1,1,54
-Gambia,Africa,Countries and territories,1,1,1,1,1,1,55
+Gambia,Africa,Countries and territories,1,1,1,1,0,1,55
 Ghana,Africa,Countries and territories,1,1,1,1,1,1,56
 Guinea,Africa,Countries and territories,1,1,1,1,1,1,57
 Guinea-Bissau,Africa,Countries and territories,0,1,1,1,0,1,58
 Kenya,Africa,Countries and territories,1,1,1,1,1,1,59
-Lesotho,Africa,Countries and territories,1,1,1,1,1,1,60
-Liberia,Africa,Countries and territories,1,1,1,1,1,1,61
+Lesotho,Africa,Countries and territories,1,1,1,1,0,1,60
+Liberia,Africa,Countries and territories,1,1,1,1,0,1,61
 Libya,Africa,Countries and territories,0,1,1,1,0,1,62
 Madagascar,Africa,Countries and territories,1,1,1,1,1,1,63
 Malawi,Africa,Countries and territories,1,1,1,1,1,1,64
 Mali,Africa,Countries and territories,1,1,1,1,1,1,65
-Mauritania,Africa,Countries and territories,1,1,1,1,1,1,66
+Mauritania,Africa,Countries and territories,1,1,1,1,0,1,66
 Mauritius,Africa,Countries and territories,0,1,1,1,0,1,67
 Mayotte,Africa,Countries and territories,0,1,0,0,0,0,68
 Morocco,Africa,Countries and territories,1,1,1,1,1,1,69
@@ -75,10 +75,10 @@ Nigeria,Africa,Countries and territories,1,1,1,1,1,1,73
 Rwanda,Africa,Countries and territories,1,1,1,1,1,1,74
 Réunion,Africa,Countries and territories,0,1,0,0,0,0,75
 Saint Helena,Africa,Countries and territories,0,1,0,0,0,0,76
-Sao Tome and Principe,Africa,Countries and territories,1,1,1,1,1,1,77
+Sao Tome and Principe,Africa,Countries and territories,1,1,1,1,0,1,77
 Senegal,Africa,Countries and territories,1,1,1,1,1,1,78
 Seychelles,Africa,Countries and territories,0,1,1,1,0,1,79
-Sierra Leone,Africa,Countries and territories,1,1,1,1,1,1,80
+Sierra Leone,Africa,Countries and territories,1,1,1,1,0,1,80
 Somalia,Africa,Countries and territories,0,1,1,1,0,1,81
 South Africa,Africa,Countries and territories,1,1,1,1,1,1,82
 South Sudan,Africa,Countries and territories,0,1,1,1,0,0,83
@@ -92,7 +92,7 @@ Zambia,Africa,Countries and territories,1,1,1,1,1,1,90
 Zimbabwe,Africa,Countries and territories,1,1,1,1,1,1,91
 Afghanistan,Asia,Countries and territories,1,1,1,1,0,1,92
 Armenia,Asia,Countries and territories,1,1,1,1,1,1,93
-Azerbaijan,Asia,Countries and territories,1,1,1,1,1,1,94
+Azerbaijan,Asia,Countries and territories,1,1,1,1,0,1,94
 Bahrain,Asia,Countries and territories,0,1,1,1,0,1,95
 Bangladesh,Asia,Countries and territories,1,1,1,1,1,1,96
 Bhutan,Asia,Countries and territories,0,1,1,1,0,1,97
@@ -116,9 +116,9 @@ Lao,Asia,Countries and territories,0,1,1,1,0,1,114
 Lebanon,Asia,Countries and territories,0,1,1,1,0,1,115
 Macao,Asia,Countries and territories,0,1,0,0,0,0,116
 Malaysia,Asia,Countries and territories,0,1,1,1,0,1,117
-Maldives,Asia,Countries and territories,1,1,1,1,1,1,118
+Maldives,Asia,Countries and territories,1,1,1,1,0,1,118
 Mongolia,Asia,Countries and territories,0,1,1,1,0,1,119
-Myanmar,Asia,Countries and territories,1,1,1,1,1,1,120
+Myanmar,Asia,Countries and territories,1,1,1,1,0,1,120
 Nepal,Asia,Countries and territories,1,1,1,1,1,1,121
 North Korea,Asia,Countries and territories,0,1,1,1,0,1,122
 Oman,Asia,Countries and territories,0,1,1,1,0,1,123
@@ -132,16 +132,16 @@ South Korea,Asia,Countries and territories,0,1,1,1,0,1,130
 Sri Lanka,Asia,Countries and territories,0,1,1,1,0,1,131
 Syria,Asia,Countries and territories,0,1,1,1,0,1,132
 Taiwan,Asia,Countries and territories,0,1,1,1,0,1,133
-Tajikistan,Asia,Countries and territories,1,1,1,1,1,1,134
+Tajikistan,Asia,Countries and territories,1,1,1,1,0,1,134
 Thailand,Asia,Countries and territories,0,1,1,1,0,1,135
-Timor-Leste,Asia,Countries and territories,1,1,1,1,1,1,136
+Timor-Leste,Asia,Countries and territories,1,1,1,1,0,1,136
 Turkmenistan,Asia,Countries and territories,0,1,1,1,0,1,137
 Türkiye,Asia,Countries and territories,1,1,1,1,1,1,138
 United Arab Emirates,Asia,Countries and territories,0,1,1,1,0,1,139
 Uzbekistan,Asia,Countries and territories,1,1,1,1,1,1,140
 Viet Nam,Asia,Countries and territories,1,1,1,1,0,1,141
-Yemen,Asia,Countries and territories,1,1,1,1,1,1,142
-Albania,Europe,Countries and territories,1,1,1,1,1,1,143
+Yemen,Asia,Countries and territories,1,1,1,1,0,1,142
+Albania,Europe,Countries and territories,1,1,1,1,0,1,143
 Andorra,Europe,Countries and territories,0,1,1,1,0,1,144
 Austria,Europe,Countries and territories,0,1,1,1,0,1,145
 Belarus,Europe,Countries and territories,0,1,1,1,0,1,146
@@ -172,7 +172,7 @@ Liechtenstein,Europe,Countries and territories,0,1,0,0,0,0,170
 Lithuania,Europe,Countries and territories,0,1,1,1,0,1,171
 Luxembourg,Europe,Countries and territories,0,1,1,1,0,1,172
 Malta,Europe,Countries and territories,0,1,1,1,0,1,173
-Moldova,Europe,Countries and territories,1,1,1,1,1,1,174
+Moldova,Europe,Countries and territories,1,1,1,1,0,1,174
 Monaco,Europe,Countries and territories,0,1,1,1,0,0,175
 Montenegro,Europe,Countries and territories,0,1,1,1,0,1,176
 Netherlands,Europe,Countries and territories,0,1,1,1,0,1,177
@@ -217,9 +217,9 @@ French Guiana,Latin America and the Caribbean,Countries and territories,0,1,0,0,
 Grenada,Latin America and the Caribbean,Countries and territories,0,1,1,1,0,1,216
 Guadeloupe,Latin America and the Caribbean,Countries and territories,0,1,0,0,0,0,217
 Guatemala,Latin America and the Caribbean,Countries and territories,1,1,1,1,1,1,218
-Guyana,Latin America and the Caribbean,Countries and territories,1,1,1,1,1,1,219
+Guyana,Latin America and the Caribbean,Countries and territories,1,1,1,1,0,1,219
 Haiti,Latin America and the Caribbean,Countries and territories,1,1,1,1,1,1,220
-Honduras,Latin America and the Caribbean,Countries and territories,1,1,1,1,1,1,221
+Honduras,Latin America and the Caribbean,Countries and territories,1,1,1,1,0,1,221
 Jamaica,Latin America and the Caribbean,Countries and territories,0,1,1,1,0,1,222
 Martinique,Latin America and the Caribbean,Countries and territories,0,1,0,0,0,0,223
 Mexico,Latin America and the Caribbean,Countries and territories,0,1,1,1,0,1,224
