@@ -82,11 +82,20 @@ ul {list-style-type: none;}
 .star-legend-svg {display: block; margin-top: -40px; margin-left: auto; margin-right: auto;}
 .star-axis-label {font-size: 14px; font-weight: bold;}
 .star-axis-subtitle {font-size: 11px; fill: #666;}
+.traditional-star-controls {margin: 10px 10px 0 10px; padding: 8px 10px; background: #f8fbff; border: 1px solid #d9e7f4; border-radius: 6px;}
+.traditional-star-toggle {display: inline-flex; align-items: center; gap: 8px; font-size: 0.95em; font-weight: bold;}
+.traditional-star-toggle input {margin: 0;}
+.traditional-star-scale-note {margin: 4px 0 0 26px; color: #555; font-size: 0.85em;}
+.traditional-star-wrapper {padding-top: 22px; padding-bottom: 12px;}
+.traditional-star-wrapper > svg:first-of-type {display: block; margin-bottom: -24px;}
+.traditional-star-legend-svg {display: block; margin: -18px auto 0 auto;}
+.traditional-star-wrapper .figure-download-btn {margin-top: 4px;}
 
 @media (max-width: 480px) {
     .star-legend-svg {margin-top: -10px;}
     .star-chart-wrapper {overflow-x: auto; -webkit-overflow-scrolling: touch;}
     .star-chart-wrapper svg {display: block;}
+    .traditional-star-scale-note {margin-left: 0;}
 }
 
 .wimort-location-control {padding: 8px 10px; border: 1px solid #d9e7f4; border-radius: 6px; background: #fff;}

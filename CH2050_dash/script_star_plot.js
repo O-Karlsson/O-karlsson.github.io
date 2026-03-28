@@ -27,6 +27,8 @@ const starOutcomeConfig = [
 ];
 
 let starDataCache = null;
+const traditionalStarScaleState = {};
+let traditionalStarDerivedCache = null;
 
 function parseStarSex(value) {
     const normalized = String(value ?? '').trim().toLowerCase();
@@ -71,6 +73,63 @@ async function loadStarData(csvFilePath) {
     );
 
     return starDataCache;
+}
+
+function buildTraditionalStarDerivedData(rows) {
+    if (traditionalStarDerivedCache) {
+        return traditionalStarDerivedCache;
+    }
+
+    const rawExtentByOutcomeSex = new Map();
+    const percentileValuesByOutcomeSexYear = new Map();
+    const rowsByLidSex = new Map();
+
+    rows.forEach((row) => {
+        const extentKey = `${row.sex}||${row.outcomeKey}`;
+        const currentExtent = rawExtentByOutcomeSex.get(extentKey);
+        if (!currentExtent) {
+            rawExtentByOutcomeSex.set(extentKey, {
+                min: row.plotValue,
+                max: row.plotValue
+            });
+        } else {
+            currentExtent.min = Math.min(currentExtent.min, row.plotValue);
+            currentExtent.max = Math.max(currentExtent.max, row.plotValue);
+        }
+
+        const percentileKey = `${row.sex}||${row.outcomeKey}||${row.year}`;
+        if (!percentileValuesByOutcomeSexYear.has(percentileKey)) {
+            percentileValuesByOutcomeSexYear.set(percentileKey, []);
+        }
+        percentileValuesByOutcomeSexYear.get(percentileKey).push(row.plotValue);
+
+        const lidSexKey = `${row.lid}||${row.sex}`;
+        if (!rowsByLidSex.has(lidSexKey)) {
+            rowsByLidSex.set(lidSexKey, []);
+        }
+        rowsByLidSex.get(lidSexKey).push(row);
+    });
+
+    percentileValuesByOutcomeSexYear.forEach((values, key) => {
+        percentileValuesByOutcomeSexYear.set(key, values.filter(Number.isFinite).sort((a, b) => a - b));
+    });
+
+    rowsByLidSex.forEach((groupRows) => {
+        groupRows.sort((a, b) => {
+            if (a.outcomeKey === b.outcomeKey) {
+                return a.year - b.year;
+            }
+            return a.outcomeKey.localeCompare(b.outcomeKey);
+        });
+    });
+
+    traditionalStarDerivedCache = {
+        rawExtentByOutcomeSex,
+        percentileValuesByOutcomeSexYear,
+        rowsByLidSex
+    };
+
+    return traditionalStarDerivedCache;
 }
 
 function drawStarFigures(containerId) {
@@ -293,7 +352,7 @@ function drawStarFigures(containerId) {
             .text(titleText);
 
         const width = isMobile ? Math.max(viewportWidth + 120, 430) : Math.min(viewportWidth, 720);
-        const height = width * 0.98;
+        const height = width * 0.9;
         const outerRadius = Math.min(width, height) * 0.33;
         const innerRadius = outerRadius * 0.23;
         const labelRadius = outerRadius + (isMobile ? 26 : 40);
@@ -615,6 +674,439 @@ function drawStarFigures(containerId) {
         document.removeEventListener(`sexwasSelected-${containerId}`, selectionChanged);
         document.removeEventListener(`${containerId}-collapsed`, collapsedHandler);
     }
+
+    document.addEventListener(`countrywasSelected-${containerId}`, selectionChanged);
+    document.addEventListener(`sexwasSelected-${containerId}`, selectionChanged);
+    document.addEventListener(`${containerId}-collapsed`, collapsedHandler);
+
+    renderAll();
+}
+
+function drawTraditionalStarFigures(containerId) {
+    const container = document.getElementById(containerId);
+    if (!container) {
+        return;
+    }
+
+    const dataFile = container.getAttribute('data-file') || 'data/stardata.csv';
+    const currentScale = traditionalStarScaleState[containerId] || 'raw';
+    container.innerHTML = '';
+
+    const root = d3.select(`#${containerId}`);
+    const controls = root.append('div').attr('class', 'traditional-star-controls');
+    const toggleLabel = controls.append('label').attr('class', 'traditional-star-toggle');
+    const toggle = toggleLabel.append('input')
+        .attr('type', 'checkbox')
+        .property('checked', currentScale === 'percentile');
+    toggleLabel.append('span').text('Show percentile scale');
+    controls.append('div')
+        .attr('class', 'traditional-star-scale-note')
+        .text('Off: raw value range within each outcome and sex. On: percentile rank within each outcome, sex, and year.');
+
+    const chartHost = root.append('div').attr('id', `${containerId}-charts`);
+
+    function renderMessage(message) {
+        chartHost.html('');
+        chartHost.append('div')
+            .attr('class', 'no-data-message-box')
+            .append('p')
+            .attr('class', 'no-data-message-text')
+            .text(message);
+    }
+
+    function quantileRank(value, values) {
+        if (!Number.isFinite(value) || !Array.isArray(values) || values.length === 0) {
+            return null;
+        }
+        if (values.length === 1) {
+            return 50;
+        }
+
+        let lower = 0;
+        let equal = 0;
+        values.forEach((entry) => {
+            if (entry < value) {
+                lower += 1;
+            } else if (entry === value) {
+                equal += 1;
+            }
+        });
+
+        return ((lower + Math.max(equal - 1, 0) / 2) / (values.length - 1)) * 100;
+    }
+
+    function buildOutcomeSummary(rows, derivedData, outcome, scaleMode) {
+        const matching = rows
+            .filter((row) => row.outcomeKey === outcome.key)
+            .sort((a, b) => a.year - b.year);
+
+        if (matching.length === 0) {
+            return {
+                ...outcome,
+                status: 'missing'
+            };
+        }
+
+        const earliest = matching[0];
+        const latest = matching[matching.length - 1];
+        const rawExtent = derivedData.rawExtentByOutcomeSex.get(`${latest.sex}||${outcome.key}`);
+        const rawMin = rawExtent ? rawExtent.min : Math.min(earliest.plotValue, latest.plotValue);
+        const rawMax = rawExtent ? rawExtent.max : Math.max(earliest.plotValue, latest.plotValue);
+
+        const getPercentile = (row) => quantileRank(
+            row.plotValue,
+            derivedData.percentileValuesByOutcomeSexYear.get(`${row.sex}||${outcome.key}||${row.year}`) || []
+        );
+
+        return {
+            ...outcome,
+            status: 'ok',
+            earliest,
+            latest,
+            rawMin,
+            rawMax,
+            plotMin: scaleMode === 'percentile' ? 0 : rawMin,
+            plotMax: scaleMode === 'percentile' ? 100 : rawMax,
+            earliestValue: scaleMode === 'percentile' ? getPercentile(earliest) : earliest.plotValue,
+            latestValue: scaleMode === 'percentile' ? getPercentile(latest) : latest.plotValue,
+            hasDistinctYears: earliest.year !== latest.year,
+            axisCaption: earliest.year === latest.year ? `${latest.year} only` : `${earliest.year}/${latest.year}`
+        };
+    }
+
+    function valueToRadius(value, minValue, maxValue, innerRadius, outerRadius) {
+        if (!Number.isFinite(value) || !Number.isFinite(minValue) || !Number.isFinite(maxValue)) {
+            return innerRadius;
+        }
+        if (maxValue <= minValue) {
+            return (innerRadius + outerRadius) / 2;
+        }
+        const share = (value - minValue) / (maxValue - minValue);
+        return innerRadius + Math.max(0, Math.min(1, share)) * (outerRadius - innerRadius);
+    }
+
+    function formatAxisValue(value, scaleMode) {
+        if (!Number.isFinite(value)) {
+            return '';
+        }
+        if (scaleMode === 'percentile') {
+            return `${Math.round(value)}`;
+        }
+        return roundStarValue(value);
+    }
+
+    function appendTraditionalValueLabel(group, point, value, angle, color, isOutside, isMobile, scaleMode) {
+        const radialDistance = isOutside ? 12 : -12;
+        const x = point.x + Math.cos(angle) * radialDistance;
+        const y = point.y + Math.sin(angle) * radialDistance;
+        const anchor = Math.abs(Math.cos(angle)) < 0.2 ? 'middle' : (Math.cos(angle) > 0
+            ? (isOutside ? 'start' : 'end')
+            : (isOutside ? 'end' : 'start'));
+
+        group.append('text')
+            .attr('x', x)
+            .attr('y', y)
+            .attr('fill', color)
+            .attr('font-size', isMobile ? 9 : 11)
+            .attr('text-anchor', anchor)
+            .attr('dominant-baseline', Math.abs(Math.sin(angle)) < 0.2 ? 'middle' : (Math.sin(angle) > 0
+                ? (isOutside ? 'hanging' : 'ideographic')
+                : (isOutside ? 'ideographic' : 'hanging')))
+            .text(formatAxisValue(value, scaleMode));
+    }
+
+    function renderLegend(wrapper, legendSvgId, width) {
+        const legendItems = [
+            { label: 'Earlier year', color: '#d62728', fill: 'rgba(214, 39, 40, 0.08)' },
+            { label: 'More recent year', color: '#1f4aff', fill: 'rgba(31, 74, 255, 0.08)' }
+        ];
+
+        const svg = wrapper.append('svg')
+            .attr('id', legendSvgId)
+            .attr('class', 'traditional-star-legend-svg')
+            .attr('width', Math.min(width, 420))
+            .attr('height', 28);
+
+        const entry = svg.selectAll('g')
+            .data(legendItems)
+            .enter()
+            .append('g')
+            .attr('transform', (d, i) => `translate(${10 + i * 190}, 14)`);
+
+        entry.append('line')
+            .attr('x1', 0)
+            .attr('y1', 0)
+            .attr('x2', 18)
+            .attr('y2', 0)
+            .attr('stroke', d => d.color)
+            .attr('stroke-width', 2.2);
+
+        entry.append('circle')
+            .attr('cx', 9)
+            .attr('cy', 0)
+            .attr('r', 4)
+            .attr('fill', '#ffffff')
+            .attr('stroke', d => d.color)
+            .attr('stroke-width', 2);
+
+        entry.append('text')
+            .attr('x', 28)
+            .attr('y', 4)
+            .attr('font-size', 14)
+            .attr('font-weight', 700)
+            .text(d => d.label);
+    }
+
+    function renderTraditionalChart(country, sex, rows, derivedData, scaleMode) {
+        const chartId = `${containerId}-${country}-${sex}`.replace(/\s+/g, '-').replace(/[^a-zA-Z0-9_-]/g, '');
+        const chartSvgId = `traditional-star-chart-${chartId}`;
+        const legendSvgId = `traditional-star-legend-${chartId}`;
+        const viewportWidth = Math.max(window.innerWidth - 28, 280);
+        const isMobile = viewportWidth <= 420;
+        const wrapper = chartHost.append('div').attr('class', 'multi-outcome-chart star-chart-wrapper traditional-star-wrapper').attr('id', chartId);
+        const locationLabel = getCountryLabel(country);
+        const titleText = sex === 'both' ? locationLabel : `${locationLabel} (${sex})`;
+        const downloadFileName = `${titleText.replace(/[<>:"/\\|?*\x00-\x1F]/g, '').replace(/\s+/g, ' ').trim()} traditional star plot.png`;
+
+        wrapper.append('h3')
+            .attr('class', 'multi-outcome-title')
+            .text(titleText);
+
+        const width = isMobile ? Math.max(viewportWidth + 120, 430) : Math.min(viewportWidth, 720);
+        const height = width * 0.82;
+        const outerRadius = Math.min(width, height) * 0.29;
+        const innerRadius = outerRadius * 0.12;
+        const labelRadius = outerRadius + (isMobile ? 34 : 48);
+        const centerX = (width / 2) + 4;
+        const centerY = height / 2 - 28;
+        const baseAngle = -Math.PI / 2;
+        const ringCount = 5;
+        const axisLabelFontSize = isMobile ? 12 : 14;
+        const axisSubtitleFontSize = isMobile ? 10 : 11;
+        const scaleLabelFontSize = isMobile ? 9 : 11;
+        const line = d3.line().curve(d3.curveLinearClosed);
+        const scaleDescription = scaleMode === 'percentile' ? 'Percentile scale (0-100)' : 'Raw value scale (min-max)';
+
+        const svg = wrapper.append('svg')
+            .attr('id', chartSvgId)
+            .attr('width', width)
+            .attr('height', height)
+            .style('font-family', 'Arial, sans-serif');
+
+        svg.append('text')
+            .attr('x', 14)
+            .attr('y', 20)
+            .attr('fill', '#555')
+            .attr('font-size', 12)
+            .text(scaleDescription);
+
+        const gridGroup = svg.append('g');
+        const axisGroup = svg.append('g');
+        const polygonPathGroup = svg.append('g');
+        const polygonPointGroup = svg.append('g');
+        const labelGroup = svg.append('g');
+        const summaries = starOutcomeConfig.map((outcome) => buildOutcomeSummary(rows, derivedData, outcome, scaleMode));
+
+        for (let ring = 0; ring < ringCount; ring += 1) {
+            const radius = innerRadius + ((outerRadius - innerRadius) * ring / (ringCount - 1));
+            const ringPoints = d3.range(starOutcomeConfig.length).map((i) => {
+                const angle = baseAngle + (Math.PI * 2 * i / starOutcomeConfig.length);
+                return [
+                    centerX + radius * Math.cos(angle),
+                    centerY + radius * Math.sin(angle)
+                ];
+            });
+
+            gridGroup.append('path')
+                .attr('d', line(ringPoints))
+                .attr('fill', 'none')
+                .attr('stroke', ring === ringCount - 1 ? '#c1c1c1' : '#e0e0e0')
+                .attr('stroke-width', ring === ringCount - 1 ? 1.2 : 1);
+        }
+
+        const latestPoints = [];
+        const earliestPoints = [];
+
+        summaries.forEach((summary, index) => {
+            const angle = baseAngle + (Math.PI * 2 * index / starOutcomeConfig.length);
+            const axisEnd = {
+                x: centerX + outerRadius * Math.cos(angle),
+                y: centerY + outerRadius * Math.sin(angle)
+            };
+
+            gridGroup.append('line')
+                .attr('x1', centerX)
+                .attr('y1', centerY)
+                .attr('x2', axisEnd.x)
+                .attr('y2', axisEnd.y)
+                .attr('stroke', '#b8b8b8')
+                .attr('stroke-width', 1.4);
+
+            const labelPoint = {
+                x: centerX + labelRadius * Math.cos(angle),
+                y: centerY + labelRadius * Math.sin(angle)
+            };
+            const anchor = Math.abs(Math.cos(angle)) < 0.2 ? 'middle' : (Math.cos(angle) > 0 ? 'start' : 'end');
+            const axisLabel = axisGroup.append('text')
+                .attr('x', labelPoint.x)
+                .attr('y', labelPoint.y)
+                .attr('text-anchor', anchor)
+                .attr('class', 'star-axis-label')
+                .attr('font-size', axisLabelFontSize);
+
+            summary.labelLines.forEach((lineText, lineIndex) => {
+                axisLabel.append('tspan')
+                    .attr('x', labelPoint.x)
+                    .attr('dy', lineIndex === 0 ? 0 : (isMobile ? 13 : 16))
+                    .text(lineText);
+            });
+
+            axisGroup.append('text')
+                .attr('x', labelPoint.x)
+                .attr('y', labelPoint.y + summary.labelLines.length * (isMobile ? 13 : 16) + 4)
+                .attr('text-anchor', anchor)
+                .attr('class', 'star-axis-subtitle')
+                .attr('font-size', axisSubtitleFontSize)
+                .text(summary.status === 'ok' ? summary.axisCaption : 'No data');
+
+            if (summary.status !== 'ok') {
+                return;
+            }
+
+            const outerLabelPoint = {
+                x: centerX + (outerRadius + 14) * Math.cos(angle),
+                y: centerY + (outerRadius + 14) * Math.sin(angle)
+            };
+
+            axisGroup.append('text')
+                .attr('x', outerLabelPoint.x)
+                .attr('y', outerLabelPoint.y)
+                .attr('fill', '#666')
+                .attr('font-size', scaleLabelFontSize)
+                .attr('text-anchor', anchor)
+                .text(formatAxisValue(summary.plotMax, scaleMode));
+
+            const earliestRadius = valueToRadius(summary.earliestValue, summary.plotMin, summary.plotMax, innerRadius, outerRadius);
+            const latestRadius = valueToRadius(summary.latestValue, summary.plotMin, summary.plotMax, innerRadius, outerRadius);
+            const earliestPoint = {
+                x: centerX + earliestRadius * Math.cos(angle),
+                y: centerY + earliestRadius * Math.sin(angle)
+            };
+            const latestPoint = {
+                x: centerX + latestRadius * Math.cos(angle),
+                y: centerY + latestRadius * Math.sin(angle)
+            };
+
+            earliestPoints.push([earliestPoint.x, earliestPoint.y]);
+            latestPoints.push([latestPoint.x, latestPoint.y]);
+
+            polygonPointGroup.append('circle')
+                .attr('cx', latestPoint.x)
+                .attr('cy', latestPoint.y)
+                .attr('r', isMobile ? 4 : 4.5)
+                .attr('fill', '#ffffff')
+                .attr('stroke', '#1f4aff')
+                .attr('stroke-width', 2);
+
+            const latestIsOutside = !summary.hasDistinctYears || summary.latestValue >= summary.earliestValue;
+            appendTraditionalValueLabel(labelGroup, latestPoint, summary.latestValue, angle, '#1f4aff', latestIsOutside, isMobile, scaleMode);
+
+            if (summary.hasDistinctYears) {
+                polygonPointGroup.append('circle')
+                    .attr('cx', earliestPoint.x)
+                    .attr('cy', earliestPoint.y)
+                    .attr('r', isMobile ? 4 : 4.5)
+                    .attr('fill', '#ffffff')
+                    .attr('stroke', '#d62728')
+                    .attr('stroke-width', 2);
+
+                appendTraditionalValueLabel(labelGroup, earliestPoint, summary.earliestValue, angle, '#d62728', !latestIsOutside, isMobile, scaleMode);
+            }
+        });
+
+        if (earliestPoints.length >= 3) {
+            polygonPathGroup.append('path')
+                .attr('d', line(earliestPoints))
+                .attr('fill', 'rgba(214, 39, 40, 0.08)')
+                .attr('stroke', '#d62728')
+                .attr('stroke-width', 2);
+        }
+
+        if (latestPoints.length >= 3) {
+            polygonPathGroup.append('path')
+                .attr('d', line(latestPoints))
+                .attr('fill', 'rgba(31, 74, 255, 0.08)')
+                .attr('stroke', '#1f4aff')
+                .attr('stroke-width', 2.2);
+        }
+
+        renderLegend(wrapper, legendSvgId, width);
+
+        wrapper.append('button')
+            .attr('class', 'figure-download-btn')
+            .text('Download figure')
+            .on('click', function() {
+                downloadCombinedSVG(chartSvgId, legendSvgId, downloadFileName, {
+                    canvasPadding: 6,
+                    bottomPadding: 4,
+                    legendGap: 0,
+                    legendOffsetY: -4,
+                    centerChart: true,
+                    centerLegend: true,
+                    chart: {
+                        titleText,
+                        titleHeight: 30,
+                        titleFontSize: 18,
+                        margin: { top: 4, right: 24, bottom: 4, left: 14 }
+                    },
+                    legend: {
+                        margin: { top: 0, right: 4, bottom: 0, left: 4 }
+                    }
+                });
+            });
+    }
+
+    async function renderAll() {
+        const rows = await loadStarData(dataFile);
+        const derivedData = buildTraditionalStarDerivedData(rows);
+        const scaleMode = traditionalStarScaleState[containerId] || 'raw';
+        chartHost.html('');
+
+        if (selectedCountries.length === 0 || selectedSex.length === 0) {
+            renderMessage('Select location and sex');
+            return;
+        }
+
+        let chartCount = 0;
+        selectedCountries.forEach((country) => {
+            selectedSex.forEach((sex) => {
+                const countrySexRows = derivedData.rowsByLidSex.get(`${String(country)}||${sex}`) || [];
+                if (countrySexRows.length > 0) {
+                    renderTraditionalChart(country, sex, countrySexRows, derivedData, scaleMode);
+                    chartCount += 1;
+                }
+            });
+        });
+
+        if (chartCount === 0) {
+            renderMessage('No spider-plot data for the current selection');
+        }
+    }
+
+    function selectionChanged() {
+        renderAll();
+    }
+
+    function collapsedHandler() {
+        document.removeEventListener(`countrywasSelected-${containerId}`, selectionChanged);
+        document.removeEventListener(`sexwasSelected-${containerId}`, selectionChanged);
+        document.removeEventListener(`${containerId}-collapsed`, collapsedHandler);
+    }
+
+    toggle.on('change', function(event) {
+        traditionalStarScaleState[containerId] = event.target.checked ? 'percentile' : 'raw';
+        renderAll();
+    });
 
     document.addEventListener(`countrywasSelected-${containerId}`, selectionChanged);
     document.addEventListener(`sexwasSelected-${containerId}`, selectionChanged);
