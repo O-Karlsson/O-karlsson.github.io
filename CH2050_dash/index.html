@@ -45,22 +45,24 @@
         <div class="section" id="treeContainer"></div>
     </div>
 
-        <hr class="top"><h1 class="sect">50x50x5 Feasibility</h1>
+        <hr class="top"><h1 class="sect">Star plots across five key indicators</h1>
     <hr class="bottom">
 
-    <h2 class="expandable">Star plots across five key indicators</h2>
+    <h2 class="expandable">Traditional star plots across five key indicators</h2>
+    <div class="content" data-height="100000" style="max-height: 0; overflow: hidden;">
+        <div class="figure-placeholder">Data sources: UN WPP 2024, GBD 2023, NCD-RisC, and PISA.</div>
+        <div class="figure-note">Note: This traditional star plot uses the same five indicators as the figure above. Each spoke corresponds to one outcome. In the default view, each spoke runs from the minimum to the maximum observed value for that outcome and sex across locations. The red line shows the earlier observation and the blue line shows the more recent observation for each outcome. Use the switch below to show percentile positions instead, calculated within each outcome, sex, and year across locations.</div>
+        <div id="classic-star-1" class="star-plot-container" data-file="data/stardata.csv" data-rendered="false"></div>
+    </div>
+    
+    <h2 class="expandable">50x50x5 feasibility star plots</h2>
     <div class="content" data-height="100000" style="max-height: 0; overflow: hidden;">
         <div class="figure-placeholder">Data sources: UN WPP 2024, GBD 2023, NCD-RisC, and PISA.</div>
         <div class="figure-note">Note: These figures show whether locations seem to be on track to halve each outcome by 2050 based on recent trends. Recent trends are measured as average annual rate of decline between a baseline year and the most recent year with available data, usually 10 years apart (for math scores, the gap may be different because data are not available for all years). Each spoke has its own scale, running from the baseline value for that outcome to 0; if the outcome has worsened over time, the spoke instead runs from the most recent value to 0. The green line across a spoke shows the value the most recent observation would need to be at to suggest that the outcome is declining fast enough to be halved by 2050. If the most recent value is worse than the baseline value, no green line is shown because the location is moving away from the target.</div>
         <div id="star-1" class="star-plot-container" data-file="data/stardata.csv" data-rendered="false"></div>
     </div>
 
-    <h2 class="expandable">Traditional star plots across five key indicators</h2>
-    <div class="content" data-height="100000" style="max-height: 0; overflow: hidden;">
-        <div class="figure-placeholder">Data sources: UN WPP 2024, GBD 2023, NCD-RisC, and PISA.</div>
-        <div class="figure-note">Note: This traditional star plot uses the same five indicators as the figure above. Each spoke corresponds to one outcome in <code>ageg</code>. In the default view, each spoke runs from the minimum to the maximum observed value for that outcome and sex across locations. The red line shows the earlier observation and the blue line shows the more recent observation for each outcome. Use the switch below to show percentile positions instead, calculated within each outcome, sex, and year across locations.</div>
-        <div id="classic-star-1" class="star-plot-container" data-file="data/stardata.csv" data-rendered="false"></div>
-    </div>
+
 
     <hr class="top"><h1 class="sect">Outcomes by household wealth</h1>
     <hr class="bottom">
