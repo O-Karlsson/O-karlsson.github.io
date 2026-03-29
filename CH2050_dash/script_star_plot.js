@@ -270,9 +270,18 @@ function drawStarFigures(containerId) {
         return (spokeAngle * 180 / Math.PI) + (pointsOutward ? 90 : -90);
     }
 
+    function getPointerTrianglePath(length, baseWidth) {
+        const halfBase = baseWidth / 2;
+        const tipY = -length / 2;
+        const baseY = length / 2;
+        return `M0,${tipY}L${halfBase},${baseY}L${-halfBase},${baseY}Z`;
+    }
+
     function drawTriangleMarker(group, point, size, fill, stroke, rotationDegrees, strokeWidth = 1.1) {
+        const markerLength = Math.sqrt(size) * 1.55;
+        const markerBaseWidth = markerLength * 0.52;
         return group.append('path')
-            .attr('d', d3.symbol().type(d3.symbolTriangle).size(size)())
+            .attr('d', getPointerTrianglePath(markerLength, markerBaseWidth))
             .attr('transform', `translate(${point.x}, ${point.y}) rotate(${rotationDegrees})`)
             .attr('fill', fill)
             .attr('stroke', stroke)
@@ -377,6 +386,8 @@ function drawStarFigures(containerId) {
         const pointLabelFontSize = isMobile ? 9 : 12;
         const pointLabelTangentDistance = isMobile ? 8 : 12;
         const pointLabelRadialDistance = isMobile ? 2 : 4;
+        const goalLabelTangentDistance = isMobile ? 11 : 15;
+        const goalLabelRadialDistance = isMobile ? 4 : 7;
         const triangleMarkerSize = isMobile ? 95 : 180;
         const goalStarSize = isMobile ? 80 : 160;
         const trackBarHalf = isMobile ? 4.5 : 7;
@@ -605,7 +616,7 @@ function drawStarFigures(containerId) {
                     .attr('font-size', pointLabelFontSize);
             }
             if (summary.goalVisible) {
-                drawValueLabel(valueLabelGroup, goalPoint, roundStarValue(summary.goalValue), angle, '#444444', 1, '', pointLabelTangentDistance, pointLabelRadialDistance)
+                drawValueLabel(valueLabelGroup, goalPoint, roundStarValue(summary.goalValue), angle, '#444444', 1, '', goalLabelTangentDistance, goalLabelRadialDistance)
                     .attr('font-size', pointLabelFontSize);
             }
         });
