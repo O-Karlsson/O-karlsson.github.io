@@ -790,6 +790,25 @@ function drawStarLineFigures(containerId) {
             onTrackValue = earliest.plotValue * (0.5 ** (elapsedYears / remainingYears));
         }
 
+        const canShowProjected2050 = Boolean(
+            comparison &&
+            earliest.rawValue >= 0 &&
+            latest.rawValue >= 0 &&
+            earliest.year < latest.year &&
+            earliest.plotValue >= latest.plotValue &&
+            latest.year < 2050 &&
+            (2050 - latest.year) > 0 &&
+            earliest.plotValue > 0
+        );
+
+        let projected2050Value = null;
+        if (canShowProjected2050) {
+            const elapsedYears = latest.year - earliest.year;
+            const remainingYears = 2050 - latest.year;
+            const annualChangeFactor = latest.plotValue / earliest.plotValue;
+            projected2050Value = latest.plotValue * (annualChangeFactor ** (remainingYears / elapsedYears));
+        }
+
         let yearCaption = `${describeYear(earliest, 'baseline year')} | ${describeYear(latest, 'most recent')}`;
         if (!comparison) {
             yearCaption = describeYear(latest, 'only');
@@ -803,11 +822,13 @@ function drawStarLineFigures(containerId) {
             comparison,
             goalValue,
             onTrackValue,
+            projected2050Value,
             yearCaption,
             scaleMaxValue,
             earliestVisible: earliest.rawValue >= 0,
             latestVisible: latest.rawValue >= 0,
-            goalVisible: Number.isFinite(goalValue) && goalValue >= 0
+            goalVisible: Number.isFinite(goalValue) && goalValue >= 0,
+            projected2050Visible: Number.isFinite(projected2050Value) && projected2050Value >= 0
         };
     }
 
@@ -824,10 +845,11 @@ function drawStarLineFigures(containerId) {
             { label: 'Baseline year value', shape: 'triangle', color: '#d62728' },
             { label: 'Most recent value', shape: 'triangle', color: '#1f4aff' },
             { label: '50x50 goal for 2050', shape: 'star', color: '#666666' },
-            { label: 'On-track value for the recent year', shape: 'crossline', color: '#2c8a4b' }
+            { label: 'On-track value for the recent year', shape: 'crossline', color: '#2c8a4b' },
+            { label: 'Projected 2050 value under recent trend', shape: 'diamond', color: '#c97816' }
         ];
 
-        const legendHeight = 74;
+        const legendHeight = 102;
         const legendPaddingLeft = 14;
         const legendColumnWidth = (width - legendPaddingLeft - 8) / 2;
         const svg = wrapper.append('svg')
@@ -842,7 +864,7 @@ function drawStarLineFigures(containerId) {
             .append('g')
             .attr('class', 'star-line-legend-entry')
             .attr('transform', (d, i) => {
-                const row = i < 2 ? 0 : 1;
+                const row = Math.floor(i / 2);
                 const col = i % 2;
                 return `translate(${legendPaddingLeft + col * legendColumnWidth}, ${row * 28 + 14})`;
             });
@@ -868,6 +890,13 @@ function drawStarLineFigures(containerId) {
                     .attr('stroke', d.color)
                     .attr('stroke-width', 2.2)
                     .attr('stroke-linecap', 'round');
+            } else if (d.shape === 'diamond') {
+                g.append('path')
+                    .attr('d', d3.symbol().type(d3.symbolDiamond).size(110)())
+                    .attr('transform', 'translate(8,0)')
+                    .attr('fill', '#f0a43b')
+                    .attr('stroke', d.color)
+                    .attr('stroke-width', 1.2);
             } else {
                 g.append('path')
                     .attr('d', d3.symbol().type(d3.symbolStar).size(140)())
@@ -1012,6 +1041,12 @@ function drawStarLineFigures(containerId) {
                     value: summary.onTrackValue
                 });
             }
+            if (summary.projected2050Visible) {
+                visibleMarkers.push({
+                    key: 'projected2050',
+                    value: summary.projected2050Value
+                });
+            }
 
             visibleMarkers
                 .sort((a, b) => {
@@ -1073,6 +1108,16 @@ function drawStarLineFigures(containerId) {
                     .attr('stroke-linecap', 'round');
             }
 
+            if (summary.projected2050Visible) {
+                const projected2050X = valueToX(summary.projected2050Value, summary.scaleMaxValue, xStart, xEnd);
+                markerGroup.append('path')
+                    .attr('d', d3.symbol().type(d3.symbolDiamond).size(isMobile ? 70 : 120)())
+                    .attr('transform', `translate(${projected2050X}, ${y})`)
+                    .attr('fill', '#f0a43b')
+                    .attr('stroke', '#c97816')
+                    .attr('stroke-width', 1.2);
+            }
+
             if (summary.earliestVisible) {
                 valueLabelGroup.append('text')
                     .attr('x', baseX)
@@ -1116,6 +1161,18 @@ function drawStarLineFigures(containerId) {
                     .attr('font-weight', 600)
                     .attr('text-anchor', 'middle')
                     .text(roundStarValue(summary.onTrackValue));
+            }
+
+            if (summary.projected2050Visible) {
+                const projected2050X = valueToX(summary.projected2050Value, summary.scaleMaxValue, xStart, xEnd);
+                valueLabelGroup.append('text')
+                    .attr('x', projected2050X)
+                    .attr('y', y + (markerLabelOffsetByKey.get('projected2050') ?? labelOffsetAbove))
+                    .attr('fill', '#a6610f')
+                    .attr('font-size', isMobile ? 10 : 12)
+                    .attr('font-weight', 600)
+                    .attr('text-anchor', 'middle')
+                    .text(roundStarValue(summary.projected2050Value));
             }
         });
 
