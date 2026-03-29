@@ -338,7 +338,8 @@ function toggleSection(headings) {
                 if (containerId.startsWith("multi-height-outcome")) {drawMultiHeightFigures(containerId)}; // Render multi-height-outcome figures
                 if (containerId.startsWith("multi-height-age-outcome")) {drawMultiHeightAgeFigures(containerId)}; // Render multi-height-age-outcome figures
                 if (containerId.startsWith("classic-star")) {drawTraditionalStarFigures(containerId)}; // Render traditional spider/radar figures
-                if (containerId.startsWith("star")) {drawStarFigures(containerId)}; // Render spider/radar figures
+                if (containerId.startsWith("star-line")) {drawStarLineFigures(containerId)}; // Render line-based feasibility figures
+                if (containerId.startsWith("star-") && !containerId.startsWith("star-line")) {drawStarFigures(containerId)}; // Render spider/radar figures
                 if (containerId.startsWith("wimort")) {drawWIMortFigures(containerId)}; // Render under-5 mortality by wealth figures
                 if (containerId.startsWith("references")) {renderReferences(containerId)}; // Render references file
                 container.setAttribute("data-rendered", "true"); // Mark as rendered
