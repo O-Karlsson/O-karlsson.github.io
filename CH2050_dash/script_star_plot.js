@@ -266,10 +266,24 @@ function drawStarFigures(containerId) {
             .text(text);
     }
 
+    function triangleRotationForDirection(spokeAngle, pointsOutward) {
+        return (spokeAngle * 180 / Math.PI) + (pointsOutward ? 90 : -90);
+    }
+
+    function drawTriangleMarker(group, point, size, fill, stroke, rotationDegrees, strokeWidth = 1.1) {
+        return group.append('path')
+            .attr('d', d3.symbol().type(d3.symbolTriangle).size(size)())
+            .attr('transform', `translate(${point.x}, ${point.y}) rotate(${rotationDegrees})`)
+            .attr('fill', fill)
+            .attr('stroke', stroke)
+            .attr('stroke-width', strokeWidth)
+            .attr('stroke-linejoin', 'round');
+    }
+
     function renderLegend(wrapper, legendSvgId, width) {
         const legendItems = [
-            { label: 'Baseline year value', shape: 'square', color: '#d62728' },
-            { label: 'Most recent value', shape: 'circle', color: '#1f4aff' },
+            { label: 'Baseline year value', shape: 'triangle', color: '#d62728' },
+            { label: 'Most recent value', shape: 'triangle', color: '#1f4aff' },
             { label: '50x50 goal for 2050', shape: 'star', color: '#666666' },
             { label: 'On-track value for the recent year', shape: 'crossline', color: '#2c8a4b' }
         ];
@@ -296,19 +310,16 @@ function drawStarFigures(containerId) {
 
         entry.each(function(d) {
             const g = d3.select(this);
-            if (d.shape === 'square') {
-                g.append('rect')
-                    .attr('x', 0)
-                    .attr('y', -7)
-                    .attr('width', 14)
-                    .attr('height', 14)
-                    .attr('fill', d.color);
-            } else if (d.shape === 'circle') {
-                g.append('circle')
-                    .attr('cx', 7)
-                    .attr('cy', 0)
-                    .attr('r', 7)
-                    .attr('fill', d.color);
+            if (d.shape === 'triangle') {
+                drawTriangleMarker(
+                    g,
+                    { x: 7, y: 0 },
+                    170,
+                    d.color,
+                    '#ffffff',
+                    -90,
+                    1
+                );
             } else if (d.shape === 'crossline') {
                 g.append('line')
                     .attr('x1', 1)
@@ -366,8 +377,7 @@ function drawStarFigures(containerId) {
         const pointLabelFontSize = isMobile ? 9 : 12;
         const pointLabelTangentDistance = isMobile ? 8 : 12;
         const pointLabelRadialDistance = isMobile ? 2 : 4;
-        const squareSize = isMobile ? 8 : 12;
-        const circleRadius = isMobile ? 4.5 : 6.5;
+        const triangleMarkerSize = isMobile ? 95 : 180;
         const goalStarSize = isMobile ? 80 : 160;
         const trackBarHalf = isMobile ? 4.5 : 7;
         const getAxisLabelPoint = (angle, outcomeKey) => {
@@ -533,26 +543,31 @@ function drawStarFigures(containerId) {
                 Math.hypot(basePoint.x - latestPoint.x, basePoint.y - latestPoint.y) < 1;
             const markerBasePoint = pointsOverlap ? applyPointOffset(basePoint, angle + Math.PI / 2, -7) : basePoint;
             const markerLatestPoint = pointsOverlap ? applyPointOffset(latestPoint, angle + Math.PI / 2, 7) : latestPoint;
+            const trianglesPointOutward = summary.latest.plotValue < summary.earliest.plotValue;
+            const triangleRotation = triangleRotationForDirection(angle, trianglesPointOutward);
 
             if (summary.earliestVisible) {
-                markerGroup.append('rect')
-                    .attr('x', markerBasePoint.x - (squareSize / 2))
-                    .attr('y', markerBasePoint.y - (squareSize / 2))
-                    .attr('width', squareSize)
-                    .attr('height', squareSize)
-                    .attr('fill', '#d62728')
-                    .attr('stroke', '#ffffff')
-                    .attr('stroke-width', 1);
+                drawTriangleMarker(
+                    markerGroup,
+                    markerBasePoint,
+                    triangleMarkerSize,
+                    '#d62728',
+                    '#ffffff',
+                    triangleRotation,
+                    1
+                );
             }
 
             if (summary.latestVisible) {
-                markerGroup.append('circle')
-                    .attr('cx', markerLatestPoint.x)
-                    .attr('cy', markerLatestPoint.y)
-                    .attr('r', circleRadius)
-                    .attr('fill', '#1f4aff')
-                    .attr('stroke', '#ffffff')
-                    .attr('stroke-width', 1.2);
+                drawTriangleMarker(
+                    markerGroup,
+                    markerLatestPoint,
+                    triangleMarkerSize,
+                    '#1f4aff',
+                    '#ffffff',
+                    triangleRotation,
+                    1.1
+                );
             }
 
             if (summary.goalVisible) {
