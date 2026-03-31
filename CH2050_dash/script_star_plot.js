@@ -219,7 +219,8 @@ function drawStarFigures(containerId) {
             onTrackValue,
             yearCaption,
             scaleMaxValue,
-            earliestVisible: earliest.rawValue >= 0,
+            // When only one year is available, show just the most recent marker (blue).
+            earliestVisible: Boolean(comparison && earliest.rawValue >= 0),
             latestVisible: latest.rawValue >= 0,
             goalVisible: Number.isFinite(goalValue) && goalValue >= 0
         };
@@ -825,7 +826,8 @@ function drawStarLineFigures(containerId) {
             projected2050Value,
             yearCaption,
             scaleMaxValue,
-            earliestVisible: earliest.rawValue >= 0,
+            // When only one year is available, show just the most recent marker (blue).
+            earliestVisible: Boolean(comparison && earliest.rawValue >= 0),
             latestVisible: latest.rawValue >= 0,
             goalVisible: Number.isFinite(goalValue) && goalValue >= 0,
             projected2050Visible: Number.isFinite(projected2050Value) && projected2050Value >= 0
@@ -845,7 +847,9 @@ function drawStarLineFigures(containerId) {
             { label: 'Baseline year value', shape: 'triangle', color: '#d62728' },
             { label: 'Most recent value', shape: 'triangle', color: '#1f4aff' },
             { label: '50x50 goal for 2050', shape: 'star', color: '#666666' },
-            { label: 'On-track value for the recent year', shape: 'crossline', color: '#2c8a4b' },
+            // Commented out to hide the green on-track marker from the
+            // 50x50x5 feasibility line plots while keeping the code easy to restore.
+            // { label: 'On-track value for the recent year', shape: 'crossline', color: '#2c8a4b' },
             { label: 'Projected 2050 value under recent trend', shape: 'diamond', color: '#c97816' }
         ];
 
@@ -1035,12 +1039,14 @@ function drawStarLineFigures(containerId) {
                     value: summary.goalValue
                 });
             }
-            if (Number.isFinite(summary.onTrackValue)) {
-                visibleMarkers.push({
-                    key: 'track',
-                    value: summary.onTrackValue
-                });
-            }
+            // Commented out to hide the green on-track marker from the
+            // 50x50x5 feasibility line plots while keeping the code easy to restore.
+            // if (Number.isFinite(summary.onTrackValue)) {
+            //     visibleMarkers.push({
+            //         key: 'track',
+            //         value: summary.onTrackValue
+            //     });
+            // }
             if (summary.projected2050Visible) {
                 visibleMarkers.push({
                     key: 'projected2050',
@@ -1096,17 +1102,19 @@ function drawStarLineFigures(containerId) {
                     .attr('stroke-width', 1.1);
             }
 
-            if (Number.isFinite(summary.onTrackValue)) {
-                const trackX = valueToX(summary.onTrackValue, summary.scaleMaxValue, xStart, xEnd);
-                markerGroup.append('line')
-                    .attr('x1', trackX)
-                    .attr('y1', y - trackBarHalf)
-                    .attr('x2', trackX)
-                    .attr('y2', y + trackBarHalf)
-                    .attr('stroke', '#2c8a4b')
-                    .attr('stroke-width', 2.2)
-                    .attr('stroke-linecap', 'round');
-            }
+            // Commented out to hide the green on-track marker from the
+            // 50x50x5 feasibility line plots while keeping the code easy to restore.
+            // if (Number.isFinite(summary.onTrackValue)) {
+            //     const trackX = valueToX(summary.onTrackValue, summary.scaleMaxValue, xStart, xEnd);
+            //     markerGroup.append('line')
+            //         .attr('x1', trackX)
+            //         .attr('y1', y - trackBarHalf)
+            //         .attr('x2', trackX)
+            //         .attr('y2', y + trackBarHalf)
+            //         .attr('stroke', '#2c8a4b')
+            //         .attr('stroke-width', 2.2)
+            //         .attr('stroke-linecap', 'round');
+            // }
 
             if (summary.projected2050Visible) {
                 const projected2050X = valueToX(summary.projected2050Value, summary.scaleMaxValue, xStart, xEnd);
@@ -1151,17 +1159,19 @@ function drawStarLineFigures(containerId) {
                     .text(roundStarValue(summary.latest.plotValue));
             }
 
-            if (Number.isFinite(summary.onTrackValue)) {
-                const trackX = valueToX(summary.onTrackValue, summary.scaleMaxValue, xStart, xEnd);
-                valueLabelGroup.append('text')
-                    .attr('x', trackX)
-                    .attr('y', y + (markerLabelOffsetByKey.get('track') ?? labelOffsetBelow))
-                    .attr('fill', '#2c8a4b')
-                    .attr('font-size', isMobile ? 10 : 12)
-                    .attr('font-weight', 600)
-                    .attr('text-anchor', 'middle')
-                    .text(roundStarValue(summary.onTrackValue));
-            }
+            // Commented out to hide the green on-track marker label from the
+            // 50x50x5 feasibility line plots while keeping the code easy to restore.
+            // if (Number.isFinite(summary.onTrackValue)) {
+            //     const trackX = valueToX(summary.onTrackValue, summary.scaleMaxValue, xStart, xEnd);
+            //     valueLabelGroup.append('text')
+            //         .attr('x', trackX)
+            //         .attr('y', y + (markerLabelOffsetByKey.get('track') ?? labelOffsetBelow))
+            //         .attr('fill', '#2c8a4b')
+            //         .attr('font-size', isMobile ? 10 : 12)
+            //         .attr('font-weight', 600)
+            //         .attr('text-anchor', 'middle')
+            //         .text(roundStarValue(summary.onTrackValue));
+            // }
 
             if (summary.projected2050Visible) {
                 const projected2050X = valueToX(summary.projected2050Value, summary.scaleMaxValue, xStart, xEnd);
