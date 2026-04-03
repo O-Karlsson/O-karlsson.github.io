@@ -179,7 +179,10 @@ merge 1:1  heading1 heading2 loc year sex using temp, nogen
 * dthsn/dths1 calculates the propotion of deaths before age one that happened by age 28 days.
 * Then use the proportion to calculate the neonatal mortality rate based un IMR from UN WPP.
 * Otherwise neonatal mortality rate from GBD can be greater than IMR from UN WPP.
-gen nmr = dthn/dth1*imr 
+
+//anmr is an approximatio: convert qx into hazard first 
+gen anmr = dthn/dth1*imr 
+gen nmr =  (1-(1-imr/1000)^(dthn/dth1))*1000
 gen pnm = imr-nmr // Also, if using the GBD NMR then PNMR could end up being negative
 
 keep year sex unnmr loc heading1 heading2 subregion gbdnmr imr cmr q5_10 q10_15 q15_19 u5m nmr pnm ncdcm5 ncdcm10 ncdcm15 ncdcm19
