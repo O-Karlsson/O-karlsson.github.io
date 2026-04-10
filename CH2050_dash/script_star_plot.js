@@ -844,7 +844,7 @@ function drawStarLineFigures(containerId) {
 
     function renderLegend(wrapper, legendSvgId, width) {
         const legendItems = [
-            { label: 'Baseline year value', shape: 'triangle', color: '#d62728' },
+            { label: 'Baseline year value', shape: 'dot', color: '#d62728' },
             { label: 'Most recent value', shape: 'triangle', color: '#1f4aff' },
             { label: '50x50 goal for 2050', shape: 'star', color: '#666666' },
             // Commented out to hide the green on-track marker from the
@@ -875,7 +875,15 @@ function drawStarLineFigures(containerId) {
 
         entry.each(function(d) {
             const g = d3.select(this);
-            if (d.shape === 'triangle') {
+            if (d.shape === 'dot') {
+                g.append('circle')
+                    .attr('cx', 7)
+                    .attr('cy', 0)
+                    .attr('r', 4)
+                    .attr('fill', d.color)
+                    .attr('stroke', '#ffffff')
+                    .attr('stroke-width', 1);
+            } else if (d.shape === 'triangle') {
                 drawTriangleMarker(
                     g,
                     { x: 7, y: 0 },
@@ -1069,16 +1077,24 @@ function drawStarLineFigures(containerId) {
                 visibleMarkers.map((marker) => [marker.key, marker.labelOffsetY])
             );
 
+            if (summary.earliestVisible && summary.latestVisible) {
+                markerGroup.append('line')
+                    .attr('x1', baseX)
+                    .attr('y1', markerBaseY)
+                    .attr('x2', latestX)
+                    .attr('y2', markerLatestY)
+                    .attr('stroke', '#000000')
+                    .attr('stroke-width', 1.5);
+            }
+
             if (summary.earliestVisible) {
-                drawTriangleMarker(
-                    markerGroup,
-                    { x: baseX, y: markerBaseY },
-                    triangleMarkerSize,
-                    '#d62728',
-                    '#ffffff',
-                    triangleRotation,
-                    1
-                );
+                markerGroup.append('circle')
+                    .attr('cx', baseX)
+                    .attr('cy', markerBaseY)
+                    .attr('r', isMobile ? 4 : 4.5)
+                    .attr('fill', '#d62728')
+                    .attr('stroke', '#ffffff')
+                    .attr('stroke-width', 1);
             }
 
             if (summary.latestVisible) {
