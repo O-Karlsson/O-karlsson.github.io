@@ -104,18 +104,5 @@ Lund University, School of Economics and Management, Sweden
 
 <hr class="thick">
 
-#### Grants
-
-**Jan Wallanders och Tom Hedelius stiftelse samt Tore Browaldhs stiftelse**, December 2020  
-Wallander Scholarship (three-year postdoctoral scholarship)
-
-**Swedish Research Council**, December 2019  
-International Postdoc (three-year postdoctoral funding)
-
-**Jan Wallanders och Tom Hedelius stiftelse samt Tore Browaldhs stiftelse**, March 2016  
-Hedelius Scholarship (one-year visiting student scholarship)
-
-<hr class="thick">
-
 #### Mentorship
 Co-supervised three MSc students in Economic Demography at Lund University, 2016–2018. Advised on thesis topics and provided feedback on research design, data analysis, and written drafts. Two theses received the highest grade.
