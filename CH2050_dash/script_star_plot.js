@@ -1271,6 +1271,392 @@ function drawStarLineFigures(containerId) {
     renderAll();
 }
 
+function drawFrontierLineFigures(containerId) {
+    const container = document.getElementById(containerId);
+    if (!container) {
+        return;
+    }
+
+    const dataFile = container.getAttribute('data-file') || 'data/stardata.csv';
+    const linePlotOutcomeOrder = ['nnm', 'pnm', 'q5_19', 'hgap', 'math'];
+    const linePlotOutcomeConfig = linePlotOutcomeOrder
+        .map((key) => starOutcomeConfig.find((outcome) => outcome.key === key))
+        .filter(Boolean);
+    container.innerHTML = '';
+    const chartHost = d3.select(`#${containerId}`).append('div').attr('id', `${containerId}-charts`);
+
+    function renderMessage(message) {
+        chartHost.html('');
+        chartHost.append('div')
+            .attr('class', 'no-data-message-box')
+            .append('p')
+            .attr('class', 'no-data-message-text')
+            .text(message);
+    }
+
+    function getPointerTrianglePath(length, baseWidth) {
+        const halfBase = baseWidth / 2;
+        const tipY = -length / 2;
+        const baseY = length / 2;
+        return `M0,${tipY}L${halfBase},${baseY}L${-halfBase},${baseY}Z`;
+    }
+
+    function drawTriangleMarker(group, point, size, fill, stroke, rotationDegrees, strokeWidth = 1.1) {
+        const markerLength = Math.sqrt(size) * 1.55;
+        const markerBaseWidth = markerLength * 0.52;
+        return group.append('path')
+            .attr('d', getPointerTrianglePath(markerLength, markerBaseWidth))
+            .attr('transform', `translate(${point.x}, ${point.y}) rotate(${rotationDegrees})`)
+            .attr('fill', fill)
+            .attr('stroke', stroke)
+            .attr('stroke-width', strokeWidth)
+            .attr('stroke-linejoin', 'round');
+    }
+
+    function buildFrontierExtents(rows) {
+        const extents = new Map();
+        const grouped = d3.group(rows, d => d.outcomeKey, d => d.sex, d => d.lid);
+
+        grouped.forEach((sexMap, outcomeKey) => {
+            sexMap.forEach((countryMap, sex) => {
+                const extentKey = `${outcomeKey}||${sex}`;
+                countryMap.forEach((countryRows) => {
+                    const sorted = countryRows
+                        .filter(row => Number.isFinite(row.plotValue))
+                        .sort((a, b) => a.year - b.year);
+                    if (sorted.length === 0) {
+                        return;
+                    }
+                    const pairedRows = sorted.length > 1 ? [sorted[0], sorted[sorted.length - 1]] : [sorted[0]];
+                    pairedRows.forEach((row) => {
+                        const current = extents.get(extentKey);
+                        if (!current) {
+                            extents.set(extentKey, {
+                                min: row.plotValue,
+                                max: row.plotValue
+                            });
+                        } else {
+                            current.min = Math.min(current.min, row.plotValue);
+                            current.max = Math.max(current.max, row.plotValue);
+                        }
+                    });
+                });
+            });
+        });
+
+        return extents;
+    }
+
+    function buildOutcomeSummary(rows, outcome, frontierExtents, sex) {
+        function describeYear(row, label) {
+            return row ? `${row.year} ${label}` : '';
+        }
+
+        const matching = rows
+            .filter(row => row.outcomeKey === outcome.key && Number.isFinite(row.plotValue))
+            .sort((a, b) => a.year - b.year);
+
+        if (matching.length === 0) {
+            return {
+                ...outcome,
+                status: 'missing'
+            };
+        }
+
+        const earliest = matching[0];
+        const latest = matching[matching.length - 1];
+        const comparison = matching.length > 1 ? earliest : null;
+        const extent = frontierExtents.get(`${outcome.key}||${sex}`);
+        const fallbackMin = Math.min(earliest.plotValue, latest.plotValue);
+        const fallbackMax = Math.max(earliest.plotValue, latest.plotValue);
+        let scaleMinValue = extent ? extent.min : fallbackMin;
+        let scaleMaxValue = extent ? extent.max : fallbackMax;
+        if (!Number.isFinite(scaleMinValue) || !Number.isFinite(scaleMaxValue)) {
+            scaleMinValue = fallbackMin;
+            scaleMaxValue = fallbackMax;
+        }
+        if (scaleMinValue === scaleMaxValue) {
+            scaleMinValue = Math.max(0, scaleMinValue - 1);
+            scaleMaxValue += 1;
+        }
+
+        const goalValue = latest.plotValue / 2;
+        const canShowProjected2050 = Boolean(
+            comparison &&
+            earliest.year < latest.year &&
+            latest.year < 2050 &&
+            earliest.plotValue > 0 &&
+            latest.plotValue > 0
+        );
+
+        let projected2050Value = null;
+        if (canShowProjected2050) {
+            const elapsedYears = latest.year - earliest.year;
+            const remainingYears = 2050 - latest.year;
+            const annualChangeFactor = latest.plotValue / earliest.plotValue;
+            projected2050Value = latest.plotValue * (annualChangeFactor ** (remainingYears / elapsedYears));
+        }
+
+        let yearCaption = `${describeYear(earliest, 'baseline')} | ${describeYear(latest, 'most recent')}`;
+        if (!comparison) {
+            yearCaption = describeYear(latest, 'only');
+        }
+
+        return {
+            ...outcome,
+            status: 'ok',
+            earliest,
+            latest,
+            comparison,
+            goalValue,
+            projected2050Value,
+            yearCaption,
+            scaleMinValue,
+            scaleMaxValue,
+            earliestVisible: Boolean(comparison),
+            latestVisible: true,
+            goalVisible: Number.isFinite(goalValue) && goalValue >= 0,
+            projected2050Visible: Number.isFinite(projected2050Value) && projected2050Value >= 0
+        };
+    }
+
+    function valueToX(value, scaleMinValue, scaleMaxValue, xStart, xEnd) {
+        if (!Number.isFinite(value) || !Number.isFinite(scaleMinValue) || !Number.isFinite(scaleMaxValue) || scaleMinValue === scaleMaxValue) {
+            return xEnd;
+        }
+        const clamped = Math.max(scaleMinValue, Math.min(value, scaleMaxValue));
+        const share = (scaleMaxValue - clamped) / (scaleMaxValue - scaleMinValue);
+        return xStart + share * (xEnd - xStart);
+    }
+
+    function renderLegend(wrapper, legendSvgId, width) {
+        const legendItems = [
+            { label: 'Baseline value', shape: 'dot', color: '#d62728' },
+            { label: 'Most recent value', shape: 'triangle', color: '#1f4aff' },
+            { label: 'Half of most recent value', shape: 'star', color: '#2c8a4b' },
+            { label: 'Projected 2050 value', shape: 'diamond', color: '#c97816' }
+        ];
+        const legendHeight = 88;
+        const legendPaddingLeft = 14;
+        const legendColumnWidth = (width - legendPaddingLeft - 8) / 2;
+        const svg = wrapper.append('svg')
+            .attr('id', legendSvgId)
+            .attr('class', 'star-legend-svg frontier-line-legend-svg')
+            .attr('width', width)
+            .attr('height', legendHeight);
+
+        const entry = svg.selectAll('g.frontier-line-legend-entry')
+            .data(legendItems)
+            .enter()
+            .append('g')
+            .attr('class', 'frontier-line-legend-entry')
+            .attr('transform', (d, i) => {
+                const row = Math.floor(i / 2);
+                const col = i % 2;
+                return `translate(${legendPaddingLeft + col * legendColumnWidth}, ${row * 28 + 14})`;
+            });
+
+        entry.each(function(d) {
+            const g = d3.select(this);
+            if (d.shape === 'dot') {
+                g.append('circle').attr('cx', 7).attr('cy', 0).attr('r', 4).attr('fill', d.color).attr('stroke', '#ffffff').attr('stroke-width', 1);
+            } else if (d.shape === 'triangle') {
+                drawTriangleMarker(g, { x: 7, y: 0 }, 170, d.color, '#ffffff', 90, 1);
+            } else if (d.shape === 'diamond') {
+                g.append('path').attr('d', d3.symbol().type(d3.symbolDiamond).size(110)()).attr('transform', 'translate(8,0)').attr('fill', '#f0a43b').attr('stroke', d.color).attr('stroke-width', 1.2);
+            } else {
+                g.append('path').attr('d', d3.symbol().type(d3.symbolStar).size(140)()).attr('transform', 'translate(9,0)').attr('fill', '#2c8a4b').attr('stroke', '#1f6b39').attr('stroke-width', 1.1);
+            }
+
+            g.append('text').attr('x', 24).attr('y', 4).attr('font-size', 13).text(d.label);
+        });
+    }
+
+    function renderFrontierLineChart(country, sex, rows, frontierExtents) {
+        const chartId = `${containerId}-${country}-${sex}`.replace(/\s+/g, '-').replace(/[^a-zA-Z0-9_-]/g, '');
+        const chartSvgId = `frontier-line-chart-${chartId}`;
+        const legendSvgId = `frontier-line-legend-${chartId}`;
+        const viewportWidth = Math.max(window.innerWidth - 28, 280);
+        const isMobile = viewportWidth <= 420;
+        const wrapper = chartHost.append('div').attr('class', 'multi-outcome-chart star-chart-wrapper star-line-chart-wrapper frontier-line-chart-wrapper').attr('id', chartId);
+        const locationLabel = getCountryLabel(country);
+        const titleText = sex === 'both' ? locationLabel : `${locationLabel} (${sex})`;
+        const downloadFileName = `${titleText.replace(/[<>:"/\\|?*\x00-\x1F]/g, '').replace(/\s+/g, ' ').trim()} frontier-scaled line plot.png`;
+
+        wrapper.append('h3').attr('class', 'multi-outcome-title').text(titleText);
+
+        const summaries = linePlotOutcomeConfig.map(outcome => buildOutcomeSummary(rows, outcome, frontierExtents, sex));
+        const width = isMobile ? Math.max(viewportWidth + 150, 500) : Math.min(viewportWidth, 780);
+        const leftLabelWidth = isMobile ? 174 : 230;
+        const rightPadding = isMobile ? 54 : 72;
+        const topPadding = 28;
+        const bottomPadding = 38;
+        const rowGap = isMobile ? 82 : 88;
+        const height = topPadding + bottomPadding + (Math.max(summaries.length, 1) * rowGap);
+        const xStart = leftLabelWidth;
+        const xEnd = width - rightPadding;
+        const triangleMarkerSize = isMobile ? 95 : 180;
+        const goalStarSize = isMobile ? 80 : 160;
+
+        const svg = wrapper.append('svg')
+            .attr('id', chartSvgId)
+            .attr('class', 'star-line-chart-svg frontier-line-chart-svg')
+            .attr('width', width)
+            .attr('height', height)
+            .style('font-family', 'Arial, sans-serif');
+
+        const lineGroup = svg.append('g');
+        const labelGroup = svg.append('g');
+        const markerGroup = svg.append('g');
+        const valueLabelGroup = svg.append('g');
+
+        summaries.forEach((summary, index) => {
+            const y = topPadding + (index * rowGap) + (rowGap / 2);
+
+            labelGroup.append('text').attr('x', 8).attr('y', y - 10).attr('class', 'star-line-outcome-label').text(summary.shortLabel);
+            labelGroup.append('text').attr('x', 8).attr('y', y + 14).attr('class', 'star-line-caption').text(summary.yearCaption || 'No data');
+
+            lineGroup.append('line').attr('x1', xStart).attr('y1', y).attr('x2', xEnd).attr('y2', y).attr('stroke', '#b8b8b8').attr('stroke-width', 2);
+            lineGroup.append('line').attr('x1', xEnd - 14).attr('y1', y).attr('x2', xEnd).attr('y2', y).attr('stroke', '#8a8a8a').attr('stroke-width', 1.4);
+            lineGroup.append('path').attr('d', d3.symbol().type(d3.symbolTriangle).size(42)()).attr('transform', `translate(${xEnd + 2}, ${y}) rotate(90)`).attr('fill', '#8a8a8a');
+
+            if (summary.status !== 'ok') {
+                return;
+            }
+
+            labelGroup.append('text').attr('x', xStart).attr('y', y + 34).attr('fill', '#555').attr('font-size', isMobile ? 10 : 11).attr('text-anchor', 'middle').text(roundStarValue(summary.scaleMaxValue));
+            labelGroup.append('text').attr('x', xEnd + 14).attr('y', y + 4).attr('fill', '#555').attr('font-size', isMobile ? 10 : 11).attr('text-anchor', 'start').text(roundStarValue(summary.scaleMinValue));
+
+            const baseX = valueToX(summary.earliest.plotValue, summary.scaleMinValue, summary.scaleMaxValue, xStart, xEnd);
+            const latestX = valueToX(summary.latest.plotValue, summary.scaleMinValue, summary.scaleMaxValue, xStart, xEnd);
+            const goalX = valueToX(summary.goalValue, summary.scaleMinValue, summary.scaleMaxValue, xStart, xEnd);
+            const projected2050X = valueToX(summary.projected2050Value, summary.scaleMinValue, summary.scaleMaxValue, xStart, xEnd);
+            const pointsOverlap = summary.earliestVisible && summary.latestVisible && Math.abs(baseX - latestX) < 1;
+            const markerBaseY = pointsOverlap ? y - 7 : y;
+            const markerLatestY = pointsOverlap ? y + 7 : y;
+            const triangleRotation = summary.latest.plotValue < summary.earliest.plotValue ? 90 : -90;
+            const labelOffsetAbove = isMobile ? -14 : -16;
+            const labelOffsetBelow = isMobile ? 22 : 24;
+            const visibleMarkers = [];
+
+            if (summary.earliestVisible) { visibleMarkers.push({ key: 'earliest', value: summary.earliest.plotValue }); }
+            if (summary.latestVisible) { visibleMarkers.push({ key: 'latest', value: summary.latest.plotValue }); }
+            if (summary.goalVisible) { visibleMarkers.push({ key: 'goal', value: summary.goalValue }); }
+            if (summary.projected2050Visible) { visibleMarkers.push({ key: 'projected2050', value: summary.projected2050Value }); }
+
+            visibleMarkers
+                .sort((a, b) => {
+                    if (a.value !== b.value) {
+                        return a.value - b.value;
+                    }
+                    return a.key.localeCompare(b.key);
+                })
+                .forEach((marker, markerIndex) => {
+                    marker.labelOffsetY = markerIndex % 2 === 0 ? labelOffsetAbove : labelOffsetBelow;
+                });
+
+            const markerLabelOffsetByKey = new Map(visibleMarkers.map((marker) => [marker.key, marker.labelOffsetY]));
+
+            if (summary.earliestVisible && summary.latestVisible) {
+                markerGroup.append('line').attr('x1', baseX).attr('y1', markerBaseY).attr('x2', latestX).attr('y2', markerLatestY).attr('stroke', '#000000').attr('stroke-width', 1.5);
+            }
+            if (summary.earliestVisible) {
+                markerGroup.append('circle').attr('cx', baseX).attr('cy', markerBaseY).attr('r', isMobile ? 4 : 4.5).attr('fill', '#d62728').attr('stroke', '#ffffff').attr('stroke-width', 1);
+            }
+            if (summary.latestVisible) {
+                drawTriangleMarker(markerGroup, { x: latestX, y: markerLatestY }, triangleMarkerSize, '#1f4aff', '#ffffff', triangleRotation, 1.1);
+            }
+            if (summary.goalVisible) {
+                markerGroup.append('path').attr('d', d3.symbol().type(d3.symbolStar).size(goalStarSize)()).attr('transform', `translate(${goalX}, ${y})`).attr('fill', '#2c8a4b').attr('stroke', '#1f6b39').attr('stroke-width', 1.1);
+            }
+            if (summary.projected2050Visible) {
+                markerGroup.append('path').attr('d', d3.symbol().type(d3.symbolDiamond).size(isMobile ? 70 : 120)()).attr('transform', `translate(${projected2050X}, ${y})`).attr('fill', '#f0a43b').attr('stroke', '#c97816').attr('stroke-width', 1.2);
+            }
+
+            if (summary.earliestVisible) {
+                valueLabelGroup.append('text').attr('x', baseX).attr('y', markerBaseY + (markerLabelOffsetByKey.get('earliest') ?? labelOffsetBelow)).attr('fill', '#d62728').attr('font-size', isMobile ? 10 : 12).attr('font-weight', 600).attr('text-anchor', 'middle').text(roundStarValue(summary.earliest.plotValue));
+            }
+            if (summary.goalVisible) {
+                valueLabelGroup.append('text').attr('x', goalX).attr('y', y + (markerLabelOffsetByKey.get('goal') ?? labelOffsetAbove)).attr('fill', '#444444').attr('font-size', isMobile ? 10 : 12).attr('font-weight', 600).attr('text-anchor', 'middle').text(roundStarValue(summary.goalValue));
+            }
+            if (summary.latestVisible) {
+                valueLabelGroup.append('text').attr('x', latestX).attr('y', markerLatestY + (markerLabelOffsetByKey.get('latest') ?? labelOffsetAbove)).attr('fill', '#1f4aff').attr('font-size', isMobile ? 10 : 12).attr('font-weight', 600).attr('text-anchor', 'middle').text(roundStarValue(summary.latest.plotValue));
+            }
+            if (summary.projected2050Visible) {
+                valueLabelGroup.append('text').attr('x', projected2050X).attr('y', y + (markerLabelOffsetByKey.get('projected2050') ?? labelOffsetAbove)).attr('fill', '#a6610f').attr('font-size', isMobile ? 10 : 12).attr('font-weight', 600).attr('text-anchor', 'middle').text(roundStarValue(summary.projected2050Value));
+            }
+        });
+
+        renderLegend(wrapper, legendSvgId, Math.min(width, 640));
+
+        wrapper.append('button')
+            .attr('class', 'figure-download-btn')
+            .text('Download figure')
+            .on('click', function() {
+                downloadCombinedSVG(chartSvgId, legendSvgId, downloadFileName, {
+                    canvasPadding: 4,
+                    bottomPadding: 0,
+                    legendGap: 0,
+                    legendOffsetY: -10,
+                    centerLegend: true,
+                    chart: {
+                        titleText: titleText,
+                        titleHeight: 30,
+                        titleFontSize: 18,
+                        margin: { top: 2, right: 24, bottom: 0, left: 14 },
+                        crop: { top: 0, right: 0, bottom: 8, left: 0 }
+                    },
+                    legend: {
+                        margin: { top: 0, right: 4, bottom: 0, left: 10 },
+                        crop: { top: 0, right: 0, bottom: 10, left: 0 }
+                    }
+                });
+            });
+    }
+
+    async function renderAll() {
+        const rows = await loadStarData(dataFile);
+        const frontierExtents = buildFrontierExtents(rows);
+        chartHost.html('');
+
+        if (selectedCountries.length === 0 || selectedSex.length === 0) {
+            renderMessage('Select location and sex');
+            return;
+        }
+
+        let chartCount = 0;
+        selectedCountries.forEach(country => {
+            selectedSex.forEach(sex => {
+                const countrySexRows = rows.filter(d => d.lid === String(country) && d.sex === sex);
+                if (countrySexRows.length > 0) {
+                    renderFrontierLineChart(country, sex, countrySexRows, frontierExtents);
+                    chartCount += 1;
+                }
+            });
+        });
+
+        if (chartCount === 0) {
+            renderMessage('No frontier-scaled line plot data for the current selection');
+        }
+    }
+
+    function selectionChanged() {
+        renderAll();
+    }
+
+    function collapsedHandler() {
+        document.removeEventListener(`countrywasSelected-${containerId}`, selectionChanged);
+        document.removeEventListener(`sexwasSelected-${containerId}`, selectionChanged);
+        document.removeEventListener(`${containerId}-collapsed`, collapsedHandler);
+    }
+
+    document.addEventListener(`countrywasSelected-${containerId}`, selectionChanged);
+    document.addEventListener(`sexwasSelected-${containerId}`, selectionChanged);
+    document.addEventListener(`${containerId}-collapsed`, collapsedHandler);
+
+    renderAll();
+}
+
 function drawTraditionalStarFigures(containerId) {
     const container = document.getElementById(containerId);
     if (!container) {

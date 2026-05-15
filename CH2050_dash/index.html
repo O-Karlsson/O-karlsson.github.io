@@ -51,8 +51,15 @@
     <h2 class="expandable">50x50x5 feasibility line plots</h2>
     <div class="content" data-height="100000" style="max-height: 0; overflow: hidden;">
         <div class="figure-placeholder">Data sources: UN WPP 2024, GBD 2023, NCD-RisC, and PISA.</div>
-        <div class="figure-note">Note: Note: These figures show whether locations seem to be on track to halve each outcome by 2050 based on recent trends. Recent trends are measured as average annual rate of decline between a baseline year and the most recent year with available data, usually 10 years apart (for math scores, the gap may be different because data are not available for all years). Each line has its own scale, running from the baseline value for that outcome to 0; if the outcome has worsened over time, the line instead runs from the most recent value to 0. Mortality rates are per 1000 (conditional on surviving to the start of the age interval). Height gap is relative to average height in the top 10 countries. Math gap is relative to Singapore in 2022 (the best performer).</div>
+        <div class="figure-note"> Note: These figures show whether locations seem to be on track to halve each outcome by 2050 based on recent trends. Recent trends are measured as average annual rate of decline between a baseline year and the most recent year with available data, usually 10 years apart (for math scores, the gap may be different because data are not available for all years). Each line has its own scale, running from the baseline value for that outcome to 0; if the outcome has worsened over time, the line instead runs from the most recent value to 0. Mortality rates are per 1000 (conditional on surviving to the start of the age interval). Height gap is relative to average height in the top 10 countries. Math gap is relative to Singapore in 2022 (the best performer).</div>
         <div id="star-line-1" class="star-plot-container" data-file="data/stardata.csv" data-rendered="false"></div>
+    </div>
+
+    <h2 class="expandable">Frontier-scaled 50x50x5 line plots</h2>
+    <div class="content" data-height="100000" style="max-height: 0; overflow: hidden;">
+        <div class="figure-placeholder">Data sources: UN WPP 2024, GBD 2023, NCD-RisC, and PISA.</div>
+        <div class="figure-note">Note: For each outcome, the line runs from the highest to lowest observed value across countries, using the most recent observations available and a baseline value 10 years earlier (e.g., 2023 and 2013 for the mortality outcomes). For the selected location, the red dot is the baseline value, the blue arrow is the most recent value, the green star is half of the most recent value (the goal), and the yellow diamond is the 2050 value projected from average annual rate of decline between the baseline and most recent observations. Mortality rates are per 1000 (conditional on surviving to the start of the age interval). Height gap is relative to average height in the top 10 countries. Math gap is relative to Singapore in 2022 (the best performer).</div>
+        <div id="frontier-line-1" class="star-plot-container" data-file="data/stardata.csv" data-rendered="false"></div>
     </div>
 
     <h2 class="expandable">Traditional star plots across five key indicators</h2>
