@@ -338,6 +338,7 @@ function toggleSection(headings) {
                 if (containerId.startsWith("multi-height-outcome")) {drawMultiHeightFigures(containerId)}; // Render multi-height-outcome figures
                 if (containerId.startsWith("multi-height-age-outcome")) {drawMultiHeightAgeFigures(containerId)}; // Render multi-height-age-outcome figures
                 if (containerId.startsWith("classic-star")) {drawTraditionalStarFigures(containerId)}; // Render traditional spider/radar figures
+                if (containerId.startsWith("frontier-outcome-line")) {drawFrontierOutcomeLineFigures(containerId)}; // Render one-outcome frontier country comparison figures
                 if (containerId.startsWith("frontier-line")) {drawFrontierLineFigures(containerId)}; // Render real-units frontier line figures
                 if (containerId.startsWith("star-line")) {drawStarLineFigures(containerId)}; // Render line-based feasibility figures
                 if (containerId.startsWith("star-") && !containerId.startsWith("star-line")) {drawStarFigures(containerId)}; // Render spider/radar figures
