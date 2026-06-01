@@ -25,9 +25,11 @@ function toggleSection(headings) {
             // Toggle between collapsed and expanded states using max-height
             if (content.style.display === 'block') {
                 content.style.display = 'none';
+                heading.classList.remove('expanded');
                 backToMenuButton.style.display = 'none';
             } else {
                 content.style.display = 'block';
+                heading.classList.add('expanded');
                 backToMenuButton.style.display = 'block';
             }
 
@@ -55,6 +57,10 @@ function collapseAllHeaders() {
     // Loop through all content sections and hide them
     document.querySelectorAll('.content').forEach(content => {
         content.style.display = 'none';
+    });
+
+    document.querySelectorAll('h2').forEach(heading => {
+        heading.classList.remove('expanded');
     });
 
     // Hide the "Back to Menu" button
@@ -124,6 +130,7 @@ window.addEventListener('load', () => {
 
             if (content && content.classList.contains('content')) {
                 content.style.display = 'block';
+                heading.classList.add('expanded');
                 if (backToMenuButton) backToMenuButton.style.display = 'block';
                 
                 // Smooth scroll into view

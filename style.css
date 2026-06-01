@@ -41,13 +41,31 @@ h2 {
     font-size: 1.1em;
     cursor: pointer;
     background-color: #c1d9eb;
-    padding: 10px;
+    padding: 10px 38px 10px 10px;
     margin: 10px 0;
-    border-radius: 5px;
+    border-radius: 0;
+    position: relative;
     transition: background-color 0.3s;
 }
 
 h2:hover {background-color: #e0e0e09c;}
+
+h2::after {
+    content: "";
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    width: 9px;
+    height: 9px;
+    border: solid currentColor;
+    border-width: 0 2px 2px 0;
+    transform: translateY(-65%) rotate(45deg);
+    transition: transform 0.2s;
+}
+
+h2.expanded::after {
+    transform: translateY(-35%) rotate(-135deg);
+}
 
 h3 {
     font-size: 1.1em;
@@ -104,8 +122,8 @@ li {margin-top: 15px; margin-bottom: 10px;}
 @media (prefers-color-scheme: dark) {
     h2 {
         background-color: #252c31;
-        h2:hover {background-color: #524646;}
     }
+    h2:hover {background-color: #524646;}
     hr {color: white;}
 }
 

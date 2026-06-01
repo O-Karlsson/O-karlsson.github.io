@@ -64,24 +64,24 @@ h4 {
 <hr class="thick">
 
 
-#### Academic Appointments
+#### WORK EXPERIENCE
+
+**Senior Research Associate**, March 2026–present  
+Center for Policy Impact in Global Health, Duke Global Health Institute, USA  
+Department of Obstetrics and Gynecology, Duke University School of Medicine
 
 **Visiting Research Fellow**, August 2022–present  
 Duke University Population Research Institute, USA  
-Center for Policy Impact in Global Health, Duke Global Health Institute, USA
+Center for Policy Impact in Global Health, Duke Global Health Institute <em>(until March 2026)</em>, USA
 
 **Postdoctoral Fellow**, January 2020–August 2025  
 Centre for Economic Demography, Lund University, Sweden
 
-**Takemi Research Fellow**, August 2019–August 2022  
-Department of Global Health and Population, Harvard T.H. Chan School of Public Health, USA
-
-<hr class="thick">
-
-#### Employment and Consultancies
-
 **External Consultant**, October 2020–September 2021  
 UNICEF, Programme Division, Nutrition Section, USA
+
+**Takemi Research Fellow**, August 2019–August 2022  
+Department of Global Health and Population, Harvard T.H. Chan School of Public Health, USA
 
 **Researcher**, October 2018–February 2019  
 Centre for Economic Demography, Lund University, Sweden
@@ -105,4 +105,4 @@ Lund University, School of Economics and Management, Sweden
 <hr class="thick">
 
 #### Mentorship
-Co-supervised three MSc students in Economic Demography at Lund University, 2016–2018. Advised on thesis topics and provided feedback on research design, data analysis, and written drafts. Two theses received the highest grade.
+Co-supervised four MSc students in Economic Demography at Lund University, 2016–2018. Advised on thesis topics and provided feedback on research design, data analysis, and written drafts. Two theses received the highest grade.
