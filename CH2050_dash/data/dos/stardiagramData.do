@@ -1,7 +1,8 @@
-global output_dir "C:\Users\Karls\OneDrive\Work in progress\2025-01-15 GitRepos\O-karlsson.github.io\CH2050_dash\data"
-global dir "C:\Users\Karls\OneDrive\Work in progress\2025-01-15 GitRepos\O-karlsson.github.io\CH2050_dash\data\tempfiles"
-global data "C:\Users\Karls\OneDrive\Everything\data\data-warehouse\data\cleaned"
+global output_dir "C:\OneDrive\projects\O-karlsson.github.io\CH2050_dash\data"
+global dir "C:\OneDrive\projects\O-karlsson.github.io\CH2050_dash\data\tempfiles"
+global data "C:\OneDrive\data-warehouse\data\cleaned"
 cd "$dir"
+
 
 ********************************************************************************************************************************************
 ********************************************************************************************************************************************

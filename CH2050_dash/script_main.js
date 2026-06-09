@@ -343,6 +343,7 @@ function toggleSection(headings) {
                 if (containerId.startsWith("star-line")) {drawStarLineFigures(containerId)}; // Render line-based feasibility figures
                 if (containerId.startsWith("star-") && !containerId.startsWith("star-line")) {drawStarFigures(containerId)}; // Render spider/radar figures
                 if (containerId.startsWith("wimort")) {drawWIMortFigures(containerId)}; // Render under-5 mortality by wealth figures
+                if (containerId.startsWith("ppd-rank-table")) {drawPpdCountryRankTable(containerId)}; // Render PPD-ranked country table
                 if (containerId.startsWith("references")) {renderReferences(containerId)}; // Render references file
                 container.setAttribute("data-rendered", "true"); // Mark as rendered
                 document.dispatchEvent(new Event(`${containerId}-expanded`)); // used to check if there is no selection (no data to plot)                

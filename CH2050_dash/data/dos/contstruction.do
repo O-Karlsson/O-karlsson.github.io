@@ -1,21 +1,20 @@
-global output_dir "C:\Users\Karls\OneDrive\Work in progress\2025-01-15 GitRepos\O-karlsson.github.io\CH2050_dash\data"
-global dir "C:\Users\Karls\OneDrive\Work in progress\2025-01-15 GitRepos\O-karlsson.github.io\CH2050_dash\data\tempfiles"
-global data "C:\Users\Karls\OneDrive\Everything\data\data-warehouse\data\cleaned"
+global output_dir "C:\OneDrive\projects\O-karlsson.github.io\CH2050_dash\data"
+global dir "C:\OneDrive\projects\O-karlsson.github.io\CH2050_dash\data\tempfiles"
+global data "C:\OneDrive\data-warehouse\data\cleaned"
 cd "$dir"
 
 ** Double check definitions of territories and countries when mixing sources
-
 
 ********************************************************************************************************************************************
 ********************************************************************************************************************************************
 *** Preparing life tables
 ********************************************************************************************************************************************
 ********************************************************************************************************************************************
-
 ********************************************************************************************************************************************
+
 *** UN life tables
-use LocID iso3 mx year age sex qx ax if iso3!="" & age<20 using "$data/unwpp/life tables/estimates/data.dta" , clear
-merge 1:1 LocID year sex age using "$data/unwpp/population and deaths/estimates/data.dta" , nogen keep(master match) keepusing(exposure) // need the 'expsoure' variable to aggregate
+use LocID iso3 mx year age sex qx ax if iso3!="" using "$data/unwpp/life tables/estimates/data.dta" , clear
+merge 1:1 LocID year sex age using "$data/unwpp/population and deaths/estimates/data.dta" , nogen keep(master match) keepusing(exposure pop) // need the 'expsoure' variable to aggregate
 merge m:1 iso3 using "$data/keys/location_keys/data.dta" , keepusing(location_label subregion region incomegr) nogen keep(match) // matches iso3 to regions/subregions/income groups
 gen heading1 = "Countries" // heading1 is the static heading on the dashboard
 gen heading2 = region // heading two is the collapseble heading on the dashboard
@@ -23,11 +22,11 @@ gen loc = location_label // the locations
 save temp, replace
 
 * Aggregating by region/income groups
-foreach r in region subregion incomegr {
+foreach r in region subregion incomegr  {
 preserve
 gen deaths2 = mx*exposure
 gen ax2 = ax*deaths2
-collapse (sum) deaths2 exposure ax2 , by(`r' sex year age)
+collapse (sum) deaths2 exposure ax2 pop , by(`r' sex year age)
 gen loc = `r'
 gen heading1 = "Aggregates"
 gen heading2 = "`r'"
@@ -39,10 +38,15 @@ save temp, replace
 restore
 }
 
+use temp, clear
+keep if sex == 3 & year == 2023
+collapse (sum) pop23 = pop, by(heading1 heading2 loc)
+save temppop, replace
+
 ********************************************************************************************************************************************
 *** Adding HMD data
 foreach c in USA Canada Japan France {
-use name year age sex qx if age < 20 using "$data/HMD/life tables/`c'/data.dta" , clear
+use name year age sex qx if age < 70 using "$data/HMD/life tables/`c'/data.dta" , clear
 gen heading2 = "`c'"
 gen heading1 = "Subnational regions"
 gen loc = name
@@ -55,15 +59,35 @@ save temp, replace
 ********************************************************************************************************************************************
 *** Calculating relevent mortality rates
 
+// Age specific mortality before age 20
 use temp, replace
 egen ageg = cut(age),at(0,1,5,10,15,20)
+drop if age>19
 replace qx = ln(1-qx)
 collapse (sum) qx , by(heading1 heading2 subregion loc sex year ageg)
 replace qx = (1-exp(qx))*1000
 reshape wide qx , i(heading1 heading2 loc sex year) j(ageg)
 gen u5m = (1-exp(ln(1-qx0/1000)+ln(1-qx1/1000)))*1000
 rename (qx0 qx1 qx5 qx10 qx15)(imr cmr q5_10 q10_15 q15_19)
+save temp2, replace
+
+// Total 70q0
+use temp, replace
+replace qx = ln(1-qx)
+collapse (sum) ppd = qx , by(heading1 heading2 subregion loc sex year)
+replace ppd = (1-exp(ppd))*1000
+merge 1:1 heading1 heading2 subregion loc sex year using temp2, nogen
+save temp2, replace
+
+// Total 20q0
+use temp, replace
+drop if age>19
+replace qx = ln(1-qx)
+collapse (sum) u20m = qx , by(heading1 heading2 subregion loc sex year)
+replace u20m = (1-exp(u20m))*1000
+merge 1:1 heading1 heading2 subregion loc sex year using temp2, nogen
 save temp, replace
+
 
 ********************************************************************************************************************************************
 ********************************************************************************************************************************************
@@ -71,25 +95,27 @@ save temp, replace
 ********************************************************************************************************************************************
 ********************************************************************************************************************************************
 
+// Population data for weighting
 use iso3 year sex age pop if age<20 & inrange(year,1985,2023) & iso3!="" & sex!=3 using "$data/unwpp/population and deaths/estimates/data.dta" , clear
 merge m:1 iso using "$data/keys/location_keys/data.dta" , keepusing(location_label NCD_RisC_country iso3 region subregion incomegr) nogen
 gen country = NCD_RisC_country
 gen age_group = age
-merge 1:1 country sex year age_group using "$data\NCDRisc\height\data.dta" , keep(match) nogen keepusing(mean_height)
 
+// Add the height data
+merge 1:1 country sex year age_group using "$data\NCDRisc\height\data.dta" , keep(match) nogen keepusing(mean_height)
 reshape wide mean_height pop , i(iso3 year age) j(sex)
 gen mean_height3= (mean_height1*pop1+mean_height2*pop2)/(pop1+pop2)
 gen pop3 = pop1+pop2
 reshape long mean_height pop , i(iso3 year age) j(sex)
 
+// The same structure for locations as above (matches the selections and headings)
 gen loc = location_label
-
-// The same structure as above
 gen heading1 = "Countries"
 gen heading2 = region
 save temp3, replace
 
-// Aggregating nmr like above
+
+// Aggregating across regions like above
 foreach r in region subregion incomegr {
 preserve
 collapse (mean) mean_height [aweight=pop] , by(`r' age sex year)
@@ -127,7 +153,7 @@ save temp, replace
 
 // The neonatal mortality from GBD
 use location_id iso3 if location_id!=. using "$data/keys/location_keys/data.dta" , clear // location_id is a IHME specific location identifier, IHME doesn't include iso3
-merge 1:m location_id using "$data/GBD/Propability of death all cause before age 28 days for all countries/data.dta", nogen keep(match) keepusing(location_id sex year qx)
+merge 1:m location_id using "$data/GBD/Propability of death all cause before age 28 days for all countries/data.dta", nogen keep(match) keepusing(location_id sex year qx) // Can remove everything related to this. We recalculate rates based on UN WPP
 merge 1:1 location_id year sex using "$data/GBD/Number of deaths all causes before age 28 days and before age 1 year for all countries\data", keep(match) nogen keepusing(location_id sex year dth1 dthn)
 drop location_id
 save temp2, replace
@@ -144,7 +170,7 @@ replace iso3 = "RKS"  if iso3 == "XKX" // Kosovo ISO3 can be inconsistent
 merge 1:1 iso3 year sex using temp2, nogen // add the IHME GBD data prepared earlier
 save temp2 , replace
 
-// UN IGME neonatal mortality rates
+// UN IGME neonatal mortality rates (we don't use this. Can be removed)
 use iso3 year nmr using "$data/unicef/neonatal mortality rates/data.dta", replace
 gen sex = 3 // These are only available for both males and females combined
 rename nmr unnmr
@@ -186,12 +212,13 @@ merge 1:1  heading1 heading2 loc year sex using temp, nogen
 gen nmr = dthn/dth1*imr 
 gen pnm = imr-nmr // Also, if using the GBD NMR then PNMR could end up being negative
 
-keep year sex unnmr loc heading1 heading2 subregion gbdnmr imr cmr q5_10 q10_15 q15_19 u5m nmr pnm ncdcm5 ncdcm10 ncdcm15 ncdcm19
+keep year sex unnmr loc heading1 heading2 subregion gbdnmr imr cmr q5_10 q10_15 q15_19 u5m nmr pnm ncdcm5 ncdcm10 ncdcm15 ncdcm19 ppd u20m
 save temp , replace
 
-foreach var in unnmr gbdnmr imr cmr q5_10 q10_15 q15_19 u5m nmr pnm ncdcm5 ncdcm10 ncdcm15 ncdcm19  {
+foreach var in unnmr gbdnmr imr cmr q5_10 q10_15 q15_19 u5m nmr pnm ncdcm5 ncdcm10 ncdcm15 ncdcm19 ppd u20m {
 rename `var' e`var'
 }
+
 reshape long e , i(heading1 heading2 loc year sex) j(var) string
 drop if var =="unnmr" & year<1989
 keep if inlist(heading1,"Countries","Subnational regions")
@@ -199,7 +226,6 @@ replace subregion = heading2 if heading1=="Subnational regions"
 drop if strpos(loc,"Total ") & heading1=="Subnational regions" 
 drop if e==.
 save temp2, replace
-
 
 bys heading1 subregion sex year var: gen count = string(_N)
 bys heading1 subregion sex year var (e): keep if inlist(_n,1,_N)
@@ -246,7 +272,7 @@ replace heading2 = "Subnational regions"
 replace heading1 = "Lowest or highest mortality"
 drop subregion
 reshape wide e note , i(heading1 heading2 loc year sex) j(var) string
-foreach var in   imr cmr q5_10 q10_15 q15_19 u5m  {
+foreach var in   imr cmr q5_10 q10_15 q15_19 u5m ppd  u20m {
 rename e`var' `var'
 }
 append using temp
@@ -274,7 +300,7 @@ gen heading2 = region
 merge 1:1 heading1 heading2 loc year sex using temp , nogen
 save temp, replace
 
-keep year sex loc heading1 heading2 imr cmr q5_10 q10_15 q15_19 u5m nmr pnm unnmr cms gbdnmr ncdcm5 ncdcm10 ncdcm15 ncdcm19 note* 
+keep year sex loc heading1 heading2 imr cmr q5_10 q10_15 q15_19 u5m nmr pnm unnmr cms gbdnmr ncdcm5 ncdcm10 ncdcm15 ncdcm19 note* ppd u20m
 
 replace heading2 = "World Bank Income groups" if heading2 == "incomegr"
 replace heading2 = "UN subregions" if heading2 == "subregion"
@@ -317,9 +343,19 @@ compress
 save locids, replace
 export delimited using "$output_dir\location_select" , replace
 
+
+use temppop, clear
+replace heading2 = "World Bank Income groups" if heading2 == "incomegr"
+replace heading2 = "UN subregions" if heading2 == "subregion"
+replace heading2 = "UN regions" if heading2 == "region"
+replace heading1 = "Countries and territories" if strpos(heading1, "Countries")
+merge 1:1 loc heading1 heading2 using locids, keep(master match) nogen
+export delimited using "$output_dir\pop2023" , replace
+
+
 use yeardata , clear
 merge m:1 heading1 heading2 loc using locids, nogen keepusing(lid)
-foreach var of varlist imr cmr q5_10 q10_15 q15_19 u5m nmr pnm unnmr cms gbdnmr ncdcm5 ncdcm10 ncdcm15 ncdcm19  {
+foreach var of varlist imr cmr q5_10 q10_15 q15_19 u5m nmr pnm unnmr cms gbdnmr ncdcm5 ncdcm10 ncdcm15 ncdcm19 ppd  u20m {
 rename `var' value`var'
 }
 reshape long value note , i(heading1 heading2 loc year sex) j(outcome) string

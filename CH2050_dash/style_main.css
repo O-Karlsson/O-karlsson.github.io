@@ -95,6 +95,18 @@ ul {list-style-type: none;}
 .traditional-star-wrapper .figure-download-btn {margin-top: 4px;}
 .star-line-chart-wrapper {padding-top: 22px; padding-bottom: 12px;}
 .star-line-chart-wrapper .figure-download-btn {margin-top: 4px;}
+.ppd-rank-table-panel {margin: 22px 10px 34px 10px;}
+.ppd-rank-table-title {margin: 0 0 8px 0; font-size: 1em;}
+.ppd-rank-table-scroll {max-height: 680px; overflow: auto; border: 1px solid #d7d7d7; background: #fff;}
+.ppd-rank-table {width: 100%; border-collapse: collapse; font-size: 13px; line-height: 1.25;}
+.ppd-rank-table th, .ppd-rank-table td {padding: 6px 8px; border-bottom: 1px solid #e7e7e7; text-align: right; white-space: nowrap;}
+.ppd-rank-table th {position: sticky; top: 0; z-index: 1; background: #f3f7f2; color: #222; font-weight: bold;}
+.ppd-rank-table th:nth-child(2), .ppd-rank-table td:nth-child(2) {text-align: left; min-width: 170px;}
+.ppd-rank-table th:nth-child(3), .ppd-rank-table td:nth-child(3) {text-align: left;}
+.ppd-rank-sort-button {margin: 0; padding: 0; border: 0; background: transparent; color: inherit; cursor: pointer; font: inherit; font-weight: bold; text-align: inherit; white-space: nowrap;}
+.ppd-rank-sort-button:hover {background: transparent; color: #0056b3; text-decoration: underline;}
+.ppd-rank-table-tercile-row td {background: #fff7d6; color: #5c4800; font-weight: bold; text-align: center; border-top: 2px solid #d4a700; border-bottom: 2px solid #d4a700;}
+.ppd-rank-table-empty {margin: 10px; padding: 12px; background: #f9f9f9; border: 1px solid #ddd; font-size: 15px;}
 
 @media (max-width: 480px) {
     .star-legend-svg {margin-top: -10px;}
