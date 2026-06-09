@@ -54,7 +54,8 @@ function cloneSVGForExport(svg, exportOptions = {}) {
     const margin = exportOptions.margin || { top: 0, right: 0, bottom: 0, left: 0 };
     const crop = exportOptions.crop || { top: 0, right: 0, bottom: 0, left: 0 };
     const exportTitle = exportOptions.titleText || '';
-    const titleHeight = exportTitle ? (exportOptions.titleHeight ?? 28) : 0;
+    const exportSubtitle = exportOptions.subtitleText || '';
+    const titleHeight = exportTitle ? (exportOptions.titleHeight ?? (exportSubtitle ? 44 : 28)) : 0;
     const translatedGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
     while (clone.firstChild) {
         translatedGroup.appendChild(clone.firstChild);
@@ -68,13 +69,25 @@ function cloneSVGForExport(svg, exportOptions = {}) {
     if (exportTitle) {
         const titleNode = document.createElementNS('http://www.w3.org/2000/svg', 'text');
         titleNode.setAttribute('x', String((margin.left || 0) - (crop.left || 0)));
-        titleNode.setAttribute('y', String(titleHeight - 8));
+        titleNode.setAttribute('y', String(exportSubtitle ? titleHeight - 24 : titleHeight - 8));
         titleNode.setAttribute('font-family', 'Arial, sans-serif');
         titleNode.setAttribute('font-size', String(exportOptions.titleFontSize ?? 18));
         titleNode.setAttribute('font-weight', '700');
         titleNode.setAttribute('fill', '#000');
         titleNode.textContent = exportTitle;
         clone.appendChild(titleNode);
+
+        if (exportSubtitle) {
+            const subtitleNode = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            subtitleNode.setAttribute('x', String((margin.left || 0) - (crop.left || 0)));
+            subtitleNode.setAttribute('y', String(titleHeight - 6));
+            subtitleNode.setAttribute('font-family', 'Arial, sans-serif');
+            subtitleNode.setAttribute('font-size', String(exportOptions.subtitleFontSize ?? 13));
+            subtitleNode.setAttribute('font-weight', '400');
+            subtitleNode.setAttribute('fill', '#555');
+            subtitleNode.textContent = exportSubtitle;
+            clone.appendChild(subtitleNode);
+        }
     }
 
     const exportWidth = width + (margin.left || 0) + (margin.right || 0) - (crop.left || 0) - (crop.right || 0);

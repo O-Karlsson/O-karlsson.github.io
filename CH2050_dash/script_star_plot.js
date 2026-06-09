@@ -2174,8 +2174,10 @@ function drawFrontierLineFigures(containerId) {
                     centerLegend: true,
                     chart: {
                         titleText: titleText,
-                        titleHeight: 30,
+                        subtitleText: chartScaleLabel,
+                        titleHeight: chartScaleLabel ? 48 : 30,
                         titleFontSize: 18,
+                        subtitleFontSize: 13,
                         margin: { top: 2, right: 24, bottom: 0, left: 14 },
                         crop: { top: 0, right: 0, bottom: 8, left: 0 }
                     },
