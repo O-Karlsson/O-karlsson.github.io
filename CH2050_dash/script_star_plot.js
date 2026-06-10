@@ -29,6 +29,8 @@ const starOutcomeConfig = [
 const starDataCache = new Map();
 const traditionalStarScaleState = {};
 const frontierAxisScaleState = {};
+const frontierTrimScaleState = {};
+const frontierSelectionScaleState = {};
 let traditionalStarDerivedCache = null;
 const FRONTIER_LOG_SCALE_MIN_VALUE = 0.00000000001;
 
@@ -97,6 +99,7 @@ function getMain5ProspectColor(prospect) {
 }
 
 let ppdFrontierScaleAssignmentCache = null;
+let countryTerritoryLocationIdsCache = null;
 const POP2023_MIN_FOR_MORTALITY_TERCILES = 5000; // pop23 is stored in 1,000s, so 5000 = 5 million.
 
 function ensureFrontierExtent(extents, key, value) {
@@ -104,11 +107,16 @@ function ensureFrontierExtent(extents, key, value) {
     if (!current) {
         extents.set(key, {
             min: value,
-            max: value
+            max: value,
+            values: [value]
         });
     } else {
         current.min = Math.min(current.min, value);
         current.max = Math.max(current.max, value);
+        if (!Array.isArray(current.values)) {
+            current.values = [];
+        }
+        current.values.push(value);
     }
 }
 
@@ -133,11 +141,28 @@ function assignFrontierScaleGroups(countryEntries) {
 function normalizeFrontierExtent(extent, fallbackMin, fallbackMax, options = {}) {
     let scaleMinValue = extent ? extent.min : fallbackMin;
     let scaleMaxValue = extent ? extent.max : fallbackMax;
+    if (options.trimHighest20 && extent && Array.isArray(extent.values)) {
+        const sortedValues = extent.values
+            .filter(Number.isFinite)
+            .sort((a, b) => a - b);
+        if (sortedValues.length > 0) {
+            const retainedCount = Math.max(1, Math.ceil(sortedValues.length * 0.8));
+            scaleMaxValue = sortedValues[retainedCount - 1];
+        }
+    }
+    if (options.logMinFromData && extent && Array.isArray(extent.values)) {
+        const positiveValues = extent.values
+            .filter(value => Number.isFinite(value) && value > 0)
+            .sort((a, b) => a - b);
+        if (positiveValues.length > 0) {
+            scaleMinValue = positiveValues[0];
+        }
+    }
     if (!Number.isFinite(scaleMinValue) || !Number.isFinite(scaleMaxValue)) {
         scaleMinValue = fallbackMin;
         scaleMaxValue = fallbackMax;
     }
-    if (options.zeroMin) {
+    if (options.zeroMin && !options.logMinFromData) {
         scaleMinValue = 0;
     } else if (scaleMinValue > 0) {
         scaleMinValue = scaleMinValue / 2;
@@ -225,6 +250,21 @@ async function loadPpdFrontierScaleAssignments() {
 
     ppdFrontierScaleAssignmentCache = assignments;
     return ppdFrontierScaleAssignmentCache;
+}
+
+async function loadCountryTerritoryLocationIds() {
+    if (countryTerritoryLocationIdsCache) {
+        return countryTerritoryLocationIdsCache;
+    }
+
+    const locationRows = await d3.csv('data/location_selection.csv').catch(() => d3.csv('data/location_select.csv'));
+    countryTerritoryLocationIdsCache = new Set(
+        locationRows
+            .filter(row => String(row.heading1 ?? '').trim() === 'Countries and territories')
+            .map(row => String(row.lid ?? '').trim())
+            .filter(Boolean)
+    );
+    return countryTerritoryLocationIdsCache;
 }
 
 async function loadStarData(csvFilePath) {
@@ -1766,8 +1806,8 @@ function drawFrontierLineFigures(containerId) {
         ? 'global'
         : requestedScaleMode === 'ppd'
             ? 'ppd'
-            : requestedScaleMode === 'main5'
-                ? 'main5'
+            : requestedScaleMode === 'main5' || requestedScaleMode === 'main5-global'
+                ? requestedScaleMode
                 : 'tercile';
     const linePlotOutcomeOrder = ['nnm', 'pnm', 'q5_19', 'hgap', 'math'];
     const linePlotOutcomeConfig = linePlotOutcomeOrder
@@ -1776,16 +1816,34 @@ function drawFrontierLineFigures(containerId) {
     container.innerHTML = '';
     const root = d3.select(`#${containerId}`);
     if (!frontierAxisScaleState[containerId]) {
-        frontierAxisScaleState[containerId] = 'log';
+        frontierAxisScaleState[containerId] = scaleMode === 'global' ? 'log' : 'linear';
     }
     let axisToggle = null;
-    if (scaleMode === 'global') {
+    let trimToggle = null;
+    let selectionScaleToggle = null;
+    if (scaleMode === 'global' || scaleMode === 'main5-global') {
         const controls = root.append('div').attr('class', 'traditional-star-controls frontier-axis-controls');
         const toggleLabel = controls.append('label').attr('class', 'traditional-star-toggle');
         axisToggle = toggleLabel.append('input')
             .attr('type', 'checkbox')
             .property('checked', frontierAxisScaleState[containerId] === 'log');
         toggleLabel.append('span').text('Use ln scale');
+        if (scaleMode === 'main5-global') {
+            const trimLabel = controls.append('label')
+                .attr('class', 'traditional-star-toggle')
+                .style('margin-left', '18px');
+            trimToggle = trimLabel.append('input')
+                .attr('type', 'checkbox')
+                .property('checked', frontierTrimScaleState[containerId] === true);
+            trimLabel.append('span').text('Trim highest 20% from scale');
+            const selectionScaleLabel = controls.append('label')
+                .attr('class', 'traditional-star-toggle')
+                .style('margin-left', '18px');
+            selectionScaleToggle = selectionScaleLabel.append('input')
+                .attr('type', 'checkbox')
+                .property('checked', frontierSelectionScaleState[containerId] === true);
+            selectionScaleLabel.append('span').text('Scale to selected countries and sexes');
+        }
     }
     const chartHost = root.append('div').attr('id', `${containerId}-charts`);
 
@@ -1817,12 +1875,15 @@ function drawFrontierLineFigures(containerId) {
             .attr('stroke-linejoin', 'round');
     }
 
-    function buildFrontierExtents(rows, ppdAssignments) {
+    function buildFrontierExtents(rows, ppdAssignments, scaleLocationIds, scaleSexSet) {
         const extents = new Map();
         const grouped = d3.group(rows, d => d.outcomeKey, d => d.sex, d => d.lid);
 
         grouped.forEach((sexMap, outcomeKey) => {
             sexMap.forEach((countryMap, sex) => {
+                if (scaleSexSet && !scaleSexSet.has(String(sex))) {
+                    return;
+                }
                 const countryEntries = [];
                 countryMap.forEach((countryRows) => {
                     const sorted = countryRows
@@ -1844,6 +1905,18 @@ function drawFrontierLineFigures(containerId) {
                         ensureFrontierExtent(extents, globalExtentKey, row.plotValue);
                     });
                 });
+
+                if (scaleMode === 'main5-global') {
+                    countryEntries.forEach((entry) => {
+                        if (!scaleLocationIds || scaleLocationIds.has(String(entry.country))) {
+                            const extentKey = `extent||${outcomeKey}||${sex}`;
+                            entry.pairedRows.forEach((row) => {
+                                ensureFrontierExtent(extents, extentKey, row.plotValue);
+                            });
+                        }
+                    });
+                    return;
+                }
 
                 if (scaleMode === 'main5') {
                     countryEntries.forEach((entry) => {
@@ -1868,17 +1941,17 @@ function drawFrontierLineFigures(containerId) {
                     if (!entry.scaleKey) {
                         return;
                     }
-                    const extentKey = scaleMode === 'main5'
-                        ? `extent||${outcomeKey}||${entry.scaleKey}`
-                        : `extent||${outcomeKey}||${sex}||${entry.scaleKey}`;
+                    const extentKey = `extent||${outcomeKey}||${sex}||${entry.scaleKey}`;
                     const assignmentKey = `assignment||${outcomeKey}||${sex}||${entry.country}`;
                     extents.set(assignmentKey, {
                         scaleKey: entry.scaleKey,
                         scaleLabel: entry.scaleLabel
                     });
-                    entry.pairedRows.forEach((row) => {
-                        ensureFrontierExtent(extents, extentKey, row.plotValue);
-                    });
+                    if (!scaleLocationIds || scaleLocationIds.has(String(entry.country))) {
+                        entry.pairedRows.forEach((row) => {
+                            ensureFrontierExtent(extents, extentKey, row.plotValue);
+                        });
+                    }
                 });
             });
         });
@@ -1905,20 +1978,24 @@ function drawFrontierLineFigures(containerId) {
         const earliest = matching[0];
         const latest = matching[matching.length - 1];
         const comparison = matching.length > 1 ? earliest : null;
-        const scaleAssignment = scaleMode !== 'global' ? (frontierExtents.get(`assignment||${outcome.key}||${sex}||${latest.lid}`) || {}) : {};
-        const extent = scaleMode !== 'global'
-            ? frontierExtents.get(scaleMode === 'main5'
-                ? `extent||${outcome.key}||${scaleAssignment.scaleKey}`
-                : `extent||${outcome.key}||${sex}||${scaleAssignment.scaleKey}`)
-            : frontierExtents.get(`global||${outcome.key}||${sex}`);
+        const scaleAssignment = scaleMode !== 'global' && scaleMode !== 'main5-global'
+            ? (frontierExtents.get(`assignment||${outcome.key}||${sex}||${latest.lid}`) || {})
+            : {};
+        const extent = scaleMode === 'main5-global'
+            ? frontierExtents.get(`extent||${outcome.key}||${sex}`)
+            : scaleMode !== 'global'
+                ? frontierExtents.get(`extent||${outcome.key}||${sex}||${scaleAssignment.scaleKey}`)
+                : frontierExtents.get(`global||${outcome.key}||${sex}`);
         const fallbackMin = Math.min(earliest.plotValue, latest.plotValue);
         const fallbackMax = Math.max(earliest.plotValue, latest.plotValue);
         const { scaleMinValue, scaleMaxValue } = normalizeFrontierExtent(extent, fallbackMin, fallbackMax, {
-            zeroMin: scaleMode === 'main5'
+            zeroMin: scaleMode === 'main5' || scaleMode === 'main5-global',
+            trimHighest20: scaleMode === 'main5-global' && frontierTrimScaleState[containerId] === true,
+            logMinFromData: scaleMode === 'main5-global' && frontierAxisScaleState[containerId] === 'log'
         });
 
         const goalValue = latest.plotValue / 2;
-        const canShowGoalAndProjection = scaleMode !== 'main5';
+        const canShowGoalAndProjection = scaleMode !== 'main5' && scaleMode !== 'main5-global';
         const canShowProjected2050 = Boolean(
             canShowGoalAndProjection &&
             comparison &&
@@ -1950,16 +2027,19 @@ function drawFrontierLineFigures(containerId) {
             goalValue,
             projected2050Value,
             yearCaption,
-            scaleKey: scaleMode !== 'global' ? scaleAssignment.scaleKey : null,
-            scaleLabel: scaleMode !== 'global' ? scaleAssignment.scaleLabel : null,
+            scaleKey: scaleMode !== 'global' && scaleMode !== 'main5-global' ? scaleAssignment.scaleKey : null,
+            scaleLabel: scaleMode !== 'global' && scaleMode !== 'main5-global' ? scaleAssignment.scaleLabel : null,
             scaleMinValue,
             scaleMaxValue,
-            earliestVisible: Boolean(comparison),
-            latestVisible: true,
+            earliestBeyondScale: scaleMode === 'main5-global' && comparison && earliest.plotValue > scaleMaxValue,
+            latestBeyondScale: scaleMode === 'main5-global' && latest.plotValue > scaleMaxValue,
+            bothBeyondScale: scaleMode === 'main5-global' && comparison && earliest.plotValue > scaleMaxValue && latest.plotValue > scaleMaxValue,
+            earliestVisible: Boolean(comparison) && !(scaleMode === 'main5-global' && earliest.plotValue > scaleMaxValue),
+            latestVisible: !(scaleMode === 'main5-global' && comparison && earliest.plotValue > scaleMaxValue && latest.plotValue > scaleMaxValue),
             goalVisible: canShowGoalAndProjection && Number.isFinite(goalValue) && goalValue >= 0,
             projected2050Visible: canShowGoalAndProjection && Number.isFinite(projected2050Value) && projected2050Value >= 0,
-            latestColor: scaleMode === 'main5' ? getMain5ProspectColor(latest.prospect) : '#1f4aff',
-            baselineColor: scaleMode === 'main5' ? '#000000' : '#d62728'
+            latestColor: scaleMode === 'main5' || scaleMode === 'main5-global' ? getMain5ProspectColor(latest.prospect) : '#1f4aff',
+            baselineColor: scaleMode === 'main5' || scaleMode === 'main5-global' ? '#000000' : '#d62728'
         };
     }
 
@@ -1969,7 +2049,7 @@ function drawFrontierLineFigures(containerId) {
         }
         const clamped = Math.max(scaleMinValue, Math.min(value, scaleMaxValue));
         let share;
-        if (scaleMode === 'global' && frontierAxisScaleState[containerId] === 'log' && scaleMaxValue > 0) {
+        if ((scaleMode === 'global' || scaleMode === 'main5-global') && frontierAxisScaleState[containerId] === 'log' && scaleMaxValue > 0) {
             const logScaleMinValue = Math.max(FRONTIER_LOG_SCALE_MIN_VALUE, scaleMinValue);
             const logClamped = Math.max(logScaleMinValue, Math.min(value, scaleMaxValue));
             const logMin = Math.log(logScaleMinValue);
@@ -1982,7 +2062,7 @@ function drawFrontierLineFigures(containerId) {
     }
 
     function renderLegend(wrapper, legendSvgId, width) {
-        const legendItems = scaleMode === 'main5'
+        const legendItems = scaleMode === 'main5' || scaleMode === 'main5-global'
             ? [
                 { label: 'Baseline value', shape: 'dot', color: '#000000' },
                 { label: 'Most recent value: off track', shape: 'triangle', color: main5ProspectColors[0] },
@@ -2093,21 +2173,21 @@ function drawFrontierLineFigures(containerId) {
             }
 
             labelGroup.append('text').attr('x', xStart - 10).attr('y', y + 4).attr('fill', '#555').attr('font-size', isMobile ? 10 : 11).attr('text-anchor', 'end').text(roundStarValue(summary.scaleMaxValue));
-            const scaleMinLabel = scaleMode === 'main5'
+            const scaleMinLabel = (scaleMode === 'main5' || scaleMode === 'main5-global') && frontierAxisScaleState[containerId] !== 'log'
                 ? '0'
-                : scaleMode === 'global' && frontierAxisScaleState[containerId] === 'log' && summary.scaleMinValue <= 0
+                : (scaleMode === 'global' || scaleMode === 'main5-global') && frontierAxisScaleState[containerId] === 'log' && summary.scaleMinValue <= 0
                     ? String(FRONTIER_LOG_SCALE_MIN_VALUE)
                     : roundStarValue(summary.scaleMinValue);
             labelGroup.append('text').attr('x', xEnd + 14).attr('y', y + 4).attr('fill', '#555').attr('font-size', isMobile ? 10 : 11).attr('text-anchor', 'start').text(scaleMinLabel);
 
-            const baseX = valueToX(summary.earliest.plotValue, summary.scaleMinValue, summary.scaleMaxValue, xStart, xEnd);
-            const latestX = valueToX(summary.latest.plotValue, summary.scaleMinValue, summary.scaleMaxValue, xStart, xEnd);
+            const baseX = summary.earliestBeyondScale ? xStart : valueToX(summary.earliest.plotValue, summary.scaleMinValue, summary.scaleMaxValue, xStart, xEnd);
+            const latestX = summary.latestBeyondScale ? xStart : valueToX(summary.latest.plotValue, summary.scaleMinValue, summary.scaleMaxValue, xStart, xEnd);
             const goalX = valueToX(summary.goalValue, summary.scaleMinValue, summary.scaleMaxValue, xStart, xEnd);
             const projected2050X = valueToX(summary.projected2050Value, summary.scaleMinValue, summary.scaleMaxValue, xStart, xEnd);
             const markerBaseY = y;
             const markerLatestY = y;
             const triangleRotation = summary.latest.plotValue < summary.earliest.plotValue ? 90 : -90;
-            const latestTriangleSize = scaleMode === 'main5' ? triangleMarkerSize * 1.35 : triangleMarkerSize;
+            const latestTriangleSize = scaleMode === 'main5' || scaleMode === 'main5-global' ? triangleMarkerSize * 1.35 : triangleMarkerSize;
             const labelOffsetAbove = isMobile ? -14 : -16;
             const labelOffsetBelow = isMobile ? 22 : 24;
             const visibleMarkers = [];
@@ -2132,6 +2212,12 @@ function drawFrontierLineFigures(containerId) {
 
             if (summary.earliestVisible && summary.latestVisible) {
                 markerGroup.append('line').attr('x1', baseX).attr('y1', markerBaseY).attr('x2', latestX).attr('y2', markerLatestY).attr('stroke', '#000000').attr('stroke-width', 1.5);
+            }
+            if (summary.earliestBeyondScale && summary.latestVisible) {
+                markerGroup.append('line').attr('x1', xStart).attr('y1', markerBaseY).attr('x2', latestX).attr('y2', markerLatestY).attr('stroke', '#000000').attr('stroke-width', 1.5);
+            }
+            if (summary.bothBeyondScale) {
+                valueLabelGroup.append('text').attr('x', xStart + 8).attr('y', y - 18).attr('fill', '#555').attr('font-size', isMobile ? 10 : 11).attr('font-weight', 600).attr('text-anchor', 'start').text('Both values exceed scale');
             }
             if (summary.latestVisible) {
                 drawTriangleMarker(markerGroup, { x: latestX, y: markerLatestY }, latestTriangleSize, summary.latestColor, '#ffffff', triangleRotation, 1.1);
@@ -2192,7 +2278,16 @@ function drawFrontierLineFigures(containerId) {
     async function renderAll() {
         const rows = await loadStarData(dataFile);
         const ppdAssignments = scaleMode === 'ppd' ? await loadPpdFrontierScaleAssignments() : null;
-        const frontierExtents = buildFrontierExtents(rows, ppdAssignments);
+        const useSelectionScale = scaleMode === 'main5-global' && frontierSelectionScaleState[containerId] === true;
+        const scaleLocationIds = useSelectionScale
+            ? new Set(selectedCountries.map(country => String(country)))
+            : scaleMode === 'main5' || scaleMode === 'main5-global'
+                ? await loadCountryTerritoryLocationIds()
+                : null;
+        const scaleSexSet = useSelectionScale
+            ? new Set(selectedSex.map(sex => String(sex)))
+            : null;
+        const frontierExtents = buildFrontierExtents(rows, ppdAssignments, scaleLocationIds, scaleSexSet);
         chartHost.html('');
 
         if (selectedCountries.length === 0 || selectedSex.length === 0) {
@@ -2235,6 +2330,18 @@ function drawFrontierLineFigures(containerId) {
             renderAll();
         });
     }
+    if (trimToggle) {
+        trimToggle.on('change', function(event) {
+            frontierTrimScaleState[containerId] = event.target.checked;
+            renderAll();
+        });
+    }
+    if (selectionScaleToggle) {
+        selectionScaleToggle.on('change', function(event) {
+            frontierSelectionScaleState[containerId] = event.target.checked;
+            renderAll();
+        });
+    }
 
     renderAll();
 }
@@ -2253,22 +2360,40 @@ function drawFrontierOutcomeLineFigures(containerId) {
         ? 'global'
         : requestedScaleMode === 'ppd'
             ? 'ppd'
-            : requestedScaleMode === 'main5'
-                ? 'main5'
+            : requestedScaleMode === 'main5' || requestedScaleMode === 'main5-global'
+                ? requestedScaleMode
                 : 'tercile';
     container.innerHTML = '';
     const root = d3.select(`#${containerId}`);
     if (!frontierAxisScaleState[containerId]) {
-        frontierAxisScaleState[containerId] = 'log';
+        frontierAxisScaleState[containerId] = scaleMode === 'global' ? 'log' : 'linear';
     }
     let axisToggle = null;
-    if (scaleMode === 'global') {
+    let trimToggle = null;
+    let selectionScaleToggle = null;
+    if (scaleMode === 'global' || scaleMode === 'main5-global') {
         const controls = root.append('div').attr('class', 'traditional-star-controls frontier-axis-controls');
         const toggleLabel = controls.append('label').attr('class', 'traditional-star-toggle');
         axisToggle = toggleLabel.append('input')
             .attr('type', 'checkbox')
             .property('checked', frontierAxisScaleState[containerId] === 'log');
         toggleLabel.append('span').text('Use ln scale');
+        if (scaleMode === 'main5-global') {
+            const trimLabel = controls.append('label')
+                .attr('class', 'traditional-star-toggle')
+                .style('margin-left', '18px');
+            trimToggle = trimLabel.append('input')
+                .attr('type', 'checkbox')
+                .property('checked', frontierTrimScaleState[containerId] === true);
+            trimLabel.append('span').text('Trim highest 20% from scale');
+            const selectionScaleLabel = controls.append('label')
+                .attr('class', 'traditional-star-toggle')
+                .style('margin-left', '18px');
+            selectionScaleToggle = selectionScaleLabel.append('input')
+                .attr('type', 'checkbox')
+                .property('checked', frontierSelectionScaleState[containerId] === true);
+            selectionScaleLabel.append('span').text('Scale to selected countries and sexes');
+        }
     }
     const chartHost = root.append('div').attr('id', `${containerId}-charts`);
 
@@ -2300,7 +2425,7 @@ function drawFrontierOutcomeLineFigures(containerId) {
             .attr('stroke-linejoin', 'round');
     }
 
-    function buildOutcomeFrontierExtents(rows, ppdAssignments) {
+    function buildOutcomeFrontierExtents(rows, ppdAssignments, scaleLocationIds, scaleSexSet) {
         const extents = new Map();
         const grouped = d3.group(rows, d => d.outcomeKey, d => d.sex, d => d.lid);
 
@@ -2309,6 +2434,9 @@ function drawFrontierOutcomeLineFigures(containerId) {
                 return;
             }
             sexMap.forEach((countryMap, sex) => {
+                if (scaleSexSet && !scaleSexSet.has(String(sex))) {
+                    return;
+                }
                 const countryEntries = [];
                 countryMap.forEach((countryRows) => {
                     const sorted = countryRows
@@ -2330,6 +2458,18 @@ function drawFrontierOutcomeLineFigures(containerId) {
                         ensureFrontierExtent(extents, globalExtentKey, row.plotValue);
                     });
                 });
+
+                if (scaleMode === 'main5-global') {
+                    countryEntries.forEach((entry) => {
+                        if (!scaleLocationIds || scaleLocationIds.has(String(entry.country))) {
+                            const extentKey = `extent||${sex}`;
+                            entry.pairedRows.forEach((row) => {
+                                ensureFrontierExtent(extents, extentKey, row.plotValue);
+                            });
+                        }
+                    });
+                    return;
+                }
 
                 if (scaleMode === 'main5') {
                     countryEntries.forEach((entry) => {
@@ -2354,17 +2494,17 @@ function drawFrontierOutcomeLineFigures(containerId) {
                     if (!entry.scaleKey) {
                         return;
                     }
-                    const extentKey = scaleMode === 'main5'
-                        ? `extent||${entry.scaleKey}`
-                        : `extent||${sex}||${entry.scaleKey}`;
+                    const extentKey = `extent||${sex}||${entry.scaleKey}`;
                     const assignmentKey = `assignment||${sex}||${entry.country}`;
                     extents.set(assignmentKey, {
                         scaleKey: entry.scaleKey,
                         scaleLabel: entry.scaleLabel
                     });
-                    entry.pairedRows.forEach((row) => {
-                        ensureFrontierExtent(extents, extentKey, row.plotValue);
-                    });
+                    if (!scaleLocationIds || scaleLocationIds.has(String(entry.country))) {
+                        entry.pairedRows.forEach((row) => {
+                            ensureFrontierExtent(extents, extentKey, row.plotValue);
+                        });
+                    }
                 });
             });
         });
@@ -2384,20 +2524,24 @@ function drawFrontierOutcomeLineFigures(containerId) {
         const earliest = matching[0];
         const latest = matching[matching.length - 1];
         const comparison = matching.length > 1 ? earliest : null;
-        const scaleAssignment = scaleMode !== 'global' ? (frontierExtents.get(`assignment||${sex}||${country}`) || {}) : {};
-        const extent = scaleMode !== 'global'
-            ? frontierExtents.get(scaleMode === 'main5'
-                ? `extent||${scaleAssignment.scaleKey}`
-                : `extent||${sex}||${scaleAssignment.scaleKey}`)
-            : frontierExtents.get(`global||${sex}`);
+        const scaleAssignment = scaleMode !== 'global' && scaleMode !== 'main5-global'
+            ? (frontierExtents.get(`assignment||${sex}||${country}`) || {})
+            : {};
+        const extent = scaleMode === 'main5-global'
+            ? frontierExtents.get(`extent||${sex}`)
+            : scaleMode !== 'global'
+                ? frontierExtents.get(`extent||${sex}||${scaleAssignment.scaleKey}`)
+                : frontierExtents.get(`global||${sex}`);
         const fallbackMin = Math.min(earliest.plotValue, latest.plotValue);
         const fallbackMax = Math.max(earliest.plotValue, latest.plotValue);
         const { scaleMinValue, scaleMaxValue } = normalizeFrontierExtent(extent, fallbackMin, fallbackMax, {
-            zeroMin: scaleMode === 'main5'
+            zeroMin: scaleMode === 'main5' || scaleMode === 'main5-global',
+            trimHighest20: scaleMode === 'main5-global' && frontierTrimScaleState[containerId] === true,
+            logMinFromData: scaleMode === 'main5-global' && frontierAxisScaleState[containerId] === 'log'
         });
 
         const goalValue = latest.plotValue / 2;
-        const canShowGoalAndProjection = scaleMode !== 'main5';
+        const canShowGoalAndProjection = scaleMode !== 'main5' && scaleMode !== 'main5-global';
         const canShowProjected2050 = Boolean(
             canShowGoalAndProjection &&
             comparison &&
@@ -2422,17 +2566,20 @@ function drawFrontierOutcomeLineFigures(containerId) {
             comparison,
             goalValue,
             projected2050Value,
-            scaleKey: scaleMode !== 'global' ? scaleAssignment.scaleKey : null,
-            scaleLabel: scaleMode !== 'global' ? scaleAssignment.scaleLabel : null,
+            scaleKey: scaleMode !== 'global' && scaleMode !== 'main5-global' ? scaleAssignment.scaleKey : null,
+            scaleLabel: scaleMode !== 'global' && scaleMode !== 'main5-global' ? scaleAssignment.scaleLabel : null,
             scaleMinValue,
             scaleMaxValue,
             yearCaption: comparison ? `${earliest.year} baseline | ${latest.year} most recent` : `${latest.year} only`,
-            earliestVisible: Boolean(comparison),
-            latestVisible: true,
+            earliestBeyondScale: scaleMode === 'main5-global' && comparison && earliest.plotValue > scaleMaxValue,
+            latestBeyondScale: scaleMode === 'main5-global' && latest.plotValue > scaleMaxValue,
+            bothBeyondScale: scaleMode === 'main5-global' && comparison && earliest.plotValue > scaleMaxValue && latest.plotValue > scaleMaxValue,
+            earliestVisible: Boolean(comparison) && !(scaleMode === 'main5-global' && earliest.plotValue > scaleMaxValue),
+            latestVisible: !(scaleMode === 'main5-global' && comparison && earliest.plotValue > scaleMaxValue && latest.plotValue > scaleMaxValue),
             goalVisible: canShowGoalAndProjection && Number.isFinite(goalValue) && goalValue >= 0,
             projected2050Visible: canShowGoalAndProjection && Number.isFinite(projected2050Value) && projected2050Value >= 0,
-            latestColor: scaleMode === 'main5' ? getMain5ProspectColor(latest.prospect) : '#1f4aff',
-            baselineColor: scaleMode === 'main5' ? '#000000' : '#d62728'
+            latestColor: scaleMode === 'main5' || scaleMode === 'main5-global' ? getMain5ProspectColor(latest.prospect) : '#1f4aff',
+            baselineColor: scaleMode === 'main5' || scaleMode === 'main5-global' ? '#000000' : '#d62728'
         };
     }
 
@@ -2442,7 +2589,7 @@ function drawFrontierOutcomeLineFigures(containerId) {
         }
         const clamped = Math.max(scaleMinValue, Math.min(value, scaleMaxValue));
         let share;
-        if (scaleMode === 'global' && frontierAxisScaleState[containerId] === 'log' && scaleMaxValue > 0) {
+        if ((scaleMode === 'global' || scaleMode === 'main5-global') && frontierAxisScaleState[containerId] === 'log' && scaleMaxValue > 0) {
             const logScaleMinValue = Math.max(FRONTIER_LOG_SCALE_MIN_VALUE, scaleMinValue);
             const logClamped = Math.max(logScaleMinValue, Math.min(value, scaleMaxValue));
             const logMin = Math.log(logScaleMinValue);
@@ -2455,7 +2602,7 @@ function drawFrontierOutcomeLineFigures(containerId) {
     }
 
     function renderLegend(wrapper, legendSvgId, width) {
-        const legendItems = scaleMode === 'main5'
+        const legendItems = scaleMode === 'main5' || scaleMode === 'main5-global'
             ? [
                 { label: 'Baseline value', shape: 'dot', color: '#000000' },
                 { label: 'Most recent value: off track', shape: 'triangle', color: main5ProspectColors[0] },
@@ -2564,21 +2711,21 @@ function drawFrontierOutcomeLineFigures(containerId) {
             lineGroup.append('path').attr('d', d3.symbol().type(d3.symbolTriangle).size(42)()).attr('transform', `translate(${xEnd + 2}, ${y}) rotate(90)`).attr('fill', '#8a8a8a');
 
             labelGroup.append('text').attr('x', xStart - 10).attr('y', y + 4).attr('fill', '#555').attr('font-size', isMobile ? 10 : 11).attr('text-anchor', 'end').text(roundStarValue(summary.scaleMaxValue));
-            const scaleMinLabel = scaleMode === 'main5'
+            const scaleMinLabel = (scaleMode === 'main5' || scaleMode === 'main5-global') && frontierAxisScaleState[containerId] !== 'log'
                 ? '0'
-                : scaleMode === 'global' && frontierAxisScaleState[containerId] === 'log' && summary.scaleMinValue <= 0
+                : (scaleMode === 'global' || scaleMode === 'main5-global') && frontierAxisScaleState[containerId] === 'log' && summary.scaleMinValue <= 0
                     ? String(FRONTIER_LOG_SCALE_MIN_VALUE)
                     : roundStarValue(summary.scaleMinValue);
             labelGroup.append('text').attr('x', xEnd + 14).attr('y', y + 4).attr('fill', '#555').attr('font-size', isMobile ? 10 : 11).attr('text-anchor', 'start').text(scaleMinLabel);
 
-            const baseX = valueToX(summary.earliest.plotValue, summary.scaleMinValue, summary.scaleMaxValue, xStart, xEnd);
-            const latestX = valueToX(summary.latest.plotValue, summary.scaleMinValue, summary.scaleMaxValue, xStart, xEnd);
+            const baseX = summary.earliestBeyondScale ? xStart : valueToX(summary.earliest.plotValue, summary.scaleMinValue, summary.scaleMaxValue, xStart, xEnd);
+            const latestX = summary.latestBeyondScale ? xStart : valueToX(summary.latest.plotValue, summary.scaleMinValue, summary.scaleMaxValue, xStart, xEnd);
             const goalX = valueToX(summary.goalValue, summary.scaleMinValue, summary.scaleMaxValue, xStart, xEnd);
             const projected2050X = valueToX(summary.projected2050Value, summary.scaleMinValue, summary.scaleMaxValue, xStart, xEnd);
             const markerBaseY = y;
             const markerLatestY = y;
             const triangleRotation = summary.latest.plotValue < summary.earliest.plotValue ? 90 : -90;
-            const latestTriangleSize = scaleMode === 'main5' ? triangleMarkerSize * 1.35 : triangleMarkerSize;
+            const latestTriangleSize = scaleMode === 'main5' || scaleMode === 'main5-global' ? triangleMarkerSize * 1.35 : triangleMarkerSize;
             const labelOffsetAbove = isMobile ? -14 : -16;
             const labelOffsetBelow = isMobile ? 22 : 24;
             const visibleMarkers = [];
@@ -2603,6 +2750,12 @@ function drawFrontierOutcomeLineFigures(containerId) {
 
             if (summary.earliestVisible && summary.latestVisible) {
                 markerGroup.append('line').attr('x1', baseX).attr('y1', markerBaseY).attr('x2', latestX).attr('y2', markerLatestY).attr('stroke', '#000000').attr('stroke-width', 1.5);
+            }
+            if (summary.earliestBeyondScale && summary.latestVisible) {
+                markerGroup.append('line').attr('x1', xStart).attr('y1', markerBaseY).attr('x2', latestX).attr('y2', markerLatestY).attr('stroke', '#000000').attr('stroke-width', 1.5);
+            }
+            if (summary.bothBeyondScale) {
+                valueLabelGroup.append('text').attr('x', xStart + 8).attr('y', y - 18).attr('fill', '#555').attr('font-size', isMobile ? 10 : 11).attr('font-weight', 600).attr('text-anchor', 'start').text('Both values exceed scale');
             }
             if (summary.latestVisible) {
                 drawTriangleMarker(markerGroup, { x: latestX, y: markerLatestY }, latestTriangleSize, summary.latestColor, '#ffffff', triangleRotation, 1.1);
@@ -2661,7 +2814,16 @@ function drawFrontierOutcomeLineFigures(containerId) {
     async function renderAll() {
         const rows = await loadStarData(dataFile);
         const ppdAssignments = scaleMode === 'ppd' ? await loadPpdFrontierScaleAssignments() : null;
-        const frontierExtents = buildOutcomeFrontierExtents(rows, ppdAssignments);
+        const useSelectionScale = scaleMode === 'main5-global' && frontierSelectionScaleState[containerId] === true;
+        const scaleLocationIds = useSelectionScale
+            ? new Set(selectedCountries.map(country => String(country)))
+            : scaleMode === 'main5' || scaleMode === 'main5-global'
+                ? await loadCountryTerritoryLocationIds()
+                : null;
+        const scaleSexSet = useSelectionScale
+            ? new Set(selectedSex.map(sex => String(sex)))
+            : null;
+        const frontierExtents = buildOutcomeFrontierExtents(rows, ppdAssignments, scaleLocationIds, scaleSexSet);
         chartHost.html('');
 
         if (!outcome) {
@@ -2679,7 +2841,7 @@ function drawFrontierOutcomeLineFigures(containerId) {
             const summaries = selectedCountries
                 .map(country => buildCountrySummary(country, rows, frontierExtents, sex))
                 .filter(Boolean);
-            if (scaleMode === 'global') {
+            if (scaleMode === 'global' || scaleMode === 'main5-global') {
                 if (summaries.length > 0) {
                     renderOutcomeSexChart(sex, null, summaries);
                     chartCount += 1;
@@ -2719,6 +2881,18 @@ function drawFrontierOutcomeLineFigures(containerId) {
     if (axisToggle) {
         axisToggle.on('change', function(event) {
             frontierAxisScaleState[containerId] = event.target.checked ? 'log' : 'linear';
+            renderAll();
+        });
+    }
+    if (trimToggle) {
+        trimToggle.on('change', function(event) {
+            frontierTrimScaleState[containerId] = event.target.checked;
+            renderAll();
+        });
+    }
+    if (selectionScaleToggle) {
+        selectionScaleToggle.on('change', function(event) {
+            frontierSelectionScaleState[containerId] = event.target.checked;
             renderAll();
         });
     }

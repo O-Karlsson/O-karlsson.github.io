@@ -49,7 +49,16 @@ function loadLocationSelectionData() {
 }
 
 function getDefaultLocationIds(locationIdByName) {
-    return [];
+    return [
+        'Nepal',
+        'Bangladesh',
+        'Bhutan',
+        'India',
+        'Pakistan',
+        'Sri Lanka'
+    ]
+        .map(name => locationIdByName.get(name))
+        .filter(Boolean);
 }
 
 loadLocationSelectionData().then(function(data) {

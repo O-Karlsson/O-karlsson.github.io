@@ -154,10 +154,11 @@ save temp, replace
 *** Constructing terciles
 ********************************************************************************************************************************************
 ********************************************************************************************************************************************
+/*
 use iso3 year pop sex if iso3!="" & year==2023 & sex == 3 using  "$data/unwpp/population and deaths/estimates/data.dta" , clear
 collapse (sum) pop , by(iso3)
 save pop2023, replace
-
+*/
 
 use LocID iso3 year age sex qx if iso3!="" & year==2023 & sex == 3 using "$data/unwpp/life tables/estimates/data.dta", clear
 merge 1:1 LocID year sex age using "$data/unwpp/population and deaths/estimates/data.dta", nogen keep(match) keepusing(pop)
@@ -210,10 +211,11 @@ gen prospect = 2 if x>=1 & x<.
 replace prospect = 1 if x>0.8 & x< 1
 replace prospect = 0 if x<=0.8
 replace prospect = 2 if projected2050 == 0
-
+/*
 merge m:1 iso3 using pop2023, keep(master match) nogen
 drop if pop<5000 & heading1!="Aggregates"
-
+*/
+replace value = 0.0001 if value == 0
 drop loc heading1 heading2 loc iso3 projected2050 x iso3
 compress
 export delimited "$output_dir\main5data" , replace
