@@ -34,6 +34,10 @@ const frontierSelectionScaleState = {};
 let traditionalStarDerivedCache = null;
 const FRONTIER_LOG_SCALE_MIN_VALUE = 0.00000000001;
 
+function frontierLogScaleValue(value) {
+    return Math.log2(value);
+}
+
 function parseStarSex(value) {
     const normalized = String(value ?? '').trim().toLowerCase();
     if (normalized === '1') { return 'male'; }
@@ -1827,7 +1831,7 @@ function drawFrontierLineFigures(containerId) {
         axisToggle = toggleLabel.append('input')
             .attr('type', 'checkbox')
             .property('checked', frontierAxisScaleState[containerId] === 'log');
-        toggleLabel.append('span').text('Use ln scale');
+        toggleLabel.append('span').text(scaleMode === 'main5-global' ? 'Use log base 2 scale' : 'Use ln scale');
         if (scaleMode === 'main5-global') {
             const trimLabel = controls.append('label')
                 .attr('class', 'traditional-star-toggle')
@@ -2052,9 +2056,9 @@ function drawFrontierLineFigures(containerId) {
         if ((scaleMode === 'global' || scaleMode === 'main5-global') && frontierAxisScaleState[containerId] === 'log' && scaleMaxValue > 0) {
             const logScaleMinValue = Math.max(FRONTIER_LOG_SCALE_MIN_VALUE, scaleMinValue);
             const logClamped = Math.max(logScaleMinValue, Math.min(value, scaleMaxValue));
-            const logMin = Math.log(logScaleMinValue);
-            const logMax = Math.log(scaleMaxValue);
-            share = logMin === logMax ? 0 : (logMax - Math.log(logClamped)) / (logMax - logMin);
+            const logMin = frontierLogScaleValue(logScaleMinValue);
+            const logMax = frontierLogScaleValue(scaleMaxValue);
+            share = logMin === logMax ? 0 : (logMax - frontierLogScaleValue(logClamped)) / (logMax - logMin);
         } else {
             share = (scaleMaxValue - clamped) / (scaleMaxValue - scaleMinValue);
         }
@@ -2137,7 +2141,8 @@ function drawFrontierLineFigures(containerId) {
         const leftLabelWidth = isMobile ? 220 : 300;
         const rightPadding = isMobile ? 54 : 72;
         const topPadding = 28;
-        const bottomPadding = 38;
+        const showLogScaleNote = scaleMode === 'main5-global' && frontierAxisScaleState[containerId] === 'log';
+        const bottomPadding = showLogScaleNote ? 94 : 38;
         const rowGap = isMobile ? 82 : 88;
         const height = topPadding + bottomPadding + (Math.max(summaries.length, 1) * rowGap);
         const xStart = leftLabelWidth;
@@ -2151,6 +2156,16 @@ function drawFrontierLineFigures(containerId) {
             .attr('width', width)
             .attr('height', height)
             .style('font-family', 'Arial, sans-serif');
+
+        if (showLogScaleNote) {
+            svg.append('text')
+                .attr('x', xStart)
+                .attr('y', height - 70)
+                .attr('fill', '#666')
+                .attr('font-size', isMobile ? 10 : 11)
+                .attr('font-style', 'italic')
+                .text('Log base 2 scale: equal spacing represents doubling or halving; labels show original values.');
+        }
 
         const lineGroup = svg.append('g');
         const labelGroup = svg.append('g');
@@ -2377,7 +2392,7 @@ function drawFrontierOutcomeLineFigures(containerId) {
         axisToggle = toggleLabel.append('input')
             .attr('type', 'checkbox')
             .property('checked', frontierAxisScaleState[containerId] === 'log');
-        toggleLabel.append('span').text('Use ln scale');
+        toggleLabel.append('span').text(scaleMode === 'main5-global' ? 'Use log base 2 scale' : 'Use ln scale');
         if (scaleMode === 'main5-global') {
             const trimLabel = controls.append('label')
                 .attr('class', 'traditional-star-toggle')
@@ -2592,9 +2607,9 @@ function drawFrontierOutcomeLineFigures(containerId) {
         if ((scaleMode === 'global' || scaleMode === 'main5-global') && frontierAxisScaleState[containerId] === 'log' && scaleMaxValue > 0) {
             const logScaleMinValue = Math.max(FRONTIER_LOG_SCALE_MIN_VALUE, scaleMinValue);
             const logClamped = Math.max(logScaleMinValue, Math.min(value, scaleMaxValue));
-            const logMin = Math.log(logScaleMinValue);
-            const logMax = Math.log(scaleMaxValue);
-            share = logMin === logMax ? 0 : (logMax - Math.log(logClamped)) / (logMax - logMin);
+            const logMin = frontierLogScaleValue(logScaleMinValue);
+            const logMax = frontierLogScaleValue(scaleMaxValue);
+            share = logMin === logMax ? 0 : (logMax - frontierLogScaleValue(logClamped)) / (logMax - logMin);
         } else {
             share = (scaleMaxValue - clamped) / (scaleMaxValue - scaleMinValue);
         }
@@ -2673,7 +2688,8 @@ function drawFrontierOutcomeLineFigures(containerId) {
         const leftLabelWidth = isMobile ? 230 : 310;
         const rightPadding = isMobile ? 54 : 72;
         const topPadding = 30;
-        const bottomPadding = 40;
+        const showLogScaleNote = scaleMode === 'main5-global' && frontierAxisScaleState[containerId] === 'log';
+        const bottomPadding = showLogScaleNote ? 96 : 40;
         const rowGap = isMobile ? 76 : 78;
         const height = topPadding + bottomPadding + (Math.max(summaries.length, 1) * rowGap);
         const xStart = leftLabelWidth;
@@ -2687,6 +2703,16 @@ function drawFrontierOutcomeLineFigures(containerId) {
             .attr('width', width)
             .attr('height', height)
             .style('font-family', 'Arial, sans-serif');
+
+        if (showLogScaleNote) {
+            svg.append('text')
+                .attr('x', xStart)
+                .attr('y', height - 70)
+                .attr('fill', '#666')
+                .attr('font-size', isMobile ? 10 : 11)
+                .attr('font-style', 'italic')
+                .text('Log base 2 scale: equal spacing represents doubling or halving; labels show original values.');
+        }
 
         const lineGroup = svg.append('g');
         const labelGroup = svg.append('g');
