@@ -172,15 +172,15 @@ sum u20m if tercile == 0
 local c1 = r(max)
 sum u20m if tercile == 1
 local c2 = r(max)
+keep pop iso3
+save pop, replace
 
 
-
-/*
-collapse (min) min = u20m (max) max = u20m, by(sex tercile year)
+/* collapse (min) min = u20m (max) max = u20m, by(sex tercile year)
 reshape wide min max, i(sex year) j(tercile)
 gen ageg="u20m"
-save terciles, replace
-*/
+save terciles, replace */
+
 ********************************************************************************************************************************************
 ********************************************************************************************************************************************
 *** Finalize the data
@@ -216,6 +216,8 @@ merge m:1 iso3 using pop2023, keep(master match) nogen
 drop if pop<5000 & heading1!="Aggregates"
 */
 replace value = 0.1 if value == 0
+
+
 
 drop loc heading1 heading2 loc iso3 projected2050 x iso3
 compress

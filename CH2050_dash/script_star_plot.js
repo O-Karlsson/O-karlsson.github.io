@@ -31,6 +31,7 @@ const traditionalStarScaleState = {};
 const frontierAxisScaleState = {};
 const frontierTrimScaleState = {};
 const frontierSelectionScaleState = {};
+const frontierRecentPercentileState = {};
 let traditionalStarDerivedCache = null;
 const FRONTIER_LOG_SCALE_MIN_VALUE = 0.00000000001;
 
@@ -58,6 +59,9 @@ function parseOptionalNumber(value) {
 function roundStarValue(value) {
     if (!Number.isFinite(value)) {
         return '';
+    }
+    if (value === 0) {
+        return '0';
     }
     return value < 10 ? (Math.round(value * 10) / 10).toFixed(1) : String(Math.round(value));
 }
@@ -282,6 +286,7 @@ async function loadStarData(csvFilePath) {
         const plotValue = Number.isFinite(rawValue) ? rawValue : null;
         const tercile = parseOptionalNumber(d.tercile);
         const prospect = parseOptionalNumber(d.prospect);
+        const pctile = parseOptionalNumber(d.pctile);
 
         return {
             lid: String(d.lid ?? '').trim(),
@@ -291,7 +296,8 @@ async function loadStarData(csvFilePath) {
             rawValue,
             plotValue,
             tercile,
-            prospect
+            prospect,
+            pctile
         };
     });
 
@@ -1810,7 +1816,7 @@ function drawFrontierLineFigures(containerId) {
         ? 'global'
         : requestedScaleMode === 'ppd'
             ? 'ppd'
-            : requestedScaleMode === 'main5' || requestedScaleMode === 'main5-global'
+            : requestedScaleMode === 'main5' || requestedScaleMode === 'main5-global' || requestedScaleMode === 'main5-recent'
                 ? requestedScaleMode
                 : 'tercile';
     const linePlotOutcomeOrder = ['nnm', 'pnm', 'q5_19', 'hgap', 'math'];
@@ -1825,6 +1831,7 @@ function drawFrontierLineFigures(containerId) {
     let axisToggle = null;
     let trimToggle = null;
     let selectionScaleToggle = null;
+    let recentPercentileToggle = null;
     if (scaleMode === 'global' || scaleMode === 'main5-global') {
         const controls = root.append('div').attr('class', 'traditional-star-controls frontier-axis-controls');
         const toggleLabel = controls.append('label').attr('class', 'traditional-star-toggle');
@@ -1848,6 +1855,14 @@ function drawFrontierLineFigures(containerId) {
                 .property('checked', frontierSelectionScaleState[containerId] === true);
             selectionScaleLabel.append('span').text('Scale to selected countries and sexes');
         }
+    }
+    if (scaleMode === 'main5-recent') {
+        const controls = root.append('div').attr('class', 'traditional-star-controls frontier-axis-controls');
+        const percentileLabel = controls.append('label').attr('class', 'traditional-star-toggle');
+        recentPercentileToggle = percentileLabel.append('input')
+            .attr('type', 'checkbox')
+            .property('checked', frontierRecentPercentileState[containerId] === true);
+        percentileLabel.append('span').text('Use percentile scale');
     }
     const chartHost = root.append('div').attr('id', `${containerId}-charts`);
 
@@ -1902,6 +1917,13 @@ function drawFrontierLineFigures(containerId) {
                         latest: sorted[sorted.length - 1]
                     });
                 });
+
+                if (scaleMode === 'main5-recent') {
+                    countryEntries.forEach((entry) => {
+                        ensureFrontierExtent(extents, `recent||${outcomeKey}||${sex}`, entry.latest.plotValue);
+                    });
+                    return;
+                }
 
                 countryEntries.forEach((entry) => {
                     const globalExtentKey = `global||${outcomeKey}||${sex}`;
@@ -1982,6 +2004,45 @@ function drawFrontierLineFigures(containerId) {
         const earliest = matching[0];
         const latest = matching[matching.length - 1];
         const comparison = matching.length > 1 ? earliest : null;
+        if (scaleMode === 'main5-recent') {
+            const usePercentileScale = frontierRecentPercentileState[containerId] === true;
+            const extent = frontierExtents.get(`recent||${outcome.key}||${sex}`);
+            let scaleMinValue = 0;
+            let scaleMaxValue = usePercentileScale ? 100 : (extent ? extent.max : latest.plotValue);
+            if (!Number.isFinite(scaleMinValue) || !Number.isFinite(scaleMaxValue)) {
+                scaleMinValue = 0;
+                scaleMaxValue = latest.plotValue;
+            }
+            if (scaleMinValue === scaleMaxValue) {
+                scaleMaxValue += 1;
+            }
+            const latestScaleValue = usePercentileScale && Number.isFinite(latest.pctile)
+                ? latest.pctile
+                : latest.plotValue;
+            return {
+                ...outcome,
+                status: 'ok',
+                earliest: latest,
+                latest,
+                comparison: null,
+                goalValue: null,
+                projected2050Value: null,
+                yearCaption: `${latest.year} most recent`,
+                scaleKey: null,
+                scaleLabel: null,
+                scaleMinValue,
+                scaleMaxValue,
+                latestScaleValue,
+                recentOnly: true,
+                percentileScale: usePercentileScale,
+                earliestVisible: false,
+                latestVisible: Number.isFinite(latestScaleValue),
+                goalVisible: false,
+                projected2050Visible: false,
+                latestColor: getMain5ProspectColor(latest.prospect),
+                baselineColor: '#000000'
+            };
+        }
         const scaleAssignment = scaleMode !== 'global' && scaleMode !== 'main5-global'
             ? (frontierExtents.get(`assignment||${outcome.key}||${sex}||${latest.lid}`) || {})
             : {};
@@ -2066,7 +2127,13 @@ function drawFrontierLineFigures(containerId) {
     }
 
     function renderLegend(wrapper, legendSvgId, width) {
-        const legendItems = scaleMode === 'main5' || scaleMode === 'main5-global'
+        const legendItems = scaleMode === 'main5-recent'
+            ? [
+                { label: 'Off track', shape: 'triangle', color: main5ProspectColors[0] },
+                { label: 'Partial progress', shape: 'triangle', color: main5ProspectColors[1] },
+                { label: 'On track', shape: 'triangle', color: main5ProspectColors[2] }
+            ]
+            : scaleMode === 'main5' || scaleMode === 'main5-global'
             ? [
                 { label: 'Baseline value', shape: 'dot', color: '#000000' },
                 { label: 'Most recent value: off track', shape: 'triangle', color: main5ProspectColors[0] },
@@ -2079,14 +2146,26 @@ function drawFrontierLineFigures(containerId) {
                 { label: 'Half of most recent value', shape: 'star', color: '#2c8a4b' },
                 { label: 'Projected 2050 value', shape: 'diamond', color: '#c97816' }
             ];
-        const legendHeight = 88;
-        const legendPaddingLeft = 14;
-        const legendColumnWidth = (width - legendPaddingLeft - 8) / 2;
+        const legendHeight = scaleMode === 'main5-recent' ? 42 : 88;
+        const showTrueValueLegendLabel = scaleMode === 'main5-recent' && frontierRecentPercentileState[containerId] === true;
+        const legendPaddingLeft = scaleMode === 'main5-recent' ? Math.max(14, width * 0.22) : 14;
+        const legendColumnCount = scaleMode === 'main5-recent' ? 3 : 2;
+        const legendColumnWidth = (width - legendPaddingLeft - 8) / legendColumnCount;
         const svg = wrapper.append('svg')
             .attr('id', legendSvgId)
             .attr('class', 'star-legend-svg frontier-line-legend-svg')
             .attr('width', width)
             .attr('height', legendHeight);
+
+        if (showTrueValueLegendLabel) {
+            svg.append('text')
+                .attr('x', legendPaddingLeft - 96)
+                .attr('y', 18)
+                .attr('fill', '#555')
+                .attr('font-size', 13)
+                .attr('font-weight', 700)
+                .text('True values:');
+        }
 
         const entry = svg.selectAll('g.frontier-line-legend-entry')
             .data(legendItems)
@@ -2094,8 +2173,8 @@ function drawFrontierLineFigures(containerId) {
             .append('g')
             .attr('class', 'frontier-line-legend-entry')
             .attr('transform', (d, i) => {
-                const row = Math.floor(i / 2);
-                const col = i % 2;
+                const row = scaleMode === 'main5-recent' ? 0 : Math.floor(i / 2);
+                const col = scaleMode === 'main5-recent' ? i : i % 2;
                 return `translate(${legendPaddingLeft + col * legendColumnWidth}, ${row * 28 + 14})`;
             });
 
@@ -2142,7 +2221,8 @@ function drawFrontierLineFigures(containerId) {
         const rightPadding = isMobile ? 54 : 72;
         const topPadding = 28;
         const showLogScaleNote = scaleMode === 'main5-global' && frontierAxisScaleState[containerId] === 'log';
-        const bottomPadding = showLogScaleNote ? 94 : 38;
+        const showPercentileAxis = scaleMode === 'main5-recent' && frontierRecentPercentileState[containerId] === true;
+        const bottomPadding = showPercentileAxis ? 72 : (showLogScaleNote ? 94 : 38);
         const rowGap = isMobile ? 82 : 88;
         const height = topPadding + bottomPadding + (Math.max(summaries.length, 1) * rowGap);
         const xStart = leftLabelWidth;
@@ -2166,6 +2246,42 @@ function drawFrontierLineFigures(containerId) {
                 .attr('font-style', 'italic')
                 .text('Log base 2 scale: equal spacing represents doubling or halving; labels show original values.');
         }
+        if (showPercentileAxis) {
+            const axisY = height - 86;
+            const percentileAxis = svg.append('g').attr('class', 'frontier-percentile-axis');
+            percentileAxis.append('line')
+                .attr('x1', xStart)
+                .attr('x2', xEnd)
+                .attr('y1', axisY)
+                .attr('y2', axisY)
+                .attr('stroke', '#9a9a9a')
+                .attr('stroke-width', 1);
+            [100, 75, 50, 25, 0].forEach((tick) => {
+                const tickX = valueToX(tick, 0, 100, xStart, xEnd);
+                percentileAxis.append('line')
+                    .attr('x1', tickX)
+                    .attr('x2', tickX)
+                    .attr('y1', axisY)
+                    .attr('y2', axisY + 5)
+                    .attr('stroke', '#9a9a9a')
+                    .attr('stroke-width', 1);
+                percentileAxis.append('text')
+                    .attr('x', tickX)
+                    .attr('y', axisY + 17)
+                    .attr('fill', '#666')
+                    .attr('font-size', isMobile ? 9 : 10)
+                    .attr('text-anchor', 'middle')
+                    .text(tick);
+            });
+            percentileAxis.append('text')
+                .attr('x', (xStart + xEnd) / 2)
+                .attr('y', axisY + 32)
+                .attr('fill', '#555')
+                .attr('font-size', isMobile ? 10 : 11)
+                .attr('font-weight', 600)
+                .attr('text-anchor', 'middle')
+                .text('Percentile');
+        }
 
         const lineGroup = svg.append('g');
         const labelGroup = svg.append('g');
@@ -2187,21 +2303,24 @@ function drawFrontierLineFigures(containerId) {
                 return;
             }
 
-            labelGroup.append('text').attr('x', xStart - 10).attr('y', y + 4).attr('fill', '#555').attr('font-size', isMobile ? 10 : 11).attr('text-anchor', 'end').text(roundStarValue(summary.scaleMaxValue));
-            const scaleMinLabel = (scaleMode === 'main5' || scaleMode === 'main5-global') && frontierAxisScaleState[containerId] !== 'log'
-                ? '0'
-                : (scaleMode === 'global' || scaleMode === 'main5-global') && frontierAxisScaleState[containerId] === 'log' && summary.scaleMinValue <= 0
-                    ? String(FRONTIER_LOG_SCALE_MIN_VALUE)
-                    : roundStarValue(summary.scaleMinValue);
-            labelGroup.append('text').attr('x', xEnd + 14).attr('y', y + 4).attr('fill', '#555').attr('font-size', isMobile ? 10 : 11).attr('text-anchor', 'start').text(scaleMinLabel);
+            if (!summary.percentileScale) {
+                labelGroup.append('text').attr('x', xStart - 10).attr('y', y + 4).attr('fill', '#555').attr('font-size', isMobile ? 10 : 11).attr('text-anchor', 'end').text(roundStarValue(summary.scaleMaxValue));
+                const scaleMinLabel = (scaleMode === 'main5' || scaleMode === 'main5-global') && frontierAxisScaleState[containerId] !== 'log'
+                    ? '0'
+                    : (scaleMode === 'global' || scaleMode === 'main5-global') && frontierAxisScaleState[containerId] === 'log' && summary.scaleMinValue <= 0
+                        ? String(FRONTIER_LOG_SCALE_MIN_VALUE)
+                        : roundStarValue(summary.scaleMinValue);
+                labelGroup.append('text').attr('x', xEnd + 14).attr('y', y + 4).attr('fill', '#555').attr('font-size', isMobile ? 10 : 11).attr('text-anchor', 'start').text(scaleMinLabel);
+            }
 
             const baseX = summary.earliestBeyondScale ? xStart : valueToX(summary.earliest.plotValue, summary.scaleMinValue, summary.scaleMaxValue, xStart, xEnd);
-            const latestX = summary.latestBeyondScale ? xStart : valueToX(summary.latest.plotValue, summary.scaleMinValue, summary.scaleMaxValue, xStart, xEnd);
+            const latestValueForPosition = Number.isFinite(summary.latestScaleValue) ? summary.latestScaleValue : summary.latest.plotValue;
+            const latestX = summary.latestBeyondScale ? xStart : valueToX(latestValueForPosition, summary.scaleMinValue, summary.scaleMaxValue, xStart, xEnd);
             const goalX = valueToX(summary.goalValue, summary.scaleMinValue, summary.scaleMaxValue, xStart, xEnd);
             const projected2050X = valueToX(summary.projected2050Value, summary.scaleMinValue, summary.scaleMaxValue, xStart, xEnd);
             const markerBaseY = y;
             const markerLatestY = y;
-            const triangleRotation = summary.latest.plotValue < summary.earliest.plotValue ? 90 : -90;
+            const triangleRotation = summary.recentOnly ? 90 : (summary.latest.plotValue < summary.earliest.plotValue ? 90 : -90);
             const latestTriangleSize = scaleMode === 'main5' || scaleMode === 'main5-global' ? triangleMarkerSize * 1.35 : triangleMarkerSize;
             const labelOffsetAbove = isMobile ? -14 : -16;
             const labelOffsetBelow = isMobile ? 22 : 24;
@@ -2357,6 +2476,12 @@ function drawFrontierLineFigures(containerId) {
             renderAll();
         });
     }
+    if (recentPercentileToggle) {
+        recentPercentileToggle.on('change', function(event) {
+            frontierRecentPercentileState[containerId] = event.target.checked;
+            renderAll();
+        });
+    }
 
     renderAll();
 }
@@ -2375,7 +2500,7 @@ function drawFrontierOutcomeLineFigures(containerId) {
         ? 'global'
         : requestedScaleMode === 'ppd'
             ? 'ppd'
-            : requestedScaleMode === 'main5' || requestedScaleMode === 'main5-global'
+            : requestedScaleMode === 'main5' || requestedScaleMode === 'main5-global' || requestedScaleMode === 'main5-recent'
                 ? requestedScaleMode
                 : 'tercile';
     container.innerHTML = '';
@@ -2386,6 +2511,7 @@ function drawFrontierOutcomeLineFigures(containerId) {
     let axisToggle = null;
     let trimToggle = null;
     let selectionScaleToggle = null;
+    let recentPercentileToggle = null;
     if (scaleMode === 'global' || scaleMode === 'main5-global') {
         const controls = root.append('div').attr('class', 'traditional-star-controls frontier-axis-controls');
         const toggleLabel = controls.append('label').attr('class', 'traditional-star-toggle');
@@ -2409,6 +2535,14 @@ function drawFrontierOutcomeLineFigures(containerId) {
                 .property('checked', frontierSelectionScaleState[containerId] === true);
             selectionScaleLabel.append('span').text('Scale to selected countries and sexes');
         }
+    }
+    if (scaleMode === 'main5-recent') {
+        const controls = root.append('div').attr('class', 'traditional-star-controls frontier-axis-controls');
+        const percentileLabel = controls.append('label').attr('class', 'traditional-star-toggle');
+        recentPercentileToggle = percentileLabel.append('input')
+            .attr('type', 'checkbox')
+            .property('checked', frontierRecentPercentileState[containerId] === true);
+        percentileLabel.append('span').text('Use percentile scale');
     }
     const chartHost = root.append('div').attr('id', `${containerId}-charts`);
 
@@ -2466,6 +2600,13 @@ function drawFrontierOutcomeLineFigures(containerId) {
                         latest: sorted[sorted.length - 1]
                     });
                 });
+
+                if (scaleMode === 'main5-recent') {
+                    countryEntries.forEach((entry) => {
+                        ensureFrontierExtent(extents, `recent||${sex}`, entry.latest.plotValue);
+                    });
+                    return;
+                }
 
                 countryEntries.forEach((entry) => {
                     const globalExtentKey = `global||${sex}`;
@@ -2539,6 +2680,44 @@ function drawFrontierOutcomeLineFigures(containerId) {
         const earliest = matching[0];
         const latest = matching[matching.length - 1];
         const comparison = matching.length > 1 ? earliest : null;
+        if (scaleMode === 'main5-recent') {
+            const usePercentileScale = frontierRecentPercentileState[containerId] === true;
+            const extent = frontierExtents.get(`recent||${sex}`);
+            let scaleMinValue = 0;
+            let scaleMaxValue = usePercentileScale ? 100 : (extent ? extent.max : latest.plotValue);
+            if (!Number.isFinite(scaleMinValue) || !Number.isFinite(scaleMaxValue)) {
+                scaleMinValue = 0;
+                scaleMaxValue = latest.plotValue;
+            }
+            if (scaleMinValue === scaleMaxValue) {
+                scaleMaxValue += 1;
+            }
+            const latestScaleValue = usePercentileScale && Number.isFinite(latest.pctile)
+                ? latest.pctile
+                : latest.plotValue;
+            return {
+                country,
+                earliest: latest,
+                latest,
+                comparison: null,
+                goalValue: null,
+                projected2050Value: null,
+                scaleKey: null,
+                scaleLabel: null,
+                scaleMinValue,
+                scaleMaxValue,
+                latestScaleValue,
+                recentOnly: true,
+                percentileScale: usePercentileScale,
+                yearCaption: `${latest.year} most recent`,
+                earliestVisible: false,
+                latestVisible: Number.isFinite(latestScaleValue),
+                goalVisible: false,
+                projected2050Visible: false,
+                latestColor: getMain5ProspectColor(latest.prospect),
+                baselineColor: '#000000'
+            };
+        }
         const scaleAssignment = scaleMode !== 'global' && scaleMode !== 'main5-global'
             ? (frontierExtents.get(`assignment||${sex}||${country}`) || {})
             : {};
@@ -2617,7 +2796,13 @@ function drawFrontierOutcomeLineFigures(containerId) {
     }
 
     function renderLegend(wrapper, legendSvgId, width) {
-        const legendItems = scaleMode === 'main5' || scaleMode === 'main5-global'
+        const legendItems = scaleMode === 'main5-recent'
+            ? [
+                { label: 'Off track', shape: 'triangle', color: main5ProspectColors[0] },
+                { label: 'Partial progress', shape: 'triangle', color: main5ProspectColors[1] },
+                { label: 'On track', shape: 'triangle', color: main5ProspectColors[2] }
+            ]
+            : scaleMode === 'main5' || scaleMode === 'main5-global'
             ? [
                 { label: 'Baseline value', shape: 'dot', color: '#000000' },
                 { label: 'Most recent value: off track', shape: 'triangle', color: main5ProspectColors[0] },
@@ -2630,14 +2815,26 @@ function drawFrontierOutcomeLineFigures(containerId) {
                 { label: 'Half of most recent value', shape: 'star', color: '#2c8a4b' },
                 { label: 'Projected 2050 value', shape: 'diamond', color: '#c97816' }
             ];
-        const legendHeight = 88;
-        const legendPaddingLeft = 14;
-        const legendColumnWidth = (width - legendPaddingLeft - 8) / 2;
+        const legendHeight = scaleMode === 'main5-recent' ? 42 : 88;
+        const showTrueValueLegendLabel = scaleMode === 'main5-recent' && frontierRecentPercentileState[containerId] === true;
+        const legendPaddingLeft = scaleMode === 'main5-recent' ? Math.max(14, width * 0.22) : 14;
+        const legendColumnCount = scaleMode === 'main5-recent' ? 3 : 2;
+        const legendColumnWidth = (width - legendPaddingLeft - 8) / legendColumnCount;
         const svg = wrapper.append('svg')
             .attr('id', legendSvgId)
             .attr('class', 'star-legend-svg frontier-line-legend-svg')
             .attr('width', width)
             .attr('height', legendHeight);
+
+        if (showTrueValueLegendLabel) {
+            svg.append('text')
+                .attr('x', legendPaddingLeft - 96)
+                .attr('y', 18)
+                .attr('fill', '#555')
+                .attr('font-size', 13)
+                .attr('font-weight', 700)
+                .text('True values:');
+        }
 
         const entry = svg.selectAll('g.frontier-outcome-legend-entry')
             .data(legendItems)
@@ -2645,8 +2842,8 @@ function drawFrontierOutcomeLineFigures(containerId) {
             .append('g')
             .attr('class', 'frontier-outcome-legend-entry')
             .attr('transform', (d, i) => {
-                const row = Math.floor(i / 2);
-                const col = i % 2;
+                const row = scaleMode === 'main5-recent' ? 0 : Math.floor(i / 2);
+                const col = scaleMode === 'main5-recent' ? i : i % 2;
                 return `translate(${legendPaddingLeft + col * legendColumnWidth}, ${row * 28 + 14})`;
             });
 
@@ -2689,7 +2886,8 @@ function drawFrontierOutcomeLineFigures(containerId) {
         const rightPadding = isMobile ? 54 : 72;
         const topPadding = 30;
         const showLogScaleNote = scaleMode === 'main5-global' && frontierAxisScaleState[containerId] === 'log';
-        const bottomPadding = showLogScaleNote ? 96 : 40;
+        const showPercentileAxis = scaleMode === 'main5-recent' && frontierRecentPercentileState[containerId] === true;
+        const bottomPadding = showPercentileAxis ? 74 : (showLogScaleNote ? 96 : 40);
         const rowGap = isMobile ? 76 : 78;
         const height = topPadding + bottomPadding + (Math.max(summaries.length, 1) * rowGap);
         const xStart = leftLabelWidth;
@@ -2712,6 +2910,42 @@ function drawFrontierOutcomeLineFigures(containerId) {
                 .attr('font-size', isMobile ? 10 : 11)
                 .attr('font-style', 'italic')
                 .text('Log base 2 scale: equal spacing represents doubling or halving; labels show original values.');
+        }
+        if (showPercentileAxis) {
+            const axisY = height - 86;
+            const percentileAxis = svg.append('g').attr('class', 'frontier-percentile-axis');
+            percentileAxis.append('line')
+                .attr('x1', xStart)
+                .attr('x2', xEnd)
+                .attr('y1', axisY)
+                .attr('y2', axisY)
+                .attr('stroke', '#9a9a9a')
+                .attr('stroke-width', 1);
+            [100, 75, 50, 25, 0].forEach((tick) => {
+                const tickX = valueToX(tick, 0, 100, xStart, xEnd);
+                percentileAxis.append('line')
+                    .attr('x1', tickX)
+                    .attr('x2', tickX)
+                    .attr('y1', axisY)
+                    .attr('y2', axisY + 5)
+                    .attr('stroke', '#9a9a9a')
+                    .attr('stroke-width', 1);
+                percentileAxis.append('text')
+                    .attr('x', tickX)
+                    .attr('y', axisY + 17)
+                    .attr('fill', '#666')
+                    .attr('font-size', isMobile ? 9 : 10)
+                    .attr('text-anchor', 'middle')
+                    .text(tick);
+            });
+            percentileAxis.append('text')
+                .attr('x', (xStart + xEnd) / 2)
+                .attr('y', axisY + 32)
+                .attr('fill', '#555')
+                .attr('font-size', isMobile ? 10 : 11)
+                .attr('font-weight', 600)
+                .attr('text-anchor', 'middle')
+                .text('Percentile');
         }
 
         const lineGroup = svg.append('g');
@@ -2736,21 +2970,24 @@ function drawFrontierOutcomeLineFigures(containerId) {
             lineGroup.append('line').attr('x1', xEnd - 14).attr('y1', y).attr('x2', xEnd).attr('y2', y).attr('stroke', '#8a8a8a').attr('stroke-width', 1.4);
             lineGroup.append('path').attr('d', d3.symbol().type(d3.symbolTriangle).size(42)()).attr('transform', `translate(${xEnd + 2}, ${y}) rotate(90)`).attr('fill', '#8a8a8a');
 
-            labelGroup.append('text').attr('x', xStart - 10).attr('y', y + 4).attr('fill', '#555').attr('font-size', isMobile ? 10 : 11).attr('text-anchor', 'end').text(roundStarValue(summary.scaleMaxValue));
-            const scaleMinLabel = (scaleMode === 'main5' || scaleMode === 'main5-global') && frontierAxisScaleState[containerId] !== 'log'
-                ? '0'
-                : (scaleMode === 'global' || scaleMode === 'main5-global') && frontierAxisScaleState[containerId] === 'log' && summary.scaleMinValue <= 0
-                    ? String(FRONTIER_LOG_SCALE_MIN_VALUE)
-                    : roundStarValue(summary.scaleMinValue);
-            labelGroup.append('text').attr('x', xEnd + 14).attr('y', y + 4).attr('fill', '#555').attr('font-size', isMobile ? 10 : 11).attr('text-anchor', 'start').text(scaleMinLabel);
+            if (!summary.percentileScale) {
+                labelGroup.append('text').attr('x', xStart - 10).attr('y', y + 4).attr('fill', '#555').attr('font-size', isMobile ? 10 : 11).attr('text-anchor', 'end').text(roundStarValue(summary.scaleMaxValue));
+                const scaleMinLabel = (scaleMode === 'main5' || scaleMode === 'main5-global') && frontierAxisScaleState[containerId] !== 'log'
+                    ? '0'
+                    : (scaleMode === 'global' || scaleMode === 'main5-global') && frontierAxisScaleState[containerId] === 'log' && summary.scaleMinValue <= 0
+                        ? String(FRONTIER_LOG_SCALE_MIN_VALUE)
+                        : roundStarValue(summary.scaleMinValue);
+                labelGroup.append('text').attr('x', xEnd + 14).attr('y', y + 4).attr('fill', '#555').attr('font-size', isMobile ? 10 : 11).attr('text-anchor', 'start').text(scaleMinLabel);
+            }
 
             const baseX = summary.earliestBeyondScale ? xStart : valueToX(summary.earliest.plotValue, summary.scaleMinValue, summary.scaleMaxValue, xStart, xEnd);
-            const latestX = summary.latestBeyondScale ? xStart : valueToX(summary.latest.plotValue, summary.scaleMinValue, summary.scaleMaxValue, xStart, xEnd);
+            const latestValueForPosition = Number.isFinite(summary.latestScaleValue) ? summary.latestScaleValue : summary.latest.plotValue;
+            const latestX = summary.latestBeyondScale ? xStart : valueToX(latestValueForPosition, summary.scaleMinValue, summary.scaleMaxValue, xStart, xEnd);
             const goalX = valueToX(summary.goalValue, summary.scaleMinValue, summary.scaleMaxValue, xStart, xEnd);
             const projected2050X = valueToX(summary.projected2050Value, summary.scaleMinValue, summary.scaleMaxValue, xStart, xEnd);
             const markerBaseY = y;
             const markerLatestY = y;
-            const triangleRotation = summary.latest.plotValue < summary.earliest.plotValue ? 90 : -90;
+            const triangleRotation = summary.recentOnly ? 90 : (summary.latest.plotValue < summary.earliest.plotValue ? 90 : -90);
             const latestTriangleSize = scaleMode === 'main5' || scaleMode === 'main5-global' ? triangleMarkerSize * 1.35 : triangleMarkerSize;
             const labelOffsetAbove = isMobile ? -14 : -16;
             const labelOffsetBelow = isMobile ? 22 : 24;
@@ -2867,7 +3104,7 @@ function drawFrontierOutcomeLineFigures(containerId) {
             const summaries = selectedCountries
                 .map(country => buildCountrySummary(country, rows, frontierExtents, sex))
                 .filter(Boolean);
-            if (scaleMode === 'global' || scaleMode === 'main5-global') {
+            if (scaleMode === 'global' || scaleMode === 'main5-global' || scaleMode === 'main5-recent') {
                 if (summaries.length > 0) {
                     renderOutcomeSexChart(sex, null, summaries);
                     chartCount += 1;
@@ -2919,6 +3156,12 @@ function drawFrontierOutcomeLineFigures(containerId) {
     if (selectionScaleToggle) {
         selectionScaleToggle.on('change', function(event) {
             frontierSelectionScaleState[containerId] = event.target.checked;
+            renderAll();
+        });
+    }
+    if (recentPercentileToggle) {
+        recentPercentileToggle.on('change', function(event) {
+            frontierRecentPercentileState[containerId] = event.target.checked;
             renderAll();
         });
     }
