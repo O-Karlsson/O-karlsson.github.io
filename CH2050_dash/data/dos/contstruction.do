@@ -19,10 +19,11 @@ merge m:1 iso3 using "$data/keys/location_keys/data.dta" , keepusing(location_la
 gen heading1 = "Countries" // heading1 is the static heading on the dashboard
 gen heading2 = region // heading two is the collapseble heading on the dashboard
 gen loc = location_label // the locations
+gen global = "Global"
 save temp, replace
 
 * Aggregating by region/income groups
-foreach r in region subregion incomegr  {
+foreach r in region subregion incomegr global {
 preserve
 gen deaths2 = mx*exposure
 gen ax2 = ax*deaths2
@@ -112,11 +113,12 @@ reshape long mean_height pop , i(iso3 year age) j(sex)
 gen loc = location_label
 gen heading1 = "Countries"
 gen heading2 = region
+gen global = "Global"
 save temp3, replace
 
 
 // Aggregating across regions like above
-foreach r in region subregion incomegr {
+foreach r in region subregion incomegr global {
 preserve
 collapse (mean) mean_height [aweight=pop] , by(`r' age sex year)
 gen loc = `r'
@@ -183,10 +185,12 @@ gen heading1 = "Countries"
 gen heading2 = region
 gen loc = location_label
 drop if qx == . & unnmr == . & dth1==. & dthn==.
+gen global = "Global"
+
 save temp2, replace
 
 // Aggregating nmr like above
-foreach r in region subregion incomegr {
+foreach r in region subregion incomegr global {
 preserve
 replace unnmr = . if year <1989 // So regions alway include the same countries. The data is spotty before 1989.
 collapse (mean) qx unnmr (rawsum) dth1 dthn [aweight=Births] , by(`r' sex year)
@@ -305,6 +309,7 @@ keep year sex loc heading1 heading2 imr cmr q5_10 q10_15 q15_19 u5m nmr pnm unnm
 replace heading2 = "World Bank Income groups" if heading2 == "incomegr"
 replace heading2 = "UN subregions" if heading2 == "subregion"
 replace heading2 = "UN regions" if heading2 == "region"
+replace heading2 = "UN regions" if heading2 == "region"
 
 replace heading1 = "Countries and territories" if strpos(heading1, "Countries")
 
@@ -347,7 +352,7 @@ export delimited using "$output_dir\location_select" , replace
 use temppop, clear
 replace heading2 = "World Bank Income groups" if heading2 == "incomegr"
 replace heading2 = "UN subregions" if heading2 == "subregion"
-replace heading2 = "UN regions" if heading2 == "region"
+replace heading2 = "UN regions" if heading2 == "region" | heading2=="global"
 replace heading1 = "Countries and territories" if strpos(heading1, "Countries")
 merge 1:1 loc heading1 heading2 using locids, keep(master match) nogen
 export delimited using "$output_dir\pop2023" , replace
@@ -383,7 +388,7 @@ restore
 
 use heightByAge, clear
 replace heading2 = "World Bank Income groups" if heading2 == "incomegr"
-replace heading2 = "UN regions" if heading2 == "region"
+replace heading2 = "UN regions" if heading2 == "region" | heading2=="global"
 replace heading2 = "UN subregions" if heading2 == "subregion"
 replace heading1 = "Countries and territories" if strpos(heading1, "Countries")
 

@@ -90,6 +90,12 @@ const main5ProspectColors = {
     2: '#2ca25f'
 };
 
+const main5AapcTercileColors = {
+    1: '#2ca25f',
+    2: '#f2c94c',
+    3: '#d62728'
+};
+
 function getMain5ScaleAssignment(row) {
     const tercile = Number(row?.tercile);
     if (tercile === 1) { return main5FrontierScaleLevels[0]; }
@@ -104,6 +110,51 @@ function getMain5ProspectColor(prospect) {
     }
     const key = Number(prospect);
     return main5ProspectColors[key] || '#777777';
+}
+
+function getMain5AapcTercileColor(tercile) {
+    if (tercile === null || tercile === undefined || String(tercile).trim() === '') {
+        return '#777777';
+    }
+    const key = Number(tercile);
+    return main5AapcTercileColors[key] || '#777777';
+}
+
+function getMain5AapcDeclineTercile(declineValue, extent) {
+    if (!Number.isFinite(declineValue) || !extent || !Array.isArray(extent.values)) {
+        return null;
+    }
+    const sortedValues = extent.values
+        .filter(Number.isFinite)
+        .sort((a, b) => a - b);
+    if (sortedValues.length === 0) {
+        return null;
+    }
+    const firstTercile = d3.quantileSorted(sortedValues, 1 / 3);
+    const secondTercile = d3.quantileSorted(sortedValues, 2 / 3);
+    if (!Number.isFinite(firstTercile) || !Number.isFinite(secondTercile)) {
+        return null;
+    }
+    if (declineValue <= firstTercile) { return 3; }
+    if (declineValue <= secondTercile) { return 2; }
+    return 1;
+}
+
+function formatAapcValue(value) {
+    if (!Number.isFinite(value)) {
+        return '';
+    }
+    return `${(value * 100).toFixed(1)}%`;
+}
+
+function getMain5AapcRangeLabel(row) {
+    if (!row || !Number.isFinite(row.year)) {
+        return '';
+    }
+    if (row.outcomeKey === 'hgap') {
+        return '2009-2019';
+    }
+    return `${row.year - 10}-${row.year}`;
 }
 
 let ppdFrontierScaleAssignmentCache = null;
@@ -287,6 +338,14 @@ async function loadStarData(csvFilePath) {
         const tercile = parseOptionalNumber(d.tercile);
         const prospect = parseOptionalNumber(d.prospect);
         const pctile = parseOptionalNumber(d.pctile);
+        const aapc = parseOptionalNumber(d.aapc);
+        const aapc2 = parseOptionalNumber(d.aapc2);
+        const pctDecrease2050 = parseOptionalNumber(d.pct_decrease2050);
+        const projected2050 = parseOptionalNumber(d.projected2050);
+        const pctDecrease20502 = parseOptionalNumber(d.pct_decrease20502);
+        const projected20502 = parseOptionalNumber(d.projected20502);
+        const tercile2 = parseOptionalNumber(d.tercile2);
+        const pop = parseOptionalNumber(d.pop);
 
         return {
             lid: String(d.lid ?? '').trim(),
@@ -297,7 +356,15 @@ async function loadStarData(csvFilePath) {
             plotValue,
             tercile,
             prospect,
-            pctile
+            pctile,
+            aapc,
+            aapc2,
+            pctDecrease2050,
+            projected2050,
+            pctDecrease20502,
+            projected20502,
+            pop,
+            tercile2
         };
     });
 
@@ -1816,7 +1883,7 @@ function drawFrontierLineFigures(containerId) {
         ? 'global'
         : requestedScaleMode === 'ppd'
             ? 'ppd'
-            : requestedScaleMode === 'main5' || requestedScaleMode === 'main5-global' || requestedScaleMode === 'main5-recent'
+            : requestedScaleMode === 'main5' || requestedScaleMode === 'main5-global' || requestedScaleMode === 'main5-recent' || requestedScaleMode === 'main5-halving2050' || requestedScaleMode === 'main5-halving2050-compare'
                 ? requestedScaleMode
                 : 'tercile';
     const linePlotOutcomeOrder = ['nnm', 'pnm', 'q5_19', 'hgap', 'math'];
@@ -1918,9 +1985,11 @@ function drawFrontierLineFigures(containerId) {
                     });
                 });
 
-                if (scaleMode === 'main5-recent') {
+                if (scaleMode === 'main5-recent' || scaleMode === 'main5-halving2050' || scaleMode === 'main5-halving2050-compare') {
                     countryEntries.forEach((entry) => {
-                        ensureFrontierExtent(extents, `recent||${outcomeKey}||${sex}`, entry.latest.plotValue);
+                        if (scaleMode === 'main5-recent' || (Number.isFinite(entry.latest.pop) && entry.latest.pop > POP2023_MIN_FOR_MORTALITY_TERCILES)) {
+                            ensureFrontierExtent(extents, `recent||${outcomeKey}||${sex}`, entry.latest.plotValue);
+                        }
                     });
                     return;
                 }
@@ -2004,11 +2073,15 @@ function drawFrontierLineFigures(containerId) {
         const earliest = matching[0];
         const latest = matching[matching.length - 1];
         const comparison = matching.length > 1 ? earliest : null;
-        if (scaleMode === 'main5-recent') {
+        if (scaleMode === 'main5-recent' || scaleMode === 'main5-halving2050' || scaleMode === 'main5-halving2050-compare') {
             const usePercentileScale = frontierRecentPercentileState[containerId] === true;
             const extent = frontierExtents.get(`recent||${outcome.key}||${sex}`);
             let scaleMinValue = 0;
-            let scaleMaxValue = usePercentileScale ? 100 : (extent ? extent.max : latest.plotValue);
+            let scaleMaxValue = scaleMode === 'main5-halving2050' || scaleMode === 'main5-halving2050-compare'
+                ? latest.plotValue
+                : scaleMode === 'main5-recent' && usePercentileScale
+                    ? 100
+                    : (extent ? extent.max : latest.plotValue);
             if (!Number.isFinite(scaleMinValue) || !Number.isFinite(scaleMaxValue)) {
                 scaleMinValue = 0;
                 scaleMaxValue = latest.plotValue;
@@ -2016,9 +2089,33 @@ function drawFrontierLineFigures(containerId) {
             if (scaleMinValue === scaleMaxValue) {
                 scaleMaxValue += 1;
             }
-            const latestScaleValue = usePercentileScale && Number.isFinite(latest.pctile)
+            const latestScaleValue = scaleMode === 'main5-recent' && usePercentileScale && Number.isFinite(latest.pctile)
                 ? latest.pctile
                 : latest.plotValue;
+            const halvingPctRaw = latest.pctDecrease2050;
+            const projected2050Value = (scaleMode === 'main5-halving2050' || scaleMode === 'main5-halving2050-compare') && Number.isFinite(latest.projected2050)
+                ? latest.projected2050
+                : (scaleMode === 'main5-halving2050' || scaleMode === 'main5-halving2050-compare') && Number.isFinite(halvingPctRaw)
+                    ? latest.plotValue * (1 - (halvingPctRaw / 100))
+                    : null;
+            const halvingPctRaw2 = latest.pctDecrease20502;
+            const projected2050Value2 = scaleMode === 'main5-halving2050-compare' && Number.isFinite(latest.projected20502)
+                ? latest.projected20502
+                : scaleMode === 'main5-halving2050-compare' && Number.isFinite(halvingPctRaw2)
+                    ? latest.plotValue * (1 - (halvingPctRaw2 / 100))
+                    : null;
+            const projected2050Visible = Boolean(
+                (scaleMode === 'main5-halving2050' || scaleMode === 'main5-halving2050-compare') &&
+                Number.isFinite(projected2050Value) &&
+                projected2050Value >= 0 &&
+                projected2050Value <= latest.plotValue
+            );
+            const projected2050Visible2 = Boolean(
+                scaleMode === 'main5-halving2050-compare' &&
+                Number.isFinite(projected2050Value2) &&
+                projected2050Value2 >= 0 &&
+                projected2050Value2 <= latest.plotValue
+            );
             return {
                 ...outcome,
                 status: 'ok',
@@ -2026,7 +2123,8 @@ function drawFrontierLineFigures(containerId) {
                 latest,
                 comparison: null,
                 goalValue: null,
-                projected2050Value: null,
+                projected2050Value,
+                projected2050Value2,
                 yearCaption: `${latest.year} most recent`,
                 scaleKey: null,
                 scaleLabel: null,
@@ -2034,12 +2132,17 @@ function drawFrontierLineFigures(containerId) {
                 scaleMaxValue,
                 latestScaleValue,
                 recentOnly: true,
-                percentileScale: usePercentileScale,
+                percentileScale: scaleMode === 'main5-recent' && usePercentileScale,
+                halvingAxis: scaleMode === 'main5-halving2050' || scaleMode === 'main5-halving2050-compare',
+                halvingComparison: scaleMode === 'main5-halving2050-compare',
+                halvingPctRaw,
+                halvingPctRaw2,
                 earliestVisible: false,
                 latestVisible: Number.isFinite(latestScaleValue),
                 goalVisible: false,
-                projected2050Visible: false,
-                latestColor: getMain5ProspectColor(latest.prospect),
+                projected2050Visible,
+                projected2050Visible2,
+                latestColor: scaleMode === 'main5-halving2050' || scaleMode === 'main5-halving2050-compare' ? '#333333' : getMain5ProspectColor(latest.prospect),
                 baselineColor: '#000000'
             };
         }
@@ -2127,7 +2230,18 @@ function drawFrontierLineFigures(containerId) {
     }
 
     function renderLegend(wrapper, legendSvgId, width) {
-        const legendItems = scaleMode === 'main5-recent'
+        const legendItems = scaleMode === 'main5-halving2050-compare'
+            ? [
+                { label: 'Most recent value', shape: 'dot', color: '#555555' },
+                { label: '2050 value based on past 10-year trends', shape: 'triangle', color: '#555555' },
+                { label: '2050 value based on past 5-year trends', shape: 'triangle-open', color: '#1f78b4' }
+            ]
+            : scaleMode === 'main5-halving2050'
+            ? [
+                { label: 'Most recent value', shape: 'dot', color: '#555555' },
+                { label: '2050 value based on recent trends', shape: 'triangle', color: '#555555' }
+            ]
+            : scaleMode === 'main5-recent'
             ? [
                 { label: 'Off track', shape: 'triangle', color: main5ProspectColors[0] },
                 { label: 'Partial progress', shape: 'triangle', color: main5ProspectColors[1] },
@@ -2146,10 +2260,20 @@ function drawFrontierLineFigures(containerId) {
                 { label: 'Half of most recent value', shape: 'star', color: '#2c8a4b' },
                 { label: 'Projected 2050 value', shape: 'diamond', color: '#c97816' }
             ];
-        const legendHeight = scaleMode === 'main5-recent' ? 42 : 88;
+        const legendHeight = scaleMode === 'main5-halving2050-compare'
+            ? 92
+            : scaleMode === 'main5-halving2050'
+            ? 64
+            : scaleMode === 'main5-recent'
+                ? 42
+                : 88;
         const showTrueValueLegendLabel = scaleMode === 'main5-recent' && frontierRecentPercentileState[containerId] === true;
-        const legendPaddingLeft = scaleMode === 'main5-recent' ? Math.max(14, width * 0.22) : 14;
-        const legendColumnCount = scaleMode === 'main5-recent' ? 3 : 2;
+        const legendPaddingLeft = scaleMode === 'main5-halving2050' || scaleMode === 'main5-halving2050-compare'
+            ? Math.max(14, width * 0.42)
+            : scaleMode === 'main5-recent'
+                ? Math.max(14, width * 0.22)
+                : 14;
+        const legendColumnCount = scaleMode === 'main5-recent' || scaleMode === 'main5-halving2050-compare' ? 3 : 2;
         const legendColumnWidth = (width - legendPaddingLeft - 8) / legendColumnCount;
         const svg = wrapper.append('svg')
             .attr('id', legendSvgId)
@@ -2173,6 +2297,9 @@ function drawFrontierLineFigures(containerId) {
             .append('g')
             .attr('class', 'frontier-line-legend-entry')
             .attr('transform', (d, i) => {
+                if (scaleMode === 'main5-halving2050' || scaleMode === 'main5-halving2050-compare') {
+                    return `translate(${legendPaddingLeft}, ${i * 24 + 14})`;
+                }
                 const row = scaleMode === 'main5-recent' ? 0 : Math.floor(i / 2);
                 const col = scaleMode === 'main5-recent' ? i : i % 2;
                 return `translate(${legendPaddingLeft + col * legendColumnWidth}, ${row * 28 + 14})`;
@@ -2184,6 +2311,8 @@ function drawFrontierLineFigures(containerId) {
                 g.append('circle').attr('cx', 7).attr('cy', 0).attr('r', 4).attr('fill', d.color).attr('stroke', '#ffffff').attr('stroke-width', 1);
             } else if (d.shape === 'triangle') {
                 drawTriangleMarker(g, { x: 7, y: 0 }, 170, d.color, '#ffffff', 90, 1);
+            } else if (d.shape === 'triangle-open') {
+                drawTriangleMarker(g, { x: 7, y: 0 }, d.size || 170, '#ffffff', d.color, 90, 1.6);
             } else if (d.shape === 'diamond') {
                 g.append('path').attr('d', d3.symbol().type(d3.symbolDiamond).size(110)()).attr('transform', 'translate(8,0)').attr('fill', '#f0a43b').attr('stroke', d.color).attr('stroke-width', 1.2);
             } else {
@@ -2222,7 +2351,8 @@ function drawFrontierLineFigures(containerId) {
         const topPadding = 28;
         const showLogScaleNote = scaleMode === 'main5-global' && frontierAxisScaleState[containerId] === 'log';
         const showPercentileAxis = scaleMode === 'main5-recent' && frontierRecentPercentileState[containerId] === true;
-        const bottomPadding = showPercentileAxis ? 72 : (showLogScaleNote ? 94 : 38);
+        const showHalvingAxis = scaleMode === 'main5-halving2050' || scaleMode === 'main5-halving2050-compare';
+        const bottomPadding = showHalvingAxis ? 132 : (showPercentileAxis ? 72 : (showLogScaleNote ? 94 : 38));
         const rowGap = isMobile ? 82 : 88;
         const height = topPadding + bottomPadding + (Math.max(summaries.length, 1) * rowGap);
         const xStart = leftLabelWidth;
@@ -2282,6 +2412,66 @@ function drawFrontierLineFigures(containerId) {
                 .attr('text-anchor', 'middle')
                 .text('Percentile');
         }
+        if (showHalvingAxis) {
+            const axisY = height - 100;
+            const halvingAxis = svg.append('g').attr('class', 'frontier-halving-axis');
+            const bandTopY = topPadding + 10;
+            const bandBottomY = axisY;
+            [
+                { start: 0, end: 25, fill: '#f8d7da' },
+                { start: 25, end: 50, fill: '#fff3cd' },
+                { start: 50, end: 100, fill: '#d9ead3' }
+            ].forEach((band) => {
+                halvingAxis.append('rect')
+                    .attr('x', xStart + (band.start / 100) * (xEnd - xStart))
+                    .attr('y', bandTopY)
+                    .attr('width', ((band.end - band.start) / 100) * (xEnd - xStart))
+                    .attr('height', bandBottomY - bandTopY)
+                    .attr('fill', band.fill)
+                    .attr('stroke', 'none');
+            });
+            halvingAxis.append('line')
+                .attr('x1', xStart)
+                .attr('x2', xEnd)
+                .attr('y1', axisY)
+                .attr('y2', axisY)
+                .attr('stroke', '#8a8a8a')
+                .attr('stroke-width', 1.2);
+            const thresholdX = xStart + 0.5 * (xEnd - xStart);
+            halvingAxis.append('line')
+                .attr('x1', thresholdX)
+                .attr('x2', thresholdX)
+                .attr('y1', bandTopY)
+                .attr('y2', bandBottomY)
+                .attr('stroke', '#333333')
+                .attr('stroke-width', 1.4)
+                .attr('stroke-dasharray', '3,3');
+            [0, 25, 50, 75, 100].forEach((tick) => {
+                const tickX = xStart + (tick / 100) * (xEnd - xStart);
+                halvingAxis.append('line')
+                    .attr('x1', tickX)
+                    .attr('x2', tickX)
+                    .attr('y1', axisY)
+                    .attr('y2', axisY + 5)
+                    .attr('stroke', '#8a8a8a')
+                    .attr('stroke-width', 1);
+                halvingAxis.append('text')
+                    .attr('x', tickX)
+                    .attr('y', axisY + 18)
+                    .attr('fill', '#555')
+                    .attr('font-size', isMobile ? 9 : 10)
+                    .attr('text-anchor', 'middle')
+                    .text(`${tick}%`);
+            });
+            halvingAxis.append('text')
+                .attr('x', (xStart + xEnd) / 2)
+                .attr('y', axisY + 42)
+                .attr('fill', '#444')
+                .attr('font-size', isMobile ? 10 : 11)
+                .attr('font-weight', 700)
+                .attr('text-anchor', 'middle')
+                .text('Projected percentage decrease by 2050');
+        }
 
         const lineGroup = svg.append('g');
         const labelGroup = svg.append('g');
@@ -2304,24 +2494,52 @@ function drawFrontierLineFigures(containerId) {
             }
 
             if (!summary.percentileScale) {
-                labelGroup.append('text').attr('x', xStart - 10).attr('y', y + 4).attr('fill', '#555').attr('font-size', isMobile ? 10 : 11).attr('text-anchor', 'end').text(roundStarValue(summary.scaleMaxValue));
+                const scaleMaxLabel = summary.aapcScale ? formatAapcValue(summary.scaleMaxValue) : roundStarValue(summary.scaleMaxValue);
+                labelGroup.append('text')
+                    .attr('x', xStart - 10)
+                    .attr('y', y + 4)
+                    .attr('fill', '#555')
+                    .attr('font-size', isMobile ? 10 : 11)
+                    .attr('font-weight', summary.halvingAxis ? 700 : null)
+                    .attr('text-anchor', 'end')
+                    .text(scaleMaxLabel);
                 const scaleMinLabel = (scaleMode === 'main5' || scaleMode === 'main5-global') && frontierAxisScaleState[containerId] !== 'log'
                     ? '0'
                     : (scaleMode === 'global' || scaleMode === 'main5-global') && frontierAxisScaleState[containerId] === 'log' && summary.scaleMinValue <= 0
                         ? String(FRONTIER_LOG_SCALE_MIN_VALUE)
-                        : roundStarValue(summary.scaleMinValue);
-                labelGroup.append('text').attr('x', xEnd + 14).attr('y', y + 4).attr('fill', '#555').attr('font-size', isMobile ? 10 : 11).attr('text-anchor', 'start').text(scaleMinLabel);
+                        : summary.aapcScale
+                            ? formatAapcValue(summary.scaleMinValue)
+                            : roundStarValue(summary.scaleMinValue);
+                labelGroup.append('text')
+                    .attr('x', summary.halvingAxis ? xEnd + 10 : xEnd + 14)
+                    .attr('y', y + 4)
+                    .attr('fill', '#555')
+                    .attr('font-size', isMobile ? 10 : 11)
+                    .attr('text-anchor', 'start')
+                    .text(scaleMinLabel);
             }
 
             const baseX = summary.earliestBeyondScale ? xStart : valueToX(summary.earliest.plotValue, summary.scaleMinValue, summary.scaleMaxValue, xStart, xEnd);
             const latestValueForPosition = Number.isFinite(summary.latestScaleValue) ? summary.latestScaleValue : summary.latest.plotValue;
             const latestX = summary.latestBeyondScale ? xStart : valueToX(latestValueForPosition, summary.scaleMinValue, summary.scaleMaxValue, xStart, xEnd);
+            const latestX2 = valueToX(summary.latestScaleValue2, summary.scaleMinValue, summary.scaleMaxValue, xStart, xEnd);
             const goalX = valueToX(summary.goalValue, summary.scaleMinValue, summary.scaleMaxValue, xStart, xEnd);
             const projected2050X = valueToX(summary.projected2050Value, summary.scaleMinValue, summary.scaleMaxValue, xStart, xEnd);
+            const projected2050X2 = valueToX(summary.projected2050Value2, summary.scaleMinValue, summary.scaleMaxValue, xStart, xEnd);
             const markerBaseY = y;
             const markerLatestY = y;
             const triangleRotation = summary.recentOnly ? 90 : (summary.latest.plotValue < summary.earliest.plotValue ? 90 : -90);
-            const latestTriangleSize = scaleMode === 'main5' || scaleMode === 'main5-global' ? triangleMarkerSize * 1.35 : triangleMarkerSize;
+            const latestTercile = Number(summary.latest?.tercile);
+            const aapcTriangleSizeByTercile = {
+                1: triangleMarkerSize * 1.75,
+                2: triangleMarkerSize * 1.05,
+                3: triangleMarkerSize * 0.48
+            };
+            const latestTriangleSize = summary.aapcScale && Number.isFinite(latestTercile)
+                ? (aapcTriangleSizeByTercile[latestTercile] || triangleMarkerSize)
+                : scaleMode === 'main5' || scaleMode === 'main5-global'
+                    ? triangleMarkerSize * 1.35
+                    : triangleMarkerSize;
             const labelOffsetAbove = isMobile ? -14 : -16;
             const labelOffsetBelow = isMobile ? 22 : 24;
             const visibleMarkers = [];
@@ -2330,6 +2548,8 @@ function drawFrontierLineFigures(containerId) {
             if (summary.latestVisible) { visibleMarkers.push({ key: 'latest', value: summary.latest.plotValue }); }
             if (summary.goalVisible) { visibleMarkers.push({ key: 'goal', value: summary.goalValue }); }
             if (summary.projected2050Visible) { visibleMarkers.push({ key: 'projected2050', value: summary.projected2050Value }); }
+            if (summary.latestVisible2) { visibleMarkers.push({ key: 'latest2', value: summary.latestScaleValue2 }); }
+            if (summary.projected2050Visible2) { visibleMarkers.push({ key: 'projected20502', value: summary.projected2050Value2 }); }
 
             visibleMarkers
                 .sort((a, b) => {
@@ -2353,8 +2573,31 @@ function drawFrontierLineFigures(containerId) {
             if (summary.bothBeyondScale) {
                 valueLabelGroup.append('text').attr('x', xStart + 8).attr('y', y - 18).attr('fill', '#555').attr('font-size', isMobile ? 10 : 11).attr('font-weight', 600).attr('text-anchor', 'start').text('Both values exceed scale');
             }
+            if (summary.halvingAxis && summary.latestVisible && summary.projected2050Visible) {
+                markerGroup.append('line')
+                    .attr('x1', latestX)
+                    .attr('y1', markerLatestY + (summary.halvingComparison ? -5 : 0))
+                    .attr('x2', projected2050X)
+                    .attr('y2', y + (summary.halvingComparison ? -5 : 0))
+                    .attr('stroke', '#333333')
+                    .attr('stroke-width', 1.5);
+            }
+            if (summary.halvingAxis && summary.halvingComparison && summary.latestVisible && summary.projected2050Visible2) {
+                markerGroup.append('line')
+                    .attr('x1', latestX)
+                    .attr('y1', markerLatestY + 7)
+                    .attr('x2', projected2050X2)
+                    .attr('y2', y + 7)
+                    .attr('stroke', '#1f78b4')
+                    .attr('stroke-width', 1.5)
+                    .attr('stroke-dasharray', '4,3');
+            }
             if (summary.latestVisible) {
-                drawTriangleMarker(markerGroup, { x: latestX, y: markerLatestY }, latestTriangleSize, summary.latestColor, '#ffffff', triangleRotation, 1.1);
+                if (summary.halvingAxis) {
+                    markerGroup.append('circle').attr('cx', latestX).attr('cy', markerLatestY).attr('r', isMobile ? 4.5 : 5).attr('fill', summary.latestColor).attr('stroke', '#ffffff').attr('stroke-width', 1);
+                } else {
+                    drawTriangleMarker(markerGroup, { x: latestX, y: markerLatestY }, latestTriangleSize, summary.latestColor, '#ffffff', triangleRotation, 1.1);
+                }
             }
             if (summary.earliestVisible) {
                 markerGroup.append('circle').attr('cx', baseX).attr('cy', markerBaseY).attr('r', isMobile ? 4 : 4.5).attr('fill', summary.baselineColor).attr('stroke', '#ffffff').attr('stroke-width', 1);
@@ -2363,7 +2606,14 @@ function drawFrontierLineFigures(containerId) {
                 markerGroup.append('path').attr('d', d3.symbol().type(d3.symbolStar).size(goalStarSize)()).attr('transform', `translate(${goalX}, ${y})`).attr('fill', '#2c8a4b').attr('stroke', '#1f6b39').attr('stroke-width', 1.1);
             }
             if (summary.projected2050Visible) {
-                markerGroup.append('path').attr('d', d3.symbol().type(d3.symbolDiamond).size(isMobile ? 70 : 120)()).attr('transform', `translate(${projected2050X}, ${y})`).attr('fill', '#f0a43b').attr('stroke', '#c97816').attr('stroke-width', 1.2);
+                if (summary.halvingAxis) {
+                    drawTriangleMarker(markerGroup, { x: projected2050X, y: y + (summary.halvingComparison ? -5 : 0) }, latestTriangleSize, '#555555', '#ffffff', 90, 1.1);
+                } else {
+                    markerGroup.append('path').attr('d', d3.symbol().type(d3.symbolDiamond).size(isMobile ? 70 : 120)()).attr('transform', `translate(${projected2050X}, ${y})`).attr('fill', '#f0a43b').attr('stroke', '#c97816').attr('stroke-width', 1.2);
+                }
+            }
+            if (summary.projected2050Visible2) {
+                drawTriangleMarker(markerGroup, { x: projected2050X2, y: y + 7 }, latestTriangleSize, '#ffffff', '#1f78b4', 90, 1.6);
             }
 
             if (summary.earliestVisible) {
@@ -2372,11 +2622,28 @@ function drawFrontierLineFigures(containerId) {
             if (summary.goalVisible) {
                 valueLabelGroup.append('text').attr('x', goalX).attr('y', y + (markerLabelOffsetByKey.get('goal') ?? labelOffsetAbove)).attr('fill', '#444444').attr('font-size', isMobile ? 10 : 12).attr('font-weight', 600).attr('text-anchor', 'middle').text(roundStarValue(summary.goalValue));
             }
-            if (summary.latestVisible) {
+            if (summary.latestVisible && !summary.halvingAxis) {
                 valueLabelGroup.append('text').attr('x', latestX).attr('y', markerLatestY + (markerLabelOffsetByKey.get('latest') ?? labelOffsetAbove)).attr('fill', summary.latestColor).attr('font-size', isMobile ? 10 : 12).attr('font-weight', 600).attr('text-anchor', 'middle').text(roundStarValue(summary.latest.plotValue));
             }
             if (summary.projected2050Visible) {
-                valueLabelGroup.append('text').attr('x', projected2050X).attr('y', y + (markerLabelOffsetByKey.get('projected2050') ?? labelOffsetAbove)).attr('fill', '#a6610f').attr('font-size', isMobile ? 10 : 12).attr('font-weight', 600).attr('text-anchor', 'middle').text(roundStarValue(summary.projected2050Value));
+                valueLabelGroup.append('text')
+                    .attr('x', projected2050X)
+                    .attr('y', y + (summary.halvingComparison ? -15 : (markerLabelOffsetByKey.get('projected2050') ?? labelOffsetAbove)))
+                    .attr('fill', summary.halvingAxis ? '#555555' : '#a6610f')
+                    .attr('font-size', isMobile ? 10 : 12)
+                    .attr('font-weight', 600)
+                    .attr('text-anchor', 'middle')
+                    .text(roundStarValue(summary.projected2050Value));
+            }
+            if (summary.projected2050Visible2) {
+                valueLabelGroup.append('text')
+                    .attr('x', projected2050X2)
+                    .attr('y', y + 28)
+                    .attr('fill', '#1f78b4')
+                    .attr('font-size', isMobile ? 10 : 12)
+                    .attr('font-weight', 600)
+                    .attr('text-anchor', 'middle')
+                    .text(roundStarValue(summary.projected2050Value2));
             }
         });
 
@@ -2500,7 +2767,7 @@ function drawFrontierOutcomeLineFigures(containerId) {
         ? 'global'
         : requestedScaleMode === 'ppd'
             ? 'ppd'
-            : requestedScaleMode === 'main5' || requestedScaleMode === 'main5-global' || requestedScaleMode === 'main5-recent'
+            : requestedScaleMode === 'main5' || requestedScaleMode === 'main5-global' || requestedScaleMode === 'main5-recent' || requestedScaleMode === 'main5-aapc' || requestedScaleMode === 'main5-aapc-compare'
                 ? requestedScaleMode
                 : 'tercile';
     container.innerHTML = '';
@@ -2601,6 +2868,18 @@ function drawFrontierOutcomeLineFigures(containerId) {
                     });
                 });
 
+                if (scaleMode === 'main5-aapc' || scaleMode === 'main5-aapc-compare') {
+                    countryEntries.forEach((entry) => {
+                        if (Number.isFinite(entry.latest.aapc) && Number.isFinite(entry.latest.pop) && entry.latest.pop > POP2023_MIN_FOR_MORTALITY_TERCILES) {
+                            ensureFrontierExtent(extents, `aapc||${sex}`, -entry.latest.aapc);
+                        }
+                        if (scaleMode === 'main5-aapc-compare' && Number.isFinite(entry.latest.aapc2) && Number.isFinite(entry.latest.pop) && entry.latest.pop > POP2023_MIN_FOR_MORTALITY_TERCILES) {
+                            ensureFrontierExtent(extents, `aapc||${sex}`, -entry.latest.aapc2);
+                        }
+                    });
+                    return;
+                }
+
                 if (scaleMode === 'main5-recent') {
                     countryEntries.forEach((entry) => {
                         ensureFrontierExtent(extents, `recent||${sex}`, entry.latest.plotValue);
@@ -2680,6 +2959,52 @@ function drawFrontierOutcomeLineFigures(containerId) {
         const earliest = matching[0];
         const latest = matching[matching.length - 1];
         const comparison = matching.length > 1 ? earliest : null;
+        if (scaleMode === 'main5-aapc' || scaleMode === 'main5-aapc-compare') {
+            const extent = frontierExtents.get(`aapc||${sex}`);
+            const latestDecline = Number.isFinite(latest.aapc) ? -latest.aapc : null;
+            const latestDecline2 = Number.isFinite(latest.aapc2) ? -latest.aapc2 : null;
+            const latestDeclineTercile = getMain5AapcDeclineTercile(latestDecline, extent);
+            const latestDeclineTercile2 = getMain5AapcDeclineTercile(latestDecline2, extent);
+            let scaleMinValue = extent ? extent.min : latestDecline;
+            let scaleMaxValue = extent ? extent.max : latestDecline;
+            if (!Number.isFinite(scaleMinValue) || !Number.isFinite(scaleMaxValue)) {
+                scaleMinValue = Number.isFinite(latestDecline) ? latestDecline : -0.01;
+                scaleMaxValue = Number.isFinite(latestDecline) ? latestDecline : 0.01;
+            }
+            if (scaleMinValue === scaleMaxValue) {
+                scaleMinValue -= 0.01;
+                scaleMaxValue += 0.01;
+            }
+            return {
+                country,
+                earliest: latest,
+                latest,
+                comparison: null,
+                goalValue: null,
+                projected2050Value: null,
+                scaleKey: null,
+                scaleLabel: null,
+                scaleMinValue,
+                scaleMaxValue,
+                latestScaleValue: latestDecline,
+                latestScaleValue2: latestDecline2,
+                recentOnly: true,
+                aapcScale: true,
+                aapcComparison: scaleMode === 'main5-aapc-compare',
+                yearCaption: scaleMode === 'main5-aapc-compare' ? `${getMain5AapcRangeLabel(latest)} and 5-year comparison` : getMain5AapcRangeLabel(latest),
+                earliestVisible: false,
+                latestVisible: Number.isFinite(latestDecline),
+                latestVisible2: Number.isFinite(latestDecline2),
+                goalVisible: false,
+                projected2050Visible: false,
+                latestDeclineTercile,
+                latestDeclineTercile2,
+                latestColor: scaleMode === 'main5-aapc-compare' ? '#333333' : getMain5AapcTercileColor(latestDeclineTercile),
+                latestColor2: '#1f78b4',
+                baselineColor: '#000000'
+            };
+        }
+
         if (scaleMode === 'main5-recent') {
             const usePercentileScale = frontierRecentPercentileState[containerId] === true;
             const extent = frontierExtents.get(`recent||${sex}`);
@@ -2790,13 +3115,26 @@ function drawFrontierOutcomeLineFigures(containerId) {
             const logMax = frontierLogScaleValue(scaleMaxValue);
             share = logMin === logMax ? 0 : (logMax - frontierLogScaleValue(logClamped)) / (logMax - logMin);
         } else {
-            share = (scaleMaxValue - clamped) / (scaleMaxValue - scaleMinValue);
+            share = scaleMode === 'main5-aapc' || scaleMode === 'main5-aapc-compare'
+                ? (clamped - scaleMinValue) / (scaleMaxValue - scaleMinValue)
+                : (scaleMaxValue - clamped) / (scaleMaxValue - scaleMinValue);
         }
         return xStart + share * (xEnd - xStart);
     }
 
     function renderLegend(wrapper, legendSvgId, width) {
-        const legendItems = scaleMode === 'main5-recent'
+        const legendItems = scaleMode === 'main5-aapc-compare'
+            ? [
+                { label: 'AAPC based on past 10-year trends', shape: 'triangle', color: '#333333', size: 175 },
+                { label: 'AAPC based on past 5-year trends', shape: 'triangle-open', color: '#1f78b4', size: 175 }
+            ]
+            : scaleMode === 'main5-aapc'
+            ? [
+                { label: 'Slowest decline', shape: 'triangle', color: main5AapcTercileColors[3], size: 80 },
+                { label: 'Intermediate decline', shape: 'triangle', color: main5AapcTercileColors[2], size: 175 },
+                { label: 'Fastest decline', shape: 'triangle', color: main5AapcTercileColors[1], size: 325 }
+            ]
+            : scaleMode === 'main5-recent'
             ? [
                 { label: 'Off track', shape: 'triangle', color: main5ProspectColors[0] },
                 { label: 'Partial progress', shape: 'triangle', color: main5ProspectColors[1] },
@@ -2815,11 +3153,23 @@ function drawFrontierOutcomeLineFigures(containerId) {
                 { label: 'Half of most recent value', shape: 'star', color: '#2c8a4b' },
                 { label: 'Projected 2050 value', shape: 'diamond', color: '#c97816' }
             ];
-        const legendHeight = scaleMode === 'main5-recent' ? 42 : 88;
+        const legendHeight = scaleMode === 'main5-aapc-compare'
+            ? 58
+            : scaleMode === 'main5-recent' || scaleMode === 'main5-aapc'
+                ? 42
+                : 88;
         const showTrueValueLegendLabel = scaleMode === 'main5-recent' && frontierRecentPercentileState[containerId] === true;
-        const legendPaddingLeft = scaleMode === 'main5-recent' ? Math.max(14, width * 0.22) : 14;
-        const legendColumnCount = scaleMode === 'main5-recent' ? 3 : 2;
-        const legendColumnWidth = (width - legendPaddingLeft - 8) / legendColumnCount;
+        const legendPaddingLeft = scaleMode === 'main5-aapc-compare'
+            ? 18
+            : scaleMode === 'main5-aapc'
+                ? Math.max(14, width * 0.30)
+            : scaleMode === 'main5-recent'
+                ? Math.max(14, width * 0.22)
+                : 14;
+        const legendColumnCount = scaleMode === 'main5-recent' || scaleMode === 'main5-aapc' ? 3 : (scaleMode === 'main5-aapc-compare' ? 2 : 2);
+        const legendColumnWidth = scaleMode === 'main5-aapc' || scaleMode === 'main5-aapc-compare'
+            ? (width - legendPaddingLeft + 32) / legendColumnCount
+            : (width - legendPaddingLeft - 8) / legendColumnCount;
         const svg = wrapper.append('svg')
             .attr('id', legendSvgId)
             .attr('class', 'star-legend-svg frontier-line-legend-svg')
@@ -2842,8 +3192,8 @@ function drawFrontierOutcomeLineFigures(containerId) {
             .append('g')
             .attr('class', 'frontier-outcome-legend-entry')
             .attr('transform', (d, i) => {
-                const row = scaleMode === 'main5-recent' ? 0 : Math.floor(i / 2);
-                const col = scaleMode === 'main5-recent' ? i : i % 2;
+                const row = scaleMode === 'main5-recent' || scaleMode === 'main5-aapc' || scaleMode === 'main5-aapc-compare' ? 0 : Math.floor(i / 2);
+                const col = scaleMode === 'main5-recent' || scaleMode === 'main5-aapc' || scaleMode === 'main5-aapc-compare' ? i : i % 2;
                 return `translate(${legendPaddingLeft + col * legendColumnWidth}, ${row * 28 + 14})`;
             });
 
@@ -2852,7 +3202,9 @@ function drawFrontierOutcomeLineFigures(containerId) {
             if (d.shape === 'dot') {
                 g.append('circle').attr('cx', 7).attr('cy', 0).attr('r', 4).attr('fill', d.color).attr('stroke', '#ffffff').attr('stroke-width', 1);
             } else if (d.shape === 'triangle') {
-                drawTriangleMarker(g, { x: 7, y: 0 }, 170, d.color, '#ffffff', 90, 1);
+                drawTriangleMarker(g, { x: 7, y: 0 }, d.size || 170, d.color, '#ffffff', 90, 1);
+            } else if (d.shape === 'triangle-open') {
+                drawTriangleMarker(g, { x: 7, y: 0 }, d.size || 170, '#ffffff', d.color, 90, 1.6);
             } else if (d.shape === 'diamond') {
                 g.append('path').attr('d', d3.symbol().type(d3.symbolDiamond).size(110)()).attr('transform', 'translate(8,0)').attr('fill', '#f0a43b').attr('stroke', d.color).attr('stroke-width', 1.2);
             } else {
@@ -2971,24 +3323,38 @@ function drawFrontierOutcomeLineFigures(containerId) {
             lineGroup.append('path').attr('d', d3.symbol().type(d3.symbolTriangle).size(42)()).attr('transform', `translate(${xEnd + 2}, ${y}) rotate(90)`).attr('fill', '#8a8a8a');
 
             if (!summary.percentileScale) {
-                labelGroup.append('text').attr('x', xStart - 10).attr('y', y + 4).attr('fill', '#555').attr('font-size', isMobile ? 10 : 11).attr('text-anchor', 'end').text(roundStarValue(summary.scaleMaxValue));
+                const scaleMaxLabel = summary.aapcScale ? formatAapcValue(summary.scaleMaxValue) : roundStarValue(summary.scaleMaxValue);
+                const scaleStartLabel = summary.aapcScale ? formatAapcValue(summary.scaleMinValue) : scaleMaxLabel;
+                labelGroup.append('text').attr('x', xStart - 10).attr('y', y + 4).attr('fill', '#555').attr('font-size', isMobile ? 10 : 11).attr('text-anchor', 'end').text(scaleStartLabel);
                 const scaleMinLabel = (scaleMode === 'main5' || scaleMode === 'main5-global') && frontierAxisScaleState[containerId] !== 'log'
                     ? '0'
                     : (scaleMode === 'global' || scaleMode === 'main5-global') && frontierAxisScaleState[containerId] === 'log' && summary.scaleMinValue <= 0
                         ? String(FRONTIER_LOG_SCALE_MIN_VALUE)
-                        : roundStarValue(summary.scaleMinValue);
+                        : summary.aapcScale
+                            ? formatAapcValue(summary.scaleMaxValue)
+                            : roundStarValue(summary.scaleMinValue);
                 labelGroup.append('text').attr('x', xEnd + 14).attr('y', y + 4).attr('fill', '#555').attr('font-size', isMobile ? 10 : 11).attr('text-anchor', 'start').text(scaleMinLabel);
             }
 
             const baseX = summary.earliestBeyondScale ? xStart : valueToX(summary.earliest.plotValue, summary.scaleMinValue, summary.scaleMaxValue, xStart, xEnd);
             const latestValueForPosition = Number.isFinite(summary.latestScaleValue) ? summary.latestScaleValue : summary.latest.plotValue;
             const latestX = summary.latestBeyondScale ? xStart : valueToX(latestValueForPosition, summary.scaleMinValue, summary.scaleMaxValue, xStart, xEnd);
+            const latestX2 = valueToX(summary.latestScaleValue2, summary.scaleMinValue, summary.scaleMaxValue, xStart, xEnd);
             const goalX = valueToX(summary.goalValue, summary.scaleMinValue, summary.scaleMaxValue, xStart, xEnd);
             const projected2050X = valueToX(summary.projected2050Value, summary.scaleMinValue, summary.scaleMaxValue, xStart, xEnd);
             const markerBaseY = y;
             const markerLatestY = y;
             const triangleRotation = summary.recentOnly ? 90 : (summary.latest.plotValue < summary.earliest.plotValue ? 90 : -90);
-            const latestTriangleSize = scaleMode === 'main5' || scaleMode === 'main5-global' ? triangleMarkerSize * 1.35 : triangleMarkerSize;
+            const aapcTriangleSizeByTercile = {
+                1: triangleMarkerSize * 1.75,
+                2: triangleMarkerSize * 1.05,
+                3: triangleMarkerSize * 0.48
+            };
+            const latestTriangleSize = summary.aapcScale && Number.isFinite(summary.latestDeclineTercile)
+                ? (aapcTriangleSizeByTercile[summary.latestDeclineTercile] || triangleMarkerSize)
+                : scaleMode === 'main5' || scaleMode === 'main5-global'
+                    ? triangleMarkerSize * 1.35
+                    : triangleMarkerSize;
             const labelOffsetAbove = isMobile ? -14 : -16;
             const labelOffsetBelow = isMobile ? 22 : 24;
             const visibleMarkers = [];
@@ -3020,8 +3386,21 @@ function drawFrontierOutcomeLineFigures(containerId) {
             if (summary.bothBeyondScale) {
                 valueLabelGroup.append('text').attr('x', xStart + 8).attr('y', y - 18).attr('fill', '#555').attr('font-size', isMobile ? 10 : 11).attr('font-weight', 600).attr('text-anchor', 'start').text('Both values exceed scale');
             }
+            if (summary.aapcComparison && summary.latestVisible && summary.latestVisible2) {
+                markerGroup.append('line')
+                    .attr('x1', latestX)
+                    .attr('y1', markerLatestY - 5)
+                    .attr('x2', latestX2)
+                    .attr('y2', markerLatestY + 7)
+                    .attr('stroke', '#1f78b4')
+                    .attr('stroke-width', 1.4)
+                    .attr('stroke-dasharray', '4,3');
+            }
             if (summary.latestVisible) {
-                drawTriangleMarker(markerGroup, { x: latestX, y: markerLatestY }, latestTriangleSize, summary.latestColor, '#ffffff', triangleRotation, 1.1);
+                drawTriangleMarker(markerGroup, { x: latestX, y: markerLatestY + (summary.aapcComparison ? -5 : 0) }, latestTriangleSize, summary.latestColor, '#ffffff', triangleRotation, 1.1);
+            }
+            if (summary.latestVisible2) {
+                drawTriangleMarker(markerGroup, { x: latestX2, y: markerLatestY + 7 }, triangleMarkerSize, '#ffffff', summary.latestColor2, triangleRotation, 1.6);
             }
             if (summary.earliestVisible) {
                 markerGroup.append('circle').attr('cx', baseX).attr('cy', markerBaseY).attr('r', isMobile ? 4 : 4.5).attr('fill', summary.baselineColor).attr('stroke', '#ffffff').attr('stroke-width', 1);
@@ -3040,7 +3419,11 @@ function drawFrontierOutcomeLineFigures(containerId) {
                 valueLabelGroup.append('text').attr('x', goalX).attr('y', y + (markerLabelOffsetByKey.get('goal') ?? labelOffsetAbove)).attr('fill', '#444444').attr('font-size', isMobile ? 10 : 12).attr('font-weight', 600).attr('text-anchor', 'middle').text(roundStarValue(summary.goalValue));
             }
             if (summary.latestVisible) {
-                valueLabelGroup.append('text').attr('x', latestX).attr('y', markerLatestY + (markerLabelOffsetByKey.get('latest') ?? labelOffsetAbove)).attr('fill', summary.latestColor).attr('font-size', isMobile ? 10 : 12).attr('font-weight', 600).attr('text-anchor', 'middle').text(roundStarValue(summary.latest.plotValue));
+                const latestLabel = summary.aapcScale ? formatAapcValue(summary.latestScaleValue) : roundStarValue(summary.latest.plotValue);
+                valueLabelGroup.append('text').attr('x', latestX).attr('y', markerLatestY + (summary.aapcComparison ? -17 : (markerLabelOffsetByKey.get('latest') ?? labelOffsetAbove))).attr('fill', summary.latestColor).attr('font-size', isMobile ? 10 : 12).attr('font-weight', 600).attr('text-anchor', 'middle').text(latestLabel);
+            }
+            if (summary.latestVisible2) {
+                valueLabelGroup.append('text').attr('x', latestX2).attr('y', markerLatestY + 28).attr('fill', summary.latestColor2).attr('font-size', isMobile ? 10 : 12).attr('font-weight', 600).attr('text-anchor', 'middle').text(formatAapcValue(summary.latestScaleValue2));
             }
             if (summary.projected2050Visible) {
                 valueLabelGroup.append('text').attr('x', projected2050X).attr('y', y + (markerLabelOffsetByKey.get('projected2050') ?? labelOffsetAbove)).attr('fill', '#a6610f').attr('font-size', isMobile ? 10 : 12).attr('font-weight', 600).attr('text-anchor', 'middle').text(roundStarValue(summary.projected2050Value));
@@ -3104,7 +3487,7 @@ function drawFrontierOutcomeLineFigures(containerId) {
             const summaries = selectedCountries
                 .map(country => buildCountrySummary(country, rows, frontierExtents, sex))
                 .filter(Boolean);
-            if (scaleMode === 'global' || scaleMode === 'main5-global' || scaleMode === 'main5-recent') {
+            if (scaleMode === 'global' || scaleMode === 'main5-global' || scaleMode === 'main5-recent' || scaleMode === 'main5-aapc' || scaleMode === 'main5-aapc-compare') {
                 if (summaries.length > 0) {
                     renderOutcomeSexChart(sex, null, summaries);
                     chartCount += 1;

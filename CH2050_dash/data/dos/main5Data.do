@@ -217,7 +217,26 @@ drop if pop<5000 & heading1!="Aggregates"
 */
 replace value = 0.1 if value == 0
 
+merge m:1 iso3 using pop, nogen
 
+gen byte pctile = . 
+levelsof ageg
+foreach y in `r(levels)' {
+* Define percentile cutpoints using only part of the data
+_pctile value if ageg == "`y'" & pop > 5000 & pop < . , nq(100)
+
+* Store the 99 cutpoints
+forvalues p = 1/99 {
+    local c`p' = r(r`p')
+}
+
+* Assign all observations to percentiles based on those cutpoints
+replace pctile = 1 if !missing(value) & ageg == "`y'"
+
+forvalues p = 1/99 {
+    replace pctile = `p' + 1 if value > `c`p'' & !missing(value) & ageg == "`y'"
+}
+}
 
 drop loc heading1 heading2 loc iso3 projected2050 x iso3
 compress
