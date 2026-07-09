@@ -1883,13 +1883,27 @@ function drawFrontierLineFigures(containerId) {
         ? 'global'
         : requestedScaleMode === 'ppd'
             ? 'ppd'
-            : requestedScaleMode === 'main5' || requestedScaleMode === 'main5-global' || requestedScaleMode === 'main5-recent' || requestedScaleMode === 'main5-halving2050' || requestedScaleMode === 'main5-halving2050-compare'
+            : requestedScaleMode === 'main5' || requestedScaleMode === 'main5-global' || requestedScaleMode === 'main5-recent' || requestedScaleMode === 'main5-halving2050' || requestedScaleMode === 'main5-halving2050-compare' || requestedScaleMode === 'main5-frontier2050'
                 ? requestedScaleMode
                 : 'tercile';
     const linePlotOutcomeOrder = ['nnm', 'pnm', 'q5_19', 'hgap', 'math'];
+    // In frontier2050 mode the data hold absolute height and math score (not gaps), so higher is better.
+    const frontierHigherIsBetter = (outcomeKey) => scaleMode === 'main5-frontier2050' && (outcomeKey === 'hgap' || outcomeKey === 'math');
     const linePlotOutcomeConfig = linePlotOutcomeOrder
         .map((key) => starOutcomeConfig.find((outcome) => outcome.key === key))
-        .filter(Boolean);
+        .filter(Boolean)
+        .map((outcome) => {
+            if (scaleMode !== 'main5-frontier2050') {
+                return outcome;
+            }
+            if (outcome.key === 'hgap') {
+                return { ...outcome, labelLines: ['Height at age 19'], shortLabel: 'Height at age 19' };
+            }
+            if (outcome.key === 'math') {
+                return { ...outcome, labelLines: ['Math score'], shortLabel: 'Math score' };
+            }
+            return outcome;
+        });
     container.innerHTML = '';
     const root = d3.select(`#${containerId}`);
     if (!frontierAxisScaleState[containerId]) {
@@ -1985,9 +1999,9 @@ function drawFrontierLineFigures(containerId) {
                     });
                 });
 
-                if (scaleMode === 'main5-recent' || scaleMode === 'main5-halving2050' || scaleMode === 'main5-halving2050-compare') {
+                if (scaleMode === 'main5-recent' || scaleMode === 'main5-halving2050' || scaleMode === 'main5-halving2050-compare' || scaleMode === 'main5-frontier2050') {
                     countryEntries.forEach((entry) => {
-                        if (scaleMode === 'main5-recent' || (Number.isFinite(entry.latest.pop) && entry.latest.pop > POP2023_MIN_FOR_MORTALITY_TERCILES)) {
+                        if (scaleMode === 'main5-recent' || scaleMode === 'main5-frontier2050' || (Number.isFinite(entry.latest.pop) && entry.latest.pop > POP2023_MIN_FOR_MORTALITY_TERCILES)) {
                             ensureFrontierExtent(extents, `recent||${outcomeKey}||${sex}`, entry.latest.plotValue);
                         }
                     });
@@ -2073,11 +2087,16 @@ function drawFrontierLineFigures(containerId) {
         const earliest = matching[0];
         const latest = matching[matching.length - 1];
         const comparison = matching.length > 1 ? earliest : null;
-        if (scaleMode === 'main5-recent' || scaleMode === 'main5-halving2050' || scaleMode === 'main5-halving2050-compare') {
+        if (scaleMode === 'main5-recent' || scaleMode === 'main5-halving2050' || scaleMode === 'main5-halving2050-compare' || scaleMode === 'main5-frontier2050') {
             const usePercentileScale = frontierRecentPercentileState[containerId] === true;
             const extent = frontierExtents.get(`recent||${outcome.key}||${sex}`);
-            let scaleMinValue = 0;
-            let scaleMaxValue = scaleMode === 'main5-halving2050' || scaleMode === 'main5-halving2050-compare'
+            const higherIsBetter = frontierHigherIsBetter(outcome.key);
+            // frontier2050: the line runs from the location's most recent value to the best
+            // value across all locations (lowest for mortality, highest for height and math).
+            let scaleMinValue = scaleMode === 'main5-frontier2050' && extent
+                ? (higherIsBetter ? extent.max : extent.min)
+                : 0;
+            let scaleMaxValue = scaleMode === 'main5-halving2050' || scaleMode === 'main5-halving2050-compare' || scaleMode === 'main5-frontier2050'
                 ? latest.plotValue
                 : scaleMode === 'main5-recent' && usePercentileScale
                     ? 100
@@ -2087,15 +2106,21 @@ function drawFrontierLineFigures(containerId) {
                 scaleMaxValue = latest.plotValue;
             }
             if (scaleMinValue === scaleMaxValue) {
-                scaleMaxValue += 1;
+                if (scaleMode === 'main5-frontier2050') {
+                    // The selected location is itself the best observed value; nudge the scale away from the
+                    // frontier end so the dot (and a clamped projection) sit at 100% and labels stay unchanged.
+                    scaleMaxValue += higherIsBetter ? -1e-9 : 1e-9;
+                } else {
+                    scaleMaxValue += 1;
+                }
             }
             const latestScaleValue = scaleMode === 'main5-recent' && usePercentileScale && Number.isFinite(latest.pctile)
                 ? latest.pctile
                 : latest.plotValue;
             const halvingPctRaw = latest.pctDecrease2050;
-            const projected2050Value = (scaleMode === 'main5-halving2050' || scaleMode === 'main5-halving2050-compare') && Number.isFinite(latest.projected2050)
+            const projected2050Value = (scaleMode === 'main5-halving2050' || scaleMode === 'main5-halving2050-compare' || scaleMode === 'main5-frontier2050') && Number.isFinite(latest.projected2050)
                 ? latest.projected2050
-                : (scaleMode === 'main5-halving2050' || scaleMode === 'main5-halving2050-compare') && Number.isFinite(halvingPctRaw)
+                : (scaleMode === 'main5-halving2050' || scaleMode === 'main5-halving2050-compare' || scaleMode === 'main5-frontier2050') && Number.isFinite(halvingPctRaw)
                     ? latest.plotValue * (1 - (halvingPctRaw / 100))
                     : null;
             const halvingPctRaw2 = latest.pctDecrease20502;
@@ -2104,11 +2129,32 @@ function drawFrontierLineFigures(containerId) {
                 : scaleMode === 'main5-halving2050-compare' && Number.isFinite(halvingPctRaw2)
                     ? latest.plotValue * (1 - (halvingPctRaw2 / 100))
                     : null;
+            // Trend carries the location past the best observed value before 2050: the triangle is
+            // replaced by a line to the right edge plus a note.
+            const projectedBeyondFrontier = Boolean(
+                scaleMode === 'main5-frontier2050' &&
+                Number.isFinite(projected2050Value) &&
+                extent &&
+                (higherIsBetter ? projected2050Value > extent.max : projected2050Value < extent.min)
+            );
+            // Trend moves away from the best observed value: no triangle; a note flags the worsening trend.
+            const projectedWorsening = Boolean(
+                scaleMode === 'main5-frontier2050' &&
+                Number.isFinite(projected2050Value) &&
+                (higherIsBetter ? projected2050Value < latest.plotValue : projected2050Value > latest.plotValue)
+            );
             const projected2050Visible = Boolean(
                 (scaleMode === 'main5-halving2050' || scaleMode === 'main5-halving2050-compare') &&
                 Number.isFinite(projected2050Value) &&
                 projected2050Value >= 0 &&
                 projected2050Value <= latest.plotValue
+            ) || Boolean(
+                scaleMode === 'main5-frontier2050' &&
+                !projectedBeyondFrontier &&
+                Number.isFinite(projected2050Value) &&
+                (higherIsBetter
+                    ? projected2050Value >= latest.plotValue
+                    : (projected2050Value >= 0 && projected2050Value <= latest.plotValue))
             );
             const projected2050Visible2 = Boolean(
                 scaleMode === 'main5-halving2050-compare' &&
@@ -2133,7 +2179,7 @@ function drawFrontierLineFigures(containerId) {
                 latestScaleValue,
                 recentOnly: true,
                 percentileScale: scaleMode === 'main5-recent' && usePercentileScale,
-                halvingAxis: scaleMode === 'main5-halving2050' || scaleMode === 'main5-halving2050-compare',
+                halvingAxis: scaleMode === 'main5-halving2050' || scaleMode === 'main5-halving2050-compare' || scaleMode === 'main5-frontier2050',
                 halvingComparison: scaleMode === 'main5-halving2050-compare',
                 halvingPctRaw,
                 halvingPctRaw2,
@@ -2142,7 +2188,9 @@ function drawFrontierLineFigures(containerId) {
                 goalVisible: false,
                 projected2050Visible,
                 projected2050Visible2,
-                latestColor: scaleMode === 'main5-halving2050' || scaleMode === 'main5-halving2050-compare' ? '#333333' : getMain5ProspectColor(latest.prospect),
+                projectedBeyondFrontier,
+                projectedWorsening,
+                latestColor: scaleMode === 'main5-halving2050' || scaleMode === 'main5-halving2050-compare' || scaleMode === 'main5-frontier2050' ? '#333333' : getMain5ProspectColor(latest.prospect),
                 baselineColor: '#000000'
             };
         }
@@ -2215,7 +2263,10 @@ function drawFrontierLineFigures(containerId) {
         if (!Number.isFinite(value) || !Number.isFinite(scaleMinValue) || !Number.isFinite(scaleMaxValue) || scaleMinValue === scaleMaxValue) {
             return xEnd;
         }
-        const clamped = Math.max(scaleMinValue, Math.min(value, scaleMaxValue));
+        // scaleMinValue can exceed scaleMaxValue in frontier2050 mode (height and math run upward), so clamp orientation-agnostically.
+        const clampLow = Math.min(scaleMinValue, scaleMaxValue);
+        const clampHigh = Math.max(scaleMinValue, scaleMaxValue);
+        const clamped = Math.max(clampLow, Math.min(value, clampHigh));
         let share;
         if ((scaleMode === 'global' || scaleMode === 'main5-global') && frontierAxisScaleState[containerId] === 'log' && scaleMaxValue > 0) {
             const logScaleMinValue = Math.max(FRONTIER_LOG_SCALE_MIN_VALUE, scaleMinValue);
@@ -2236,7 +2287,7 @@ function drawFrontierLineFigures(containerId) {
                 { label: '2050 value based on past 10-year trends', shape: 'triangle', color: '#555555' },
                 { label: '2050 value based on past 5-year trends', shape: 'triangle-open', color: '#1f78b4' }
             ]
-            : scaleMode === 'main5-halving2050'
+            : scaleMode === 'main5-halving2050' || scaleMode === 'main5-frontier2050'
             ? [
                 { label: 'Most recent value', shape: 'dot', color: '#555555' },
                 { label: '2050 value based on recent trends', shape: 'triangle', color: '#555555' }
@@ -2262,13 +2313,13 @@ function drawFrontierLineFigures(containerId) {
             ];
         const legendHeight = scaleMode === 'main5-halving2050-compare'
             ? 92
-            : scaleMode === 'main5-halving2050'
+            : scaleMode === 'main5-halving2050' || scaleMode === 'main5-frontier2050'
             ? 64
             : scaleMode === 'main5-recent'
                 ? 42
                 : 88;
         const showTrueValueLegendLabel = scaleMode === 'main5-recent' && frontierRecentPercentileState[containerId] === true;
-        const legendPaddingLeft = scaleMode === 'main5-halving2050' || scaleMode === 'main5-halving2050-compare'
+        const legendPaddingLeft = scaleMode === 'main5-halving2050' || scaleMode === 'main5-halving2050-compare' || scaleMode === 'main5-frontier2050'
             ? Math.max(14, width * 0.42)
             : scaleMode === 'main5-recent'
                 ? Math.max(14, width * 0.22)
@@ -2297,7 +2348,7 @@ function drawFrontierLineFigures(containerId) {
             .append('g')
             .attr('class', 'frontier-line-legend-entry')
             .attr('transform', (d, i) => {
-                if (scaleMode === 'main5-halving2050' || scaleMode === 'main5-halving2050-compare') {
+                if (scaleMode === 'main5-halving2050' || scaleMode === 'main5-halving2050-compare' || scaleMode === 'main5-frontier2050') {
                     return `translate(${legendPaddingLeft}, ${i * 24 + 14})`;
                 }
                 const row = scaleMode === 'main5-recent' ? 0 : Math.floor(i / 2);
@@ -2351,7 +2402,7 @@ function drawFrontierLineFigures(containerId) {
         const topPadding = 28;
         const showLogScaleNote = scaleMode === 'main5-global' && frontierAxisScaleState[containerId] === 'log';
         const showPercentileAxis = scaleMode === 'main5-recent' && frontierRecentPercentileState[containerId] === true;
-        const showHalvingAxis = scaleMode === 'main5-halving2050' || scaleMode === 'main5-halving2050-compare';
+        const showHalvingAxis = scaleMode === 'main5-halving2050' || scaleMode === 'main5-halving2050-compare' || scaleMode === 'main5-frontier2050';
         const bottomPadding = showHalvingAxis ? 132 : (showPercentileAxis ? 72 : (showLogScaleNote ? 94 : 38));
         const rowGap = isMobile ? 82 : 88;
         const height = topPadding + bottomPadding + (Math.max(summaries.length, 1) * rowGap);
@@ -2470,7 +2521,9 @@ function drawFrontierLineFigures(containerId) {
                 .attr('font-size', isMobile ? 10 : 11)
                 .attr('font-weight', 700)
                 .attr('text-anchor', 'middle')
-                .text('Projected percentage decrease by 2050');
+                .text(scaleMode === 'main5-frontier2050'
+                    ? 'Projected percentage decrease in the gap to the best observed value by 2050'
+                    : 'Projected percentage decrease by 2050');
         }
 
         const lineGroup = svg.append('g');
@@ -2581,6 +2634,33 @@ function drawFrontierLineFigures(containerId) {
                     .attr('y2', y + (summary.halvingComparison ? -5 : 0))
                     .attr('stroke', '#333333')
                     .attr('stroke-width', 1.5);
+            }
+            if (summary.projectedBeyondFrontier && summary.latestVisible) {
+                markerGroup.append('line')
+                    .attr('x1', latestX)
+                    .attr('y1', markerLatestY)
+                    .attr('x2', xEnd)
+                    .attr('y2', y)
+                    .attr('stroke', '#333333')
+                    .attr('stroke-width', 1.5);
+                valueLabelGroup.append('text')
+                    .attr('x', xEnd)
+                    .attr('y', y + labelOffsetAbove)
+                    .attr('fill', '#555555')
+                    .attr('font-size', isMobile ? 10 : 11)
+                    .attr('font-weight', 600)
+                    .attr('text-anchor', 'end')
+                    .text(`Trend implies a ${frontierHigherIsBetter(summary.key) ? 'higher' : 'lower'} 2050 value than the best observed (${roundStarValue(summary.projected2050Value)})`);
+            }
+            if (summary.projectedWorsening && summary.latestVisible) {
+                valueLabelGroup.append('text')
+                    .attr('x', xStart + 8)
+                    .attr('y', y + labelOffsetAbove)
+                    .attr('fill', '#b02a2a')
+                    .attr('font-size', isMobile ? 10 : 11)
+                    .attr('font-weight', 600)
+                    .attr('text-anchor', 'start')
+                    .text(`Trend implies a ${frontierHigherIsBetter(summary.key) ? 'lower' : 'higher'} 2050 value than the most recent (${roundStarValue(summary.projected2050Value)})`);
             }
             if (summary.halvingAxis && summary.halvingComparison && summary.latestVisible && summary.projected2050Visible2) {
                 markerGroup.append('line')
