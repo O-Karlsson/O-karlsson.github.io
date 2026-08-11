@@ -1,2 +1,2 @@
-CH2050_dash/data/tempfiles/
-CH2050_dash/data/temp.dta
+# Stata data files are never part of this site.
+*.dta
