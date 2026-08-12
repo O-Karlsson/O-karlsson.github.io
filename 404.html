@@ -4,8 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Page not found — Omar Karlsson</title>
-    <!-- Absolute paths: this page is served for any bad URL at any depth,
-         e.g. /CH2050_dash/typo, so relative paths would not resolve. -->
+    <!-- This file is intentionally identical in all three repos. GitHub Pages
+         serves a PROJECT site's own 404 for URLs under its path prefix, so the
+         user site's copy only covers root-level paths — /CH2050_dash/typo falls
+         back to GitHub's generic 404 unless that repo ships its own. Keep the
+         three copies in sync.
+         Paths are absolute so the same file works from any prefix; /style.css
+         is the portfolio's stylesheet, served from the same domain. -->
     <link rel="icon" href="/apple.png" type="image/png">
     <link rel="stylesheet" href="/style.css">
     <style>
