@@ -16,30 +16,40 @@ function loadMarkdownContent(url, targetElementId) {
 loadMarkdownContent('CV.md', 'cv-content');
 
 
-// Function to toggle main and subheadings
+// Function to toggle main and subheadings.
+// The clickable target is a <button> injected inside the heading rather than the
+// heading itself: a bare <h2> is not focusable, so the site was previously
+// impossible to open with a keyboard. Nesting a button keeps the heading
+// semantics intact instead of overriding them with role="button".
 function toggleSection(headings) {
     headings.forEach(heading => {
-        heading.addEventListener('click', () => {
-            const content = heading.nextElementSibling;
+        const content = heading.nextElementSibling;
+        if (!content || !content.classList.contains('content')) return;
 
-            // Toggle between collapsed and expanded states using max-height
-            if (content.style.display === 'block') {
-                content.style.display = 'none';
-                heading.classList.remove('expanded');
-                backToMenuButton.style.display = 'none';
-            } else {
-                content.style.display = 'block';
-                heading.classList.add('expanded');
-                backToMenuButton.style.display = 'block';
-            }
+        const button = document.createElement('button');
+        button.className = 'sect-toggle';
+        while (heading.firstChild) button.appendChild(heading.firstChild);
+        heading.appendChild(button);
+
+        // A heading marked data-open starts expanded, so a first-time visitor
+        // lands on real content and can see that the bars open.
+        const startOpen = heading.hasAttribute('data-open');
+        if (startOpen) {
+            content.style.display = 'block';
+            heading.classList.add('expanded');
+        }
+        button.setAttribute('aria-expanded', String(startOpen));
+
+        button.addEventListener('click', () => {
+            const isOpen = content.style.display === 'block';
+            content.style.display = isOpen ? 'none' : 'block';
+            heading.classList.toggle('expanded', !isOpen);
+            button.setAttribute('aria-expanded', String(!isOpen));
 
             // Show the "Back to Menu" button when any content is expanded
             document.getElementById('backToMenu').style.display = 'block';
         });
-
-        
     });
-    
 }
 
 
@@ -61,6 +71,8 @@ function collapseAllHeaders() {
 
     document.querySelectorAll('h2').forEach(heading => {
         heading.classList.remove('expanded');
+        const button = heading.querySelector('.sect-toggle');
+        if (button) button.setAttribute('aria-expanded', 'false');
     });
 
     // Hide the "Back to Menu" button
@@ -131,6 +143,8 @@ window.addEventListener('load', () => {
             if (content && content.classList.contains('content')) {
                 content.style.display = 'block';
                 heading.classList.add('expanded');
+                const button = heading.querySelector('.sect-toggle');
+                if (button) button.setAttribute('aria-expanded', 'true');
                 if (backToMenuButton) backToMenuButton.style.display = 'block';
                 
                 // Smooth scroll into view

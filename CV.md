@@ -64,7 +64,7 @@ h4 {
 <hr class="thick">
 
 
-#### WORK EXPERIENCE
+#### Work Experience
 
 **Senior Research Associate**, March 2026–present  
 Center for Policy Impact in Global Health, Duke Global Health Institute, USA  
@@ -104,5 +104,27 @@ Lund University, School of Economics and Management, Sweden
 
 <hr class="thick">
 
-#### Mentorship
+#### Grants
+
+Jan Wallanders och Tom Hedelius stiftelse samt Tore Browaldhs stiftelse, **Wallander Scholarship**, December 2020: Three-year postdoctoral scholarship
+
+Swedish Research Council, **International Postdoc**, December 2019: Three-year postdoctoral funding
+
+Jan Wallanders och Tom Hedelius stiftelse samt Tore Browaldhs stiftelse, **Hedelius Scholarship**, March 2016: One-year visiting student scholarship
+
+<hr class="thick">
+
+#### Teaching and Supervision
 Co-supervised four MSc students in Economic Demography at Lund University, 2016–2018. Advised on thesis topics and provided feedback on research design, data analysis, and written drafts. Two theses received the highest grade.
+
+**Guest Lecturer**, Duke Global Health Institute, *Global Health Challenges* (GLHLTH 701), October 2026 <em>(scheduled)</em>. Lecture on demography for global health practitioners, in a core course of Duke's Master of Science in Global Health.
+
+**Guest Lecturer**, Duke Global Health Institute, Gavin Yamey's course *Global Health Policy: Transforming Evidence into Action* (GLHLTH 306), March 2025. Lectured on *Global Health 2050: The 3rd Report of the Lancet Commission on Investing in Health (CIH 3.0)*.
+
+<hr class="thick">
+
+#### Service
+
+**Journal peer review.** Reviewer for journals including BMJ, JAMA, JAMA Network Open, American Journal of Epidemiology, Journal of Public Health, BMC Pediatrics, PLOS One, Social Science & Medicine, SSM - Population Health, Economics and Human Biology, Population Studies
+
+**Commission membership.** Member of the core writing team, Lancet Commission on Investing in Health (Global Health 2050) — an interdisciplinary initiative of 49 global experts

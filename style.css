@@ -16,6 +16,14 @@ body {
 
 .header { margin: 0px 0;}
 
+/* The landing view otherwise never says where he works. */
+.affiliation {
+    font-size: 0.92em;
+    text-align: center;
+    padding: 2px 13px 0;
+    opacity: 0.85;
+}
+
 h1 {font-size: 1.3em; margin: 0;}
 
 .profile-image {max-width: 150px; border-radius: 50%; padding: 20px;}
@@ -27,31 +35,106 @@ h1 {font-size: 1.3em; margin: 0;}
     box-sizing: border-box; /* says the padding should be included in the width/height */ 
 }
 
-hr.top {border-top: 2px solid #000; margin: 30px 0px 5px 40px;}
+/* border:none first — otherwise the UA's default inset borders show through
+   in dark mode and you get a thin light line instead of this 2px rule. */
+hr.top {border: none; border-top: 2px solid #000; margin: 30px 0px 5px 40px;}
 
-hr.bottom {border-top: 2px solid #000; margin: 0px 0px 5px 40px;}
+hr.bottom {border: none; border-top: 2px solid #000; margin: 0px 0px 5px 40px;}
 
-h1.sect {
+/* Group labels (CV / Data Visualizations / Projects). These are h2 for a sane
+   heading outline, but they are not accordions — so undo the h2 bar styling.
+   h1.sect is kept because 404.html (duplicated across all three repos) still
+   uses it; dropping it would leave those pages unstyled. */
+h1.sect,
+h2.sect {
     font-size: 1.2em;
     text-align: left;
     margin:  0px 0 0px 50px;
+    background: none;
+    padding: 0;
+    cursor: default;
 }
+
+h2.sect:hover {background: none;}
+
+h2.sect::after {content: none;}
 
 h2 {
     font-size: 1.1em;
     cursor: pointer;
     background-color: #c1d9eb;
-    padding: 10px 38px 10px 10px;
+    /* Padding lives on .sect-toggle, not here — the button is the click target,
+       and padding on the h2 would be dead space the button cannot cover. */
+    padding: 0;
     margin: 10px 0;
     border-radius: 0;
     position: relative;
     transition: background-color 0.3s;
 }
 
-h2:hover {background-color: #e0e0e09c;}
+h2:hover {background-color: #a9c9e2;}
+
+/* The section headings are operated by a real <button> injected by
+   mysitescript.js, so they are reachable and operable from the keyboard.
+   `all: unset` strips the UA button chrome; the h2 keeps its own styling. */
+.sect-toggle {
+    all: unset;
+    display: block;
+    width: 100%;
+    /* all:unset resets box-sizing to content-box, so this is required or the
+       horizontal padding overflows the bar. */
+    box-sizing: border-box;
+    padding: 10px 38px 10px 10px;
+    cursor: pointer;
+}
+
+.sect-toggle:focus-visible {
+    outline: 3px solid currentColor;
+    outline-offset: 3px;
+}
+
+.openFullView:focus-visible,
+.backbutton:focus-visible {
+    outline: 3px solid currentColor;
+    outline-offset: 3px;
+}
+
+/* Logo artwork is dark, so it needs a light plate to stay legible in dark mode.
+   Keeping it as a rounded chip reads as deliberate rather than as a broken slab. */
+.contact-links {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 10px 22px;
+    background: #fff;
+    border-radius: 8px;
+    padding: 12px 18px;
+    line-height: 2;
+    max-width: 100%;
+}
+
+/* The contact row sits above #mainContent, permanently visible — contact
+   details should never be behind a click. It needs its own gutter because it is
+   outside #mainContent, which supplies the page's horizontal padding. */
+body > p {
+    margin: 14px 0 4px;
+    padding: 0 13px;
+    text-align: center;
+}
+
+/* The chip is deliberately always-light so the dark logo artwork stays legible,
+   so its links need an always-light colour too — otherwise dark-mode viewers get
+   the UA's pale dark-theme link colour on white, at about 2.4:1 contrast. */
+.contact-links a {
+    color: #0b4f9e;
+}
 
 h2::after {
     content: "";
+    /* The chevron belongs to the h2 and paints over the button, so without this
+       a click on the chevron itself hit-tests to the h2 and does nothing. */
+    pointer-events: none;
     position: absolute;
     right: 14px;
     top: 50%;
@@ -123,8 +206,9 @@ li {margin-top: 15px; margin-bottom: 10px;}
     h2 {
         background-color: #252c31;
     }
-    h2:hover {background-color: #524646;}
-    hr {color: white;}
+    h2:hover {background-color: #30393f;}
+    hr.top, hr.bottom {border-top-color: #e8e8e8;}
+    .contact-links {box-shadow: 0 0 0 1px #3f464b;}
 }
 
 @media (max-width: 900px) {
