@@ -115,11 +115,11 @@ Jan Wallanders och Tom Hedelius stiftelse samt Tore Browaldhs stiftelse, **Hedel
 <hr class="thick">
 
 #### Teaching and Supervision
-Co-supervised four MSc students in Economic Demography at Lund University, 2016–2018. Advised on thesis topics and provided feedback on research design, data analysis, and written drafts. Two theses received the highest grade.
+**Guest Lecturer**, Duke Global Health Institute, Gavin Yamey's course *Global Health Challenges* (GLHLTH 701), October 2026. Designed and delivered the session *Demography for Global Health Practitioners* in this core course of Duke's Master of Science in Global Health.
 
-**Guest Lecturer**, Duke Global Health Institute, *Global Health Challenges* (GLHLTH 701), October 2026. Lecture on *Demography for Global Health Practitioners*, in a core course of Duke's Master of Science in Global Health.
+**Guest Lecturer**, Duke Global Health Institute, Gavin Yamey's course *Global Health Policy: Transforming Evidence into Action* (GLHLTH 306), March 2025. Lectured on *Global Health 2050: The Third Report of the Lancet Commission on Investing in Health*.
 
-**Guest Lecturer**, Duke Global Health Institute, Gavin Yamey's course *Global Health Policy: Transforming Evidence into Action* (GLHLTH 306), March 2025. Lectured on *Global Health 2050: The 3rd Report of the Lancet Commission on Investing in Health (CIH 3.0)*.
+**Assistant supervisor** for four MSc students in Economic Demography at Lund University, 2016–2018. Advised on thesis topics and provided feedback on research design, data analysis, and written drafts. Two theses received the highest grade.
 
 <hr class="thick">
 
